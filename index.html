@@ -472,8 +472,6 @@
             w = 1;
           }
         }
-
-
         drawPath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`);
         updatePath(
           segmentsToPath(
@@ -513,8 +511,6 @@
           }
         }
       }
-
-
       canvas_ctx.closePath();
       canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
       svg_canvas_history.push(svg_canvas_p.innerHTML);
@@ -532,16 +528,11 @@
     );
     canvas.setAttributeNS(null, "width", window.innerWidth * dpr + "px");
     canvas.setAttributeNS(null, "height", window.innerHeight * dpr + "px");
-
-
     drawBlocks(window.innerWidth, window.innerHeight);
   });
 
 
-
-
   function getLine(x, y) {
-
     var x_avg = getAvgerage(x)
     var y_avg = getAvgerage(y)
     var s_xx = getSi2(x, x_avg)
@@ -549,15 +540,12 @@
     var s_xy = getSi3(x, y, x_avg, y_avg)
     var sigma_x = Math.sqrt(s_xx / x.length)
     var sigma_y = Math.sqrt(s_yy / y.length)
-
-
-
     var r = s_xy / (Math.sqrt(s_xx * s_yy))
-
     var line_a = r * sigma_y / sigma_x
     var line_b = (y_avg) - line_a * (x_avg)
     return { a: line_a, b: line_b, sx: sigma_x, sy: sigma_y }
   }
+
   function getSum(arr) {
     var initialValue = 0
     var sum = arr.reduce(
@@ -566,6 +554,7 @@
     );
     return sum
   }
+
   function getSi2(arr1, avg1) {
     var g = 0
     var sum = 0
@@ -576,6 +565,7 @@
     }
     return sum
   }
+
   function getSi3(arr1, arr2, avg1, avg2) {
     var g = 0
     var sum = 0
@@ -586,6 +576,7 @@
     }
     return sum
   }
+
   function getAvgerage(arr) {
     var initialValue = 0
     var sum = arr.reduce(
