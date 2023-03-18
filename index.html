@@ -274,7 +274,7 @@
   }
   function drawBlocks(w, h) {
     var block = function (x, y) {
-      return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.45"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.45"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.45"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.45"/>        </g>`;
+      return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/></g>`;
     };
     var j = [];
     var wc = Math.floor(w / block_size) + 1;
