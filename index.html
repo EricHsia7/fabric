@@ -106,7 +106,7 @@
     </style>
     <g id="bg"></g>
     <g id="pen"></g>
-    <g id="rubber">
+    <g id="rubber_eraser">
       <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
     </g>
   </svg>
@@ -120,7 +120,7 @@
 
 
     </button>
-    <button onclick="setTool(1)" class="rubber">
+    <button onclick="setTool(1)" class="rubber_eraser">
       <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <path d="M32.0625 4.5C30.7426 4.5 29.8645 5.12515 29.4375 6.40625L23 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L41.0312 25.6875L34.5625 6.40625C34.1161 5.12515 33.2854 4.5 32.0625 4.5Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
       </svg>
@@ -136,7 +136,6 @@
   </div>
 </body>
 <script>
-  new VConsole();
   Math.ol = function (p) {
     if (Math.abs(parseInt(p) - p) > 0) {
       return parseFloat(parseFloat(p).toFixed(3))
@@ -225,14 +224,14 @@
   var current_path_id = "";
   var current_point_id = "";
   var current_path_points_offset = 0
-  var rubber = false;
+  var rubber_eraser = false;
   var pen_type = 1 //0:ball_pen,1:fountain_pen
   var force = 0
   var wq = 0
   var lk = false
   var speed = 0
   var canvas_id = gid('canvas')
-  var rubber_symbol = document.querySelector('#rubber circle')
+  var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle')
 
   var path_main, path_a, path_b
   function gid(n) {
@@ -445,7 +444,7 @@
     current_pen_width = pen_width_base * 1
     current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
 
-    if (!rubber) {
+    if (!rubber_eraser) {
       pendown = true;
       drawPath("", current_path_id);
       drawPoint(x, y, current_point_id);
@@ -459,8 +458,8 @@
       path_b.moveTo(x * dpr, y * dpr);
     }
     else {
-      rubber_symbol.setAttribute('transform', `translate(${x} ${y})`)
-      rubber_symbol.setAttribute('opacity', '1')
+      rubber_eraser_symbol.setAttribute('transform', `translate(${x} ${y})`)
+      rubber_eraser_symbol.setAttribute('opacity', '1')
     }
     current_path_points_offset = 0
   });
@@ -574,8 +573,8 @@
       }
     }
 
-    if (rubber) {
-      rubber_symbol.setAttribute('transform', `translate(${x} ${y})`)
+    if (rubber_eraser) {
+      rubber_eraser_symbol.setAttribute('transform', `translate(${x} ${y})`)
       if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
         if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
           if (svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(current_path_id)) {
@@ -654,8 +653,8 @@
       canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
       svg_canvas_history.push(svg_canvas_p.innerHTML);
     }
-    if (rubber) {
-      rubber_symbol.setAttribute('opacity', '0')
+    if (rubber_eraser) {
+      rubber_eraser_symbol.setAttribute('opacity', '0')
     }
     localStorage.setItem(canvas_id, svg_canvas_history[svg_canvas_history.length - 1].replaceAll(/id="(path|circle)_[A-Za-z0-9]{16,16}"/gm, ''))
   });
@@ -727,16 +726,16 @@
   function setTool(k) {
 
     if (k === 0) {
-      rubber = false
+      rubber_eraser = false
       pen_type = 1
     }
     if (k === 1) {
-      rubber = false
+      rubber_eraser = false
       pen_type = 0
     }
 
     if (k === 2) {
-      rubber = true
+      rubber_eraser = true
     }
     var elt = document.querySelectorAll('.tools button')
     for (var e = 0; e < elt.length; e++) {
