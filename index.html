@@ -232,7 +232,6 @@
   var speed = 0
   var canvas_id = gid('whiteboard')
   var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle')
-
   var path_main, path_a, path_b
   function gid(n) {
     var genidchars =
@@ -656,7 +655,7 @@
     if (rubber_eraser) {
       rubber_eraser_symbol.setAttribute('opacity', '0')
     }
-    localStorage.setItem(canvas_id, svg_canvas_history[svg_canvas_history.length - 1].replaceAll(/id="(path|circle)_[A-Za-z0-9]{16,16}"/gm, ''))
+    localStorage.setItem(canvas_id, svg_canvas_history[svg_canvas_history.length - 1].replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}"/gm, ''))
   });
 
   window.addEventListener("resize", (event) => {
