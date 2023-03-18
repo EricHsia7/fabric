@@ -655,7 +655,7 @@
     if (rubber_eraser) {
       rubber_eraser_symbol.setAttribute('opacity', '0')
     }
-    localStorage.setItem(canvas_id, svg_canvas_history[svg_canvas_history.length - 1].replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}"/gm, ''))
+    localStorage.setItem(canvas_id, svg_canvas_history[svg_canvas_history.length - 1].replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
   });
 
   window.addEventListener("resize", (event) => {
