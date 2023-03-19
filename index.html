@@ -502,7 +502,10 @@
     x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
     y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
     if (move) {
-      pendown = false
+      if(pendown) {
+        removeElement(current_point_id);
+        pendown = false
+      }
       current_qx = x + offset_x
       current_qy = y + offset_y
       var canvas_offset_x = current_qx - move_start_x
