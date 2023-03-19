@@ -576,7 +576,7 @@
       canvas_ctx.lineCap = "round";
       canvas_ctx.lineWidth = current_pen_width * dpr
       canvas_ctx.strokeStyle = current_pen_color_snapshot;
-      path_main.lineTo((x - offset_x) * dpr, (y - offset_y) * dpr);
+      path_main.lineTo((x + offset_x) * dpr, (y + offset_y) * dpr);
       canvas_ctx.stroke(path_main);
       var radius = current_pen_width
       if (pen_type === 1) {
