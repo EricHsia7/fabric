@@ -614,7 +614,7 @@
     }
 
     if (rubber_eraser) {
-      rubber_eraser_symbol.setAttribute('transform', `translate(${x} ${y})`)
+      rubber_eraser_symbol.setAttribute('transform', `translate(${x+offset_x} ${y+offset_y})`)
       if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
         if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
           if (svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(current_path_id)) {
