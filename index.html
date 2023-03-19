@@ -505,7 +505,7 @@
       current_qy = y - offset_y
       var canvas_offset_x = current_qx - move_start_x
       var canvas_offset_y = current_qy - move_start_y
-      svg_canvas_p.setAttribute('transform', `translate(${offset_x+canvas_offset_x} ${offset_y+canvas_offset_y})`)
+      svg_canvas_p.setAttribute('transform', `translate(${offset_x + canvas_offset_x} ${offset_y + canvas_offset_y})`)
       svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
     }
     var op = getBlock(x, y);
@@ -577,7 +577,7 @@
       canvas_ctx.lineCap = "round";
       canvas_ctx.lineWidth = current_pen_width * dpr
       canvas_ctx.strokeStyle = current_pen_color_snapshot;
-      path_main.lineTo(x * dpr, y * dpr);
+      path_main.lineTo((x - offset_x) * dpr, (y - offset_y) * dpr);
       canvas_ctx.stroke(path_main);
       var radius = current_pen_width
       if (pen_type === 1) {
@@ -585,21 +585,20 @@
       }
       radius = Math.min(radius - 0.01, current_pen_width)
 
-      var cx1 = x + radius * Math.cos(2 * Math.PI * a1 / 360)
-      var cy1 = y + radius * Math.sin(2 * Math.PI * a1 / 360)
-      var cx2 = x + radius * Math.cos(2 * Math.PI * a2 / 360)
-      var cy2 = y + radius * Math.sin(2 * Math.PI * a2 / 360)
+      var cx1 = (x) + radius * Math.cos(2 * Math.PI * a1 / 360)
+      var cy1 = (y) + radius * Math.sin(2 * Math.PI * a1 / 360)
+      var cx2 = (x) + radius * Math.cos(2 * Math.PI * a2 / 360)
+      var cy2 = (y) + radius * Math.sin(2 * Math.PI * a2 / 360)
 
       var radius_a = (radius - current_pen_width / 2) * dpr
       canvas_ctx.lineWidth = current_pen_width * dpr
 
-      var s_cx1 = x * dpr + radius_a * Math.cos(2 * Math.PI * a1 / 360)
-      var s_cy1 = y * dpr + radius_a * Math.sin(2 * Math.PI * a1 / 360)
-      var s_cx2 = x * dpr + radius_a * Math.cos(2 * Math.PI * a2 / 360)
-      var s_cy2 = y * dpr + radius_a * Math.sin(2 * Math.PI * a2 / 360)
+      var s_cx1 = (x - offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a1 / 360)
+      var s_cy1 = (y - offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a1 / 360)
+      var s_cx2 = (x - offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a2 / 360)
+      var s_cy2 = (y - offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a2 / 360)
 
       if (pen_type === 1) {
-
 
         penPoints_a.push({ x: Math.ol(cx1), y: Math.ol(cy1), sx: (s_cx1), sy: (s_cy1) })
         penPoints_b.push({ x: Math.ol(cx2), y: Math.ol(cy2), sx: (s_cx2), sy: (s_cy2) })
