@@ -455,8 +455,8 @@
   drawBlocks(window.innerWidth, window.innerHeight);
 
   canvas.addEventListener("touchstart", function (e) {
-    x = offset_x + e.targetTouches[0].pageX - doc.scrollLeft;
-    y = offset_y + e.targetTouches[0].pageY - doc.scrollTop;
+    x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
+    y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
     penPoints = [];
     penPoints_a = []
     penPoints_b = []
@@ -592,10 +592,10 @@
       var radius_a = (radius - current_pen_width / 2) * dpr
       canvas_ctx.lineWidth = current_pen_width * dpr
 
-      var s_cx1 = (x - offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a1 / 360)
-      var s_cy1 = (y - offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a1 / 360)
-      var s_cx2 = (x - offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a2 / 360)
-      var s_cy2 = (y - offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a2 / 360)
+      var s_cx1 = (x) * dpr + radius_a * Math.cos(2 * Math.PI * a1 / 360)
+      var s_cy1 = (y) * dpr + radius_a * Math.sin(2 * Math.PI * a1 / 360)
+      var s_cx2 = (x) * dpr + radius_a * Math.cos(2 * Math.PI * a2 / 360)
+      var s_cy2 = (y) * dpr + radius_a * Math.sin(2 * Math.PI * a2 / 360)
 
       if (pen_type === 1) {
 
