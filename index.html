@@ -549,7 +549,7 @@
         path_main = new Path2D()
 
         var pervious_point = penPoints[penPoints.length - 2]
-        path_main.moveTo(pervious_point.x * dpr, pervious_point.y * dpr);
+        path_main.moveTo(pervious_point.x - offset_x * dpr, pervious_point.y - offset_y * dpr);
         if (penPoints_a.length > 3) {
           path_a = new Path2D()
           path_b = new Path2D()
