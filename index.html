@@ -248,6 +248,15 @@
   var canvas_id = gid('whiteboard')
   var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle')
   var path_main, path_a, path_b
+  var offset_x = 0
+  var offset_y = 0
+  var s_block_offset_x = 0
+  var s_block_offset_y = 0
+  var move_start_x = 0
+  var move_start_y = 0
+  var current_qx = 0
+  var current_qy = 0
+  var move = false
   function gid(n) {
     var genidchars =
       "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
@@ -442,8 +451,8 @@
   drawBlocks(window.innerWidth, window.innerHeight);
 
   canvas.addEventListener("touchstart", function (e) {
-    x = e.targetTouches[0].pageX - doc.scrollLeft;
-    y = e.targetTouches[0].pageY - doc.scrollTop;
+    x = offset_x + e.targetTouches[0].pageX - doc.scrollLeft;
+    y = offset_y + e.targetTouches[0].pageY - doc.scrollTop;
     penPoints = [];
     penPoints_a = []
     penPoints_b = []
@@ -459,17 +468,24 @@
     current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
 
     if (!rubber_eraser) {
-      pendown = true;
-      drawPath("", current_path_id);
-      drawPoint(x, y, current_point_id);
-      penPoints.push({ x: x, y: y });
-      path_main = new Path2D()
-      path_a = new Path2D()
-      path_b = new Path2D()
+      if (!(e.targetTouches.length >= 2)) {
+        pendown = true;
+        drawPath("", current_path_id);
+        drawPoint(x, y, current_point_id);
+        penPoints.push({ x: x, y: y });
+        path_main = new Path2D()
+        path_a = new Path2D()
+        path_b = new Path2D()
 
-      path_main.moveTo(x * dpr, y * dpr);
-      path_a.moveTo(x * dpr, y * dpr);
-      path_b.moveTo(x * dpr, y * dpr);
+        path_main.moveTo(x * dpr, y * dpr);
+        path_a.moveTo(x * dpr, y * dpr);
+        path_b.moveTo(x * dpr, y * dpr);
+      }
+      else {
+        move = true
+        move_start_x = x - offset_x
+        move_start_y = x - offset_y
+      }
     }
     else {
       rubber_eraser_symbol.setAttribute('transform', `translate(${x} ${y})`)
@@ -478,31 +494,37 @@
     current_path_points_offset = 0
   });
   canvas.addEventListener("touchmove", function (e) {
-    x = e.targetTouches[0].pageX - doc.scrollLeft;
-    y = e.targetTouches[0].pageY - doc.scrollTop;
+    x = offset_x + e.targetTouches[0].pageX - doc.scrollLeft;
+    y = offset_y + e.targetTouches[0].pageY - doc.scrollTop;
+    if (move) {
+      current_qx = x - offset_x
+      current_qy = x - offset_y
+      var canvas_offset_x = current_qx - move_start_x
+      var canvas_offset_y = current_qy - move_start_y
+      svg_canvas_p.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
 
-    if (e.targetTouches[0].force) {
-      force = e.targetTouches[0].force
     }
-    if (penPoints.length > 5) {
-      var last_p = penPoints.slice(penPoints.length - 5, penPoints.length - 1)
-      var last_x = []
-      var last_y = []
-      for (var t = 0; t < last_p.length; t++) {
-        last_x.push(last_p[t].x)
-        last_y.push(last_p[t].y)
-      }
-      var lp = getLine(last_x, last_y)
-      wq = -1 / lp.a
-
-      if (lp.sx < lp.sy) {
-        lk = true
-      }
-    }
-
-
     var op = getBlock(x, y);
     if (pendown) {
+      if (e.targetTouches[0].force) {
+        force = e.targetTouches[0].force
+      }
+
+      if (penPoints.length > 5) {
+        var last_p = penPoints.slice(penPoints.length - 5, penPoints.length - 1)
+        var last_x = []
+        var last_y = []
+        for (var t = 0; t < last_p.length; t++) {
+          last_x.push(last_p[t].x)
+          last_y.push(last_p[t].y)
+        }
+        var lp = getLine(last_x, last_y)
+        wq = -1 / lp.a
+
+        if (lp.sx < lp.sy) {
+          lk = true
+        }
+      }
       var current_time = new Date().getTime()
       var a1 = 180 + Math.atan(wq) * 180 / Math.PI
       var a2 = a1 + 180
@@ -608,6 +630,12 @@
     }
   });
   canvas.addEventListener("touchend", function (e) {
+    if (move) {
+      move = false
+      var canvas_offset_x = (current_qx - move_start_x) % s_block_size
+      var canvas_offset_y = (current_qy - move_start_y) % s_block_size
+      svg_canvas_p.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
+    }
     if (pendown) {
       pendown = false;
       var doc = document.documentElement;
