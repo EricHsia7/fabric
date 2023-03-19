@@ -505,8 +505,8 @@
       current_qy = y - offset_y
       var canvas_offset_x = current_qx - move_start_x
       var canvas_offset_y = current_qy - move_start_y
-      svg_canvas_p.setAttribute('transform', `translate(${offset_x + canvas_offset_x} ${offset_y + canvas_offset_y})`)
-      svg_canvas_bg = document.querySelector("svg#canvas g#bg")
+      svg_canvas_p.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
+      svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
     }
     var op = getBlock(x, y);
     if (pendown) {
