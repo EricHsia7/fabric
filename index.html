@@ -480,14 +480,14 @@
         path_main = new Path2D()
         path_a = new Path2D()
         path_b = new Path2D()
-        path_main.moveTo((x - offset_x) * dpr, (y - offset_y) * dpr);
-        path_a.moveTo((x - offset_x) * dpr, (y - offset_y) * dpr);
-        path_b.moveTo((x - offset_x) * dpr, (y - offset_y) * dpr);
+        path_main.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+        path_a.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+        path_b.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
       }
       else {
         move = true
-        move_start_x = x - offset_x
-        move_start_y = y - offset_y
+        move_start_x = x + offset_x
+        move_start_y = y + offset_y
       }
     }
     else {
