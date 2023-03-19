@@ -468,7 +468,7 @@
     current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
 
     if (!rubber_eraser) {
-      if (!(e.targetTouches.length >= 2)) {
+      if (e.targetTouches.length <= 2) {
         pendown = true;
         drawPath("", current_path_id);
         drawPoint(x, y, current_point_id);
