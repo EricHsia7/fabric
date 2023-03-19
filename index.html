@@ -497,11 +497,11 @@
     current_path_points_offset = 0
   });
   canvas.addEventListener("touchmove", function (e) {
-    x = offset_x + e.targetTouches[0].pageX - doc.scrollLeft;
-    y = offset_y + e.targetTouches[0].pageY - doc.scrollTop;
+    x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
+    y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
     if (move) {
-      current_qx = x - offset_x
-      current_qy = y - offset_y
+      current_qx = x + offset_x
+      current_qy = y + offset_y
       var canvas_offset_x = current_qx - move_start_x
       var canvas_offset_y = current_qy - move_start_y
       svg_canvas_p.setAttribute('transform', `translate(${offset_x + canvas_offset_x} ${offset_y + canvas_offset_y})`)
