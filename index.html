@@ -470,9 +470,8 @@
     current_path_points = {}
     current_pen_width = pen_width_base * 1
     current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
-
-    if (!rubber_eraser) {
-      if (e.targetTouches.length < 2) {
+    if (e.targetTouches.length < 2) {
+      if (!rubber_eraser) {
         pendown = true;
         drawPath("", current_path_id);
         drawPoint(x, y, current_point_id);
@@ -485,15 +484,18 @@
         path_b.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
       }
       else {
-        move = true
-        move_start_x = x + offset_x
-        move_start_y = y + offset_y
+        rubber_eraser_symbol.setAttribute('transform', `translate(${x + offset_x} ${y + offset_x})`)
+        rubber_eraser_symbol.setAttribute('opacity', '1')
       }
+
     }
     else {
-      rubber_eraser_symbol.setAttribute('transform', `translate(${x} ${y})`)
-      rubber_eraser_symbol.setAttribute('opacity', '1')
+      move = true
+      move_start_x = x + offset_x
+      move_start_y = y + offset_y
     }
+
+
     current_path_points_offset = 0
   });
   canvas.addEventListener("touchmove", function (e) {
