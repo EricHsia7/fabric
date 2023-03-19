@@ -209,6 +209,7 @@
   var canvas_ctx = canvas.getContext('2d');
 
   var svg_canvas_p = document.querySelector("svg#canvas g#pen");
+  var svg_canvas_bg = document.querySelector("svg#canvas g#bg");
   svg_canvas.setAttributeNS(null, "width", window.innerWidth + "px");
   svg_canvas.setAttributeNS(null, "height", window.innerHeight + "px");
   svg_canvas.setAttributeNS(
@@ -633,9 +634,11 @@
       move = false
       offset_x += current_qx
       offset_y += current_qy
-      canvas_offset_x = (current_qx - move_start_x) % s_block_size
-      canvas_offset_y = (current_qy - move_start_y) % s_block_size
-      svg_canvas_p.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
+      var canvas_offset_x = (current_qx - move_start_x) % s_block_size
+      var canvas_offset_y = (current_qy - move_start_y) % s_block_size
+      svg_canvas_p.setAttribute('transform', `translate(${offset_x} ${offset_y})`)
+      svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
+
     }
     if (pendown) {
       pendown = false;
