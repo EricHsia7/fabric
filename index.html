@@ -290,13 +290,13 @@
     var j = [];
     var wc = Math.floor(w / s_block_size) + 1;
     var hc = Math.floor(h / s_block_size) + 1;
-    for (var m = 0; m < hc*3; m++) {
-      for (var n = 0; n < wc*3; n++) {
-        j.push(block(-1*wc*s_block_size+ n * s_block_size,-1*hc*s_block_size m * s_block_size));
+    for (var m = 0; m < hc * 3; m++) {
+      for (var n = 0; n < wc * 3; n++) {
+        j.push(block(-1 * wc * s_block_size + n * s_block_size, -1 * hc * s_block_size + m * s_block_size));
       }
     }
 
-    document.querySelector("#bg").innerHTML = `<rect x="${-1*wc*s_block_size}" y="${-1*hc*s_block_size}" width="${w*3}" height="${h*3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
+    document.querySelector("#bg").innerHTML = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
   }
 
   function getBlock(x, y) {
@@ -502,7 +502,7 @@
     x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
     y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
     if (move) {
-      if(pendown) {
+      if (pendown) {
         removeElement(current_point_id);
         pendown = false
       }
@@ -618,7 +618,7 @@
     }
 
     if (rubber_eraser) {
-      rubber_eraser_symbol.setAttribute('transform', `translate(${x+offset_x} ${y+offset_y})`)
+      rubber_eraser_symbol.setAttribute('transform', `translate(${x + offset_x} ${y + offset_y})`)
       if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
         if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
           if (svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(current_path_id)) {
