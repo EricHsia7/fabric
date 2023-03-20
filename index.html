@@ -504,6 +504,10 @@
         removeElement(current_point_id);
         pendown = false
       }
+      if(rubber_eraser) {
+        rubber_eraser = false
+        rubber_eraser_symbol.setAttribute('opacity', '0')
+      }
       current_qx = x + offset_x
       current_qy = y + offset_y
       var canvas_offset_x = current_qx - move_start_x
