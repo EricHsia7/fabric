@@ -300,8 +300,8 @@
   }
 
   function getBlock(x, y) {
-    var wc = Math.abs(Math.floor(x / block_size) + 1);
-    var hc = Math.abs(Math.floor(y / block_size) + 1);
+    var wc = String(Math.floor(x / block_size) + 1).replaceAll('-', 'i')
+    var hc = String(Math.floor(y / block_size) + 1).replaceAll('-', 'i')
     return [wc, hc];
   }
   function drawPoint(x, y, s) {
