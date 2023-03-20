@@ -296,7 +296,7 @@
       }
     }
 
-    document.querySelector("#bg").innerHTML = `<rect x="0" y="0" width="${w}" height="${h}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
+    document.querySelector("#bg").innerHTML = `<rect x="${-1*wc*s_block_size}" y="${-1*hc*s_block_size}" width="${w*3}" height="${h*3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
   }
 
   function getBlock(x, y) {
