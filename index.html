@@ -290,9 +290,9 @@
     var j = [];
     var wc = Math.floor(w / s_block_size) + 1;
     var hc = Math.floor(h / s_block_size) + 1;
-    for (var m = 0; m < hc; m++) {
-      for (var n = 0; n < wc; n++) {
-        j.push(block(n * s_block_size, m * s_block_size));
+    for (var m = 0; m < hc*3; m++) {
+      for (var n = 0; n < wc*3; n++) {
+        j.push(block(-1*wc*s_block_size+ n * s_block_size,-1*hc*s_block_size m * s_block_size));
       }
     }
 
