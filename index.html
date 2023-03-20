@@ -822,14 +822,14 @@
 
   }
 
-  function saveIntoSvg() {
+  function saveAsSvg() {
     var serializer = new XMLSerializer();
     var svgString = serializer.serializeToString(document.querySelector("svg#canvas"));
     var blob = new Blob([svgString], { type: "image/svg+xml" });
     downloadblob(blob, gid('svg') + '.svg')
   }
 
-  function saveIntoPng() {
+  function saveAsPng() {
     var w = document.querySelector("svg#canvas").clientWidth * Math.pow(dpr, 3)
     var h = document.querySelector("svg#canvas").clientHeight * Math.pow(dpr, 3)
 
