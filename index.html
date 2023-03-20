@@ -511,6 +511,7 @@
       svg_canvas_p.setAttribute('transform', `translate(${offset_x + canvas_offset_x} ${offset_y + canvas_offset_y})`)
       svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
     }
+    else {
     var op = getBlock(x, y);
     if (pendown) {
       if (e.targetTouches[0].force) {
@@ -633,6 +634,7 @@
           }
         }
       }
+    }
     }
   });
   canvas.addEventListener("touchend", function (e) {
