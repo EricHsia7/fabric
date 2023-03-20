@@ -257,8 +257,6 @@
   var move_start_y = 0
   var current_qx = 0
   var current_qy = 0
-  var u_canvas_offset_x = 0
-  var u_canvas_offset_y = 0
   var move = false
   function gid(n) {
     var genidchars =
@@ -514,8 +512,8 @@
       current_qy = y + offset_y
       var canvas_offset_x = current_qx - move_start_x
       var canvas_offset_y = current_qy - move_start_y
-      svg_canvas_p.setAttribute('transform', `translate(${u_canvas_offset_x + offset_x + canvas_offset_x} ${u_canvas_offset_y + offset_y + canvas_offset_y})`)
-      svg_canvas_bg.setAttribute('transform', `translate(${u_canvas_offset_x + canvas_offset_x} ${u_canvas_offset_y + canvas_offset_y})`)
+      svg_canvas_p.setAttribute('transform', `translate(${offset_x + canvas_offset_x} ${offset_y + canvas_offset_y})`)
+      svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
     }
     else {
       var op = getBlock(x, y);
@@ -650,8 +648,6 @@
       offset_y += current_qy - move_start_y
       var canvas_offset_x = (current_qx - move_start_x) % s_block_size
       var canvas_offset_y = (current_qy - move_start_y) % s_block_size
-      u_canvas_offset_x = canvas_offset_x * 1
-      u_canvas_offset_y = canvas_offset_y * 1
       svg_canvas_p.setAttribute('transform', `translate(${offset_x} ${offset_y})`)
       svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
     }
