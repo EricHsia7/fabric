@@ -237,8 +237,8 @@
   var speed_log = []
   var svg_canvas_points = {};
   var current_path_points = {};
-  var current_path_id = "";
-  var current_point_id = "";
+  var current_path_id = gid("path");
+  var current_point_id = gid("point");
   var current_path_points_offset = 0
   var rubber_eraser = false;
   var pen_type = 1 //0:ball_pen,1:fountain_pen
@@ -461,8 +461,6 @@
     penPoints_a = []
     penPoints_b = []
     speed_log = []
-    current_path_id = gid("path");
-    current_point_id = gid("point");
     force = 0
     wq = 0
     lk = false
@@ -646,7 +644,6 @@
       var canvas_offset_y = (current_qy - move_start_y) % s_block_size
       svg_canvas_p.setAttribute('transform', `translate(${offset_x} ${offset_y})`)
       svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
-
     }
     if (pendown) {
       pendown = false;
@@ -706,6 +703,8 @@
       canvas_ctx.closePath();
       canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
       svg_canvas_history.push(svg_canvas_p.innerHTML);
+      current_path_id = gid("path");
+    current_point_id = gid("point");
     }
     if (rubber_eraser) {
       rubber_eraser_symbol.setAttribute('opacity', '0')
