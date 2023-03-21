@@ -203,7 +203,7 @@ justify-content: center;
     window.removeEventListener("touchmove", preventDefault, wheelOpt);
     window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
   }
-  disableScroll();
+  
   var svg_canvas = document.querySelector("svg#canvas");
   var canvas = document.querySelector("canvas#canvas_p");
   var canvas_ctx = canvas.getContext('2d');
@@ -455,6 +455,7 @@ justify-content: center;
   drawBlocks(window.innerWidth, window.innerHeight);
 
   canvas.addEventListener("touchstart", function (e) {
+    disableScroll();
     x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
     y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
     penPoints = [];
@@ -641,6 +642,7 @@ justify-content: center;
     }
   });
   canvas.addEventListener("touchend", function (e) {
+    enableScroll();
     if (move) {
       move = false
       offset_x += current_qx - move_start_x
