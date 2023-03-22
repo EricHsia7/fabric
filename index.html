@@ -453,7 +453,7 @@
     }
   }
   function register_element(register_id, pathSeg) {
-    if (pathSeg === null) {
+    if (pathSeg === null || pathSeg === undefined) {
       pathSeg = pathToSegments(0, `${register_id}`);
     }
     for (var q = 0; q < pathSeg.length; q++) {
@@ -491,14 +491,14 @@
       var allpoint_len = allpoint.length
       var register_list = []
       for (var o = 0; o < allpath_len; o++) {
-        var id = gid('path')
-        allpath[o].id = id
-        register_element(id)
+        var f = gid('path')
+        allpath[o].id = f
+        register_element(f)
       }
       for (var o = 0; o < allpoint_len; o++) {
-        var id = gid('point')
-        allpoint[o].id = id
-        register_list.push(id)
+        var f = gid('point')
+        allpoint[o].id = f
+        register_list.push(f)
       }
     }
   }
