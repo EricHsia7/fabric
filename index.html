@@ -19,6 +19,18 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --d-333333: #333333;
+      --d-f5f5f5: #f5f5f5;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --d-333333: #ffffff;
+        --d-f5f5f5: #1f1f1f;
+      }
+    }
+
     * {
       -webkit-appearance: none;
       appearance: none;
@@ -97,6 +109,108 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .loadb {
+      height: 58px;
+      width: 58px;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .load {
+      border: 4px solid var(--d-f5f5f5);
+      border-right: 4px solid var(--d-333333);
+      border-bottom: 4px solid var(--d-333333);
+      border-left: 4px solid var(--d-333333);
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      animation: loading 0.9s infinite linear;
+
+      position: absolute;
+      top: 0px;
+      left: 0px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .loadradius {
+      width: 4px;
+      height: 58px;
+      background: rgba(0, 0, 0, 0);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      animation: loading_a 0.9s infinite linear;
+    }
+
+    .rradius {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      position: absolute;
+      background: var(--d-333333);
+      top: 0px;
+      left: 0px;
+    }
+
+    .loadradiusf {
+      width: 4px;
+      height: 58px;
+      background: rgba(0, 0, 0, 0);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      animation: loading_b 0.9s infinite linear;
+    }
+
+    .rradiusf {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      position: absolute;
+      background: var(--d-333333);
+      top: 0px;
+      left: 0px;
+    }
+
+    @keyframes loading {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes loading_a {
+      from {
+        -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      to {
+        -webkit-transform: translate(-50%, -50%) rotate(405deg);
+      }
+    }
+
+    @keyframes loading_b {
+      from {
+        -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+      }
+
+      to {
+        -webkit-transform: translate(-50%, -50%) rotate(315deg);
+      }
     }
   </style>
 </head>
@@ -212,11 +326,11 @@
   var svg_canvas_bg = document.querySelector("svg#canvas g#bg");
   svg_canvas.setAttributeNS(null, "width", window.innerWidth + "px");
   svg_canvas.setAttributeNS(null, "height", window.innerHeight + "px");
-  svg_canvas.setAttributeNS(null, "viewbox",  `0,0,${window.innerWidth},${window.innerHeight}` );
+  svg_canvas.setAttributeNS(null, "viewbox", `0,0,${window.innerWidth},${window.innerHeight}`);
   var dpr = window.devicePixelRatio
   canvas.setAttributeNS(null, "width", window.innerWidth * dpr + "px");
   canvas.setAttributeNS(null, "height", window.innerHeight * dpr + "px");
-  
+
   var doc = document.documentElement;
   var x = 0;
   var y = 0;
@@ -255,22 +369,22 @@
   var current_qx = 0
   var current_qy = 0
   var move = false
-  
-  set_urlparams('id',canvas_id)
-  
+
+  set_urlparams('id', canvas_id)
+
   function urlparams(p) {
     var getUrlString = location.href;
-  var url = new URL(getUrlString);
+    var url = new URL(getUrlString);
     return url.searchParams.get(p)
   }
-  
-  function set_urlparams(p,k) {
+
+  function set_urlparams(p, k) {
     var getUrlString = location.href;
     var url = new URL(getUrlString);
-    url.searchParams.set(p,k)
+    url.searchParams.set(p, k)
     history.pushState(null, null, url)
   }
-  
+
   function gid(n) {
     var genidchars =
       "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
@@ -496,7 +610,7 @@
   }
   function openWhiteboardByID(id) {
     if (localStorage.hasOwnProperty(id)) {
-      set_urlparams('id',id)
+      set_urlparams('id', id)
       canvas_id = id
       var pen_layer_content = String(localStorage.getItem(id))
       svg_canvas_p.innerHTML = pen_layer_content
@@ -508,17 +622,17 @@
       for (var o = 0; o < allpath_len; o++) {
         var f = gid('path')
         allpath[o].id = f
-        register_element(f,pathToSegments(0, f))
+        register_element(f, pathToSegments(0, f))
       }
       for (var o = 0; o < allpoint_len; o++) {
         var f = gid('point')
         allpoint[o].id = f
-        register_element(f,pathToSegments(0, f))
+        register_element(f, pathToSegments(0, f))
       }
     }
   }
 
-  
+
 
   canvas.addEventListener("touchstart", function (e) {
     disableScroll();
@@ -763,12 +877,12 @@
       svg_canvas_history.push(svg_canvas_p.innerHTML);
       rubber_eraser_symbol.setAttribute('opacity', '0')
     }
-    
+
     var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
-    if(last_content.length >= 1) {
-    localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+    if (last_content.length >= 1) {
+      localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
     }
-    
+
   });
 
   window.addEventListener("resize", (event) => {
@@ -784,7 +898,7 @@
     drawBlocks(window.innerWidth, window.innerHeight);
   });
 
-  
+
 
   function getLine(x, y) {
     var x_avg = getAvgerage(x)
@@ -914,16 +1028,16 @@
     };
     img.src = "data:image/svg+xml;base64," + btoa(svgString);
   }
-  
-  
+
+
   window.addEventListener("load", (event) => {
- 
-   drawBlocks(window.innerWidth, window.innerHeight);
-   setTimeout(function() {
-   openWhiteboardByID(canvas_id)
-   },1500);
- 
-});
+
+    drawBlocks(window.innerWidth, window.innerHeight);
+    setTimeout(function () {
+      openWhiteboardByID(canvas_id)
+    }, 1500);
+
+  });
 </script>
 
 </html>
