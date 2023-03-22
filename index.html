@@ -503,6 +503,7 @@ justify-content: center;
     if (move) {
       if (pendown) {
         removeElement(current_point_id);
+        removeElement(current_path_id);
         pendown = false
       }
       if (rubber_eraser) {
