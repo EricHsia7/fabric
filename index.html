@@ -452,9 +452,28 @@ justify-content: center;
       }
     }
   }
+  function register_element(id) {
+    
+    }
   function openWhiteboardByID(id) {
     if(localStorage.hasOwnProperty(id)) {
-var pen_layer = String(localStorage.getItem(id))
+var pen_layer_content = String(localStorage.getItem(id))
+svg_canvas_p.innerHTML = pen_layer_content
+var allpath = document.querySelectorAll('svg#canvas #pen path')
+var allpoint = document.querySelectorAll('svg#canvas #pen circle')
+var allpath_len = allpath.length
+var allpoint_len = allpoint.length
+var register_list = []
+for(var o = 0;o<allpath_len;o++){
+  var id = gid('path')
+  allpath[o].id = id
+  register_list.push(id)
+  }
+  for(var o = 0;o<allpoint_len;o++){
+  var id = gid('point')
+  allpoint[o].id = id
+  register_list.push(id)
+  }
     }
 }
   drawBlocks(window.innerWidth, window.innerHeight);
