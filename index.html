@@ -483,6 +483,7 @@
   }
   function openWhiteboardByID(id) {
     if (localStorage.hasOwnProperty(id)) {
+      canvas_id = id
       var pen_layer_content = String(localStorage.getItem(id))
       svg_canvas_p.innerHTML = pen_layer_content
       var allpath = document.querySelectorAll('svg#canvas #pen path')
@@ -498,7 +499,7 @@
       for (var o = 0; o < allpoint_len; o++) {
         var f = gid('point')
         allpoint[o].id = f
-        register_list.push(f)
+        register_element(f,pathToSegments(0, f))
       }
     }
   }
@@ -748,7 +749,10 @@
     if (rubber_eraser) {
       rubber_eraser_symbol.setAttribute('opacity', '0')
     }
-    localStorage.setItem(canvas_id, svg_canvas_history[svg_canvas_history.length - 1].replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+    var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
+    if(last_content.length >= 1) {
+    localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+    }
   });
 
   window.addEventListener("resize", (event) => {
