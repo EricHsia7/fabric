@@ -760,12 +760,15 @@
       current_point_id = gid("point");
     }
     if (rubber_eraser) {
+      svg_canvas_history.push(svg_canvas_p.innerHTML);
       rubber_eraser_symbol.setAttribute('opacity', '0')
     }
+    
     var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
     if(last_content.length >= 1) {
     localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
     }
+    
   });
 
   window.addEventListener("resize", (event) => {
