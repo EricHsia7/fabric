@@ -111,7 +111,7 @@
       align-items: center;
     }
 
-    .loadb {
+    .load_box {
       height: 58px;
       width: 58px;
       position: absolute;
@@ -132,18 +132,16 @@
       width: 50px;
       border-radius: 50%;
       animation: loading 0.9s infinite linear;
-
       position: absolute;
       top: 0px;
       left: 0px;
-
       display: flex;
       justify-content: center;
       align-items: center;
 
     }
 
-    .loadradius {
+    .load_ball_box {
       width: 4px;
       height: 58px;
       background: rgba(0, 0, 0, 0);
@@ -153,7 +151,7 @@
       animation: loading_a 0.9s infinite linear;
     }
 
-    .rradius {
+    .load_ball {
       width: 4px;
       height: 4px;
       border-radius: 50%;
@@ -163,7 +161,7 @@
       left: 0px;
     }
 
-    .loadradiusf {
+    .load_ball_boxf {
       width: 4px;
       height: 58px;
       background: rgba(0, 0, 0, 0);
@@ -173,7 +171,7 @@
       animation: loading_b 0.9s infinite linear;
     }
 
-    .rradiusf {
+    .load_ball {
       width: 4px;
       height: 4px;
       border-radius: 50%;
@@ -181,6 +179,15 @@
       background: var(--d-333333);
       top: 0px;
       left: 0px;
+    }
+
+    .load_cover {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      background: var(--d-canvas-bg);
     }
 
     @keyframes loading {
@@ -262,6 +269,19 @@
 
     </button>
   </div>
+  <div class="load_cover">
+    <div class="load_box">
+      <div class="load">
+      </div>
+      <div class="load_ball_box">
+        <div class="load_ball"></div>
+      </div>
+      <div class="load_ball_boxf">
+        <div class="load_ball"></div>
+      </div>
+    </div>
+  </div>
+
 </body>
 <script>
   Math.ol = function (p) {
@@ -608,7 +628,7 @@
       }
     }
   }
-  function openWhiteboardByID(id) {
+  function openWhiteboardByID(id, callback) {
     if (localStorage.hasOwnProperty(id)) {
       set_urlparams('id', id)
       canvas_id = id
@@ -629,6 +649,7 @@
         allpoint[o].id = f
         register_element(f, pathToSegments(0, f))
       }
+      callback()
     }
   }
 
@@ -972,7 +993,7 @@
 
   }
 
-  function downloadblob(b, name) {
+  function download_boxlob(b, name) {
     const image = new File([b], name, { type: b.type })
     if (navigator.canShare && navigator.canShare({ files: [image] })) {
       navigator.share({
@@ -1034,7 +1055,9 @@
 
     drawBlocks(window.innerWidth, window.innerHeight);
     setTimeout(function () {
-      openWhiteboardByID(canvas_id)
+      openWhiteboardByID(canvas_id, function () {
+        document.querySelector('.load_cover').style.display = 'none'
+      })
     }, 1500);
 
   });
