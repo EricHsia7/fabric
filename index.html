@@ -784,10 +784,7 @@
     drawBlocks(window.innerWidth, window.innerHeight);
   });
 
-  function initialize() {
-    drawBlocks(window.innerWidth, window.innerHeight);
-    openWhiteboardByID(canvas_id)
-  }
+  
 
   function getLine(x, y) {
     var x_avg = getAvgerage(x)
@@ -918,12 +915,13 @@
     img.src = "data:image/svg+xml;base64," + btoa(svgString);
   }
   
-  window.addEventListener("load", (event) => {
   
-});
   document.addEventListener("readystatechange", (event) => {
  if(document.readyState === 'complete') {
-   initialize()
+   drawBlocks(window.innerWidth, window.innerHeight);
+   setTimeout(function() {
+   openWhiteboardByID(canvas_id)
+   },1500);
  }
 });
 </script>
