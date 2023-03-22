@@ -257,6 +257,7 @@
   var move = false
   
   set_urlparams('id',canvas_id)
+  
   function urlparams(p) {
     var getUrlString = location.href;
   var url = new URL(getUrlString);
@@ -266,7 +267,8 @@
   function set_urlparams(p,k) {
     var getUrlString = location.href;
     var url = new URL(getUrlString);
-    history.pushState(null, null, url.searchParams.set(p,k))
+    url.searchParams.set(p,k)
+    history.pushState(null, null, url)
   }
   
   function gid(n) {
