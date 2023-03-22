@@ -916,13 +916,13 @@
   }
   
   
-  document.addEventListener("readystatechange", (event) => {
- if(document.readyState === 'complete') {
+  document.addEventListener("load", (event) => {
+ 
    drawBlocks(window.innerWidth, window.innerHeight);
    setTimeout(function() {
    openWhiteboardByID(canvas_id)
    },1500);
- }
+ 
 });
 </script>
 
