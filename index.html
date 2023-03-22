@@ -518,7 +518,7 @@
     }
   }
 
-  drawBlocks(window.innerWidth, window.innerHeight);
+  
 
   canvas.addEventListener("touchstart", function (e) {
     disableScroll();
@@ -753,7 +753,6 @@
       register_element(register_id, pathSeg)
 
 
-
       canvas_ctx.closePath();
       canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
       svg_canvas_history.push(svg_canvas_p.innerHTML);
@@ -782,6 +781,10 @@
     drawBlocks(window.innerWidth, window.innerHeight);
   });
 
+  function initialize() {
+    drawBlocks(window.innerWidth, window.innerHeight);
+    openWhiteboardByID(canvas_id)
+  }
 
   function getLine(x, y) {
     var x_avg = getAvgerage(x)
@@ -856,7 +859,6 @@
   }
 
   function downloadblob(b, name) {
-
     const image = new File([b], name, { type: b.type })
     if (navigator.canShare && navigator.canShare({ files: [image] })) {
       navigator.share({
@@ -912,6 +914,10 @@
     };
     img.src = "data:image/svg+xml;base64," + btoa(svgString);
   }
+  
+  window.addEventListener("load", (event) => {
+  initialize()
+});
 </script>
 
 </html>
