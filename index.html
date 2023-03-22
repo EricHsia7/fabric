@@ -52,7 +52,7 @@
       border-radius: 13px;
       background: rgba(26, 26, 26, 0.6);
       display: flex;
-justify-content: center;
+      justify-content: center;
       align-items: center;
     }
 
@@ -203,7 +203,7 @@ justify-content: center;
     window.removeEventListener("touchmove", preventDefault, wheelOpt);
     window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
   }
-  
+
   var svg_canvas = document.querySelector("svg#canvas");
   var canvas = document.querySelector("canvas#canvas_p");
   var canvas_ctx = canvas.getContext('2d');
@@ -452,30 +452,57 @@ justify-content: center;
       }
     }
   }
-  function register_element(id) {
-    
+  function register_element(register_id, pathSeg) {
+    if (pathSeg === null) {
+      var pathSeg = pathToSegments(0, `${register_id}`);
     }
+    for (var q = 0; q < pathSeg.length; q++) {
+      var op = getBlock(pathSeg[q].x, pathSeg[q].y);
+      if (!svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+        svg_canvas_points["w_" + op[0]] = {};
+      }
+      if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+        if (!svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
+          svg_canvas_points["w_" + op[0]]["h_" + op[1]] = {};
+        }
+      }
+      if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+        if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
+          if (
+            !svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(
+              register_id
+            )
+          ) {
+            svg_canvas_points["w_" + op[0]]["h_" + op[1]][
+              register_id
+            ] = 1;
+          }
+        }
+      }
+    }
+  }
   function openWhiteboardByID(id) {
-    if(localStorage.hasOwnProperty(id)) {
-var pen_layer_content = String(localStorage.getItem(id))
-svg_canvas_p.innerHTML = pen_layer_content
-var allpath = document.querySelectorAll('svg#canvas #pen path')
-var allpoint = document.querySelectorAll('svg#canvas #pen circle')
-var allpath_len = allpath.length
-var allpoint_len = allpoint.length
-var register_list = []
-for(var o = 0;o<allpath_len;o++){
-  var id = gid('path')
-  allpath[o].id = id
-  register_list.push(id)
-  }
-  for(var o = 0;o<allpoint_len;o++){
-  var id = gid('point')
-  allpoint[o].id = id
-  register_list.push(id)
-  }
+    if (localStorage.hasOwnProperty(id)) {
+      var pen_layer_content = String(localStorage.getItem(id))
+      svg_canvas_p.innerHTML = pen_layer_content
+      var allpath = document.querySelectorAll('svg#canvas #pen path')
+      var allpoint = document.querySelectorAll('svg#canvas #pen circle')
+      var allpath_len = allpath.length
+      var allpoint_len = allpoint.length
+      var register_list = []
+      for (var o = 0; o < allpath_len; o++) {
+        var id = gid('path')
+        allpath[o].id = id
+        register_element(id)
+      }
+      for (var o = 0; o < allpoint_len; o++) {
+        var id = gid('point')
+        allpoint[o].id = id
+        register_list.push(id)
+      }
     }
-}
+  }
+
   drawBlocks(window.innerWidth, window.innerHeight);
 
   canvas.addEventListener("touchstart", function (e) {
@@ -707,31 +734,11 @@ for(var o = 0;o<allpath_len;o++){
         //releaseElement(current_point_id)
       }
 
-      for (var q = 0; q < pathSeg.length; q++) {
-        var op = getBlock(pathSeg[q].x, pathSeg[q].y);
-        if (!svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-          svg_canvas_points["w_" + op[0]] = {};
-        }
-        if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-          if (!svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
-            svg_canvas_points["w_" + op[0]]["h_" + op[1]] = {};
-          }
-        }
 
-        if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-          if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
-            if (
-              !svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(
-                register_id
-              )
-            ) {
-              svg_canvas_points["w_" + op[0]]["h_" + op[1]][
-                register_id
-              ] = 1;
-            }
-          }
-        }
-      }
+      register_element(register_id, pathSeg)
+
+
+
       canvas_ctx.closePath();
       canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
       svg_canvas_history.push(svg_canvas_p.innerHTML);
