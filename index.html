@@ -454,7 +454,7 @@
   }
   function register_element(register_id, pathSeg) {
     if (pathSeg === null || pathSeg === undefined) {
-      pathSeg = pathToSegments(0, `${register_id}`);
+      return ''
     }
     for (var q = 0; q < pathSeg.length; q++) {
       var op = getBlock(pathSeg[q].x, pathSeg[q].y);
@@ -493,7 +493,7 @@
       for (var o = 0; o < allpath_len; o++) {
         var f = gid('path')
         allpath[o].id = f
-        register_element(f)
+        register_element(f,pathToSegments(0, f))
       }
       for (var o = 0; o < allpoint_len; o++) {
         var f = gid('point')
