@@ -212,14 +212,11 @@
   var svg_canvas_bg = document.querySelector("svg#canvas g#bg");
   svg_canvas.setAttributeNS(null, "width", window.innerWidth + "px");
   svg_canvas.setAttributeNS(null, "height", window.innerHeight + "px");
-  svg_canvas.setAttributeNS(
-    null,
-    "viewbox",
-    `0,0,${window.innerWidth},${window.innerHeight}`
-  );
+  svg_canvas.setAttributeNS(null, "viewbox",  `0,0,${window.innerWidth},${window.innerHeight}` );
   var dpr = window.devicePixelRatio
   canvas.setAttributeNS(null, "width", window.innerWidth * dpr + "px");
   canvas.setAttributeNS(null, "height", window.innerHeight * dpr + "px");
+  
   var doc = document.documentElement;
   var x = 0;
   var y = 0;
@@ -246,7 +243,7 @@
   var wq = 0
   var lk = false
   var speed = 0
-  var canvas_id = gid('whiteboard')
+  var canvas_id = urlparams('id') || gid('whiteboard')
   var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle')
   var path_main, path_a, path_b
   var offset_x = 0
@@ -258,6 +255,20 @@
   var current_qx = 0
   var current_qy = 0
   var move = false
+  
+  set_urlparams('id',canvas_id)
+  function urlparams(p) {
+    var getUrlString = location.href;
+  var url = new URL(getUrlString);
+    return url.searchParams.get(p)
+  }
+  
+  function set_urlparams(p,k) {
+    var getUrlString = location.href;
+    var url = new URL(getUrlString);
+    history.pushState(null, null, url.searchParams.set(p,k))
+  }
+  
   function gid(n) {
     var genidchars =
       "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
@@ -483,6 +494,7 @@
   }
   function openWhiteboardByID(id) {
     if (localStorage.hasOwnProperty(id)) {
+      set_urlparams('id',id)
       canvas_id = id
       var pen_layer_content = String(localStorage.getItem(id))
       svg_canvas_p.innerHTML = pen_layer_content
