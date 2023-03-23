@@ -590,7 +590,7 @@ callback()
     var update_prog = function(p,a) {
 
     document.querySelector('.load_cover .load').style.setProperty("--k-width",`${p/(a-1)*100}%`);
-
+console.log(p/a,new Date().getTime())
      if(prog>=prog_a-1 && ca) {
           ca = false
     svg_canvas_history.push(svg_canvas_p.innerHTML);
