@@ -667,7 +667,7 @@ console.log(p/a*100)
           path_index += 1
           path_f(path_index)
           update_prog(prog,prog_a)
-          if(prog===prog_a-1 && ca) {
+          if(prog>=prog_a-1 && ca) {
           ca = false
     svg_canvas_history.push(svg_canvas_p.innerHTML);
     var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
@@ -689,7 +689,7 @@ console.log(p/a*100)
           point_index += 1
           point_f(point_index)
           update_prog(prog,prog_a)
-          if(prog===prog_a-1 && ca) {
+          if(prog>=prog_a-1 && ca) {
           ca = false
     svg_canvas_history.push(svg_canvas_p.innerHTML);
     var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
