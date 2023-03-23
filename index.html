@@ -603,6 +603,7 @@
     if (pathSeg === null || pathSeg === undefined) {
       return ''
     }
+    try {
     for (var q = 0; q < pathSeg.length; q++) {
       var op = getBlock(pathSeg[q].x, pathSeg[q].y);
       if (!svg_canvas_points.hasOwnProperty("w_" + op[0])) {
@@ -627,8 +628,14 @@
         }
       }
     }
+if(typeof callback === 'function'){
+callback()
+    }
+    }
+    catch(e) {
     if(typeof callback === 'function'){
 callback()
+    }
     }
   }
   function openWhiteboardByID(id, callback) {
