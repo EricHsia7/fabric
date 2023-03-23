@@ -581,7 +581,6 @@
   }
   function openWhiteboardByID(id, callback) {
     var update_prog = function (p, a) {
-      document.querySelector('.load_cover .load').style.setProperty("--k-width", `${p / (a - 1) * 100}%`);
       progress_bar_ctx.fillRect(0, 0, progress_bar.width * p / (a - 1), progress_bar.height);
       if (prog >= prog_a - 1 && ca) {
         ca = false
