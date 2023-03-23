@@ -647,28 +647,38 @@ console.log(p/a*100)
       var register_list = []
       var prog = 0
       var prog_a = allpath_len + allpoint_len
-      for (var o = 0; o < allpath_len; o++) {
+      var path_index = 0
+      var point_index = 0
+      var path_f = function(o) { 
         var f = gid('path')
         allpath[o].id = f
-        
         new Promise(function(resolve) {
           register_element(f, pathToSegments(0, f),resolve)
       }).then(function(){
       	 prog += 1
+          path_index += 1
+          path_f(path_index)
           update_prog(prog,prog_a)
       });
         
       }
-      for (var o = 0; o < allpoint_len; o++) {
+                                
+         var point_f = function(o) { 
         var f = gid('point')
         allpoint[o].id = f
         new Promise(function(resolve) {
           register_element(f, pathToSegments(0, f),resolve)
       }).then(function(){
       	 prog += 1
+          point_index += 1
+          point_f(point_index)
           update_prog(prog,prog_a)
       });
-      }
+        
+      }   
+                                
+                      
+                                
           svg_canvas_history.push(svg_canvas_p.innerHTML);
     var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
     if (last_content.length >= 1) {
