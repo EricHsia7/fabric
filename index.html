@@ -1002,7 +1002,7 @@
 
   }
 
-  function download_boxlob(b, name) {
+  function downloadblob(b, name) {
     const image = new File([b], name, { type: b.type })
     if (navigator.canShare && navigator.canShare({ files: [image] })) {
       navigator.share({
