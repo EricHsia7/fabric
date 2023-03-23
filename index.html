@@ -1053,7 +1053,7 @@
     progress_bar.width = Math.max(Math.min(120, window.innerWidth * 0.8), 180)
     progress_bar.height = 5
     progress_bar_ctx.clearRect(0, 0, progress_bar.width, progress_bar.height);
-    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--d-333333');
+    progress_bar_ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--d-333333');
     setTimeout(function () {
       openWhiteboardByID(canvas_id, function () {
         document.querySelector('.load_cover').style.display = 'none'
