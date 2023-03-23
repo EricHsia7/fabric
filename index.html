@@ -226,7 +226,7 @@
   </div>
   <div class="load_cover">
     <div class="load_box">
-      <div class="load" style="--k-width:0%"></div>
+      <canvas id="progress_bar"></canvas>
     </div>
   </div>
 
@@ -589,7 +589,7 @@
   function openWhiteboardByID(id, callback) {
     var update_prog = function (p, a) {
       document.querySelector('.load_cover .load').style.setProperty("--k-width", `${p / (a - 1) * 100}%`);
-      console.log(p / a, new Date().getTime())
+      progress_bar_ctx.fillRect(0, 0, progress_bar.width * p / (a - 1), progress_bar.height);
       if (prog >= prog_a - 1 && ca) {
         ca = false
         svg_canvas_history.push(svg_canvas_p.innerHTML);
@@ -1053,11 +1053,14 @@
     };
     img.src = "data:image/svg+xml;base64," + btoa(svgString);
   }
-
-
+  var progress_bar = document.querySelector('#progress_bar')
+  var progress_bar_ctx = progress_bar.getContext('2d')
   window.addEventListener("load", (event) => {
-
     drawBlocks(window.innerWidth, window.innerHeight);
+    progress_bar.width = Math.max(Math.min(120, window.innerWidth * 0.8), 180)
+    progress_bar.height = 5
+    progress_bar_ctx.clearRect(0, 0, progress_bar.width, progress_bar.height);
+    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--d-333333');
     setTimeout(function () {
       openWhiteboardByID(canvas_id, function () {
         document.querySelector('.load_cover').style.display = 'none'
