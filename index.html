@@ -588,7 +588,6 @@
   }
   function openWhiteboardByID(id, callback) {
     var update_prog = function (p, a) {
-
       document.querySelector('.load_cover .load').style.setProperty("--k-width", `${p / (a - 1) * 100}%`);
       console.log(p / a, new Date().getTime())
       if (prog >= prog_a - 1 && ca) {
@@ -626,7 +625,9 @@
           prog += 1
           path_index += 1
           path_f(path_index)
-          update_prog(prog, prog_a)
+          window.requestAnimationFrame(function () {
+            update_prog(prog, prog_a)
+          })
 
         });
 
@@ -641,8 +642,9 @@
           prog += 1
           point_index += 1
           point_f(point_index)
-          update_prog(prog, prog_a)
-
+          window.requestAnimationFrame(function () {
+            update_prog(prog, prog_a)
+          })
         });
 
       }
