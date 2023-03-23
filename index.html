@@ -112,32 +112,32 @@
     }
 
     .load_box {
-      height:5px;
-      width: clamp(120px,80%,180px);
+      height: 5px;
+      width: clamp(120px, 80%, 180px);
       border-radius: 5px;
       position: absolute;
       top: 0px;
       left: 0px;
-      background:var(--d-f5f5f5);
+      background: var(--d-f5f5f5);
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      overflow:hidden;
+      overflow: hidden;
     }
 
-    .load {   
-      height:5px;
+    .load {
+      height: 5px;
       width: 100%;
       position: absolute;
       top: 0px;
       left: 0px;
-      background:var(--d-333333);
-      transform:translateX(calc(-1 * (100% - var(--k-width))));
+      background: var(--d-333333);
+      transform: translateX(calc(-1 * (100% - var(--k-width))));
     }
 
-   
-       .load_cover {
-      position: fixed;	
+
+    .load_cover {
+      position: fixed;
       top: 0px;
       left: 0px;
       width: 100%;
@@ -226,7 +226,7 @@
   </div>
   <div class="load_cover">
     <div class="load_box">
-      <div class="load"></div>
+      <div class="load" style="--k-width:0%"></div>
     </div>
   </div>
 
@@ -547,60 +547,60 @@
       }
     }
   }
-  function register_element(register_id, pathSeg,callback) {
+  function register_element(register_id, pathSeg, callback) {
     if (pathSeg === null || pathSeg === undefined) {
       return ''
     }
     try {
-    for (var q = 0; q < pathSeg.length; q++) {
-      var op = getBlock(pathSeg[q].x, pathSeg[q].y);
-      if (!svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-        svg_canvas_points["w_" + op[0]] = {};
-      }
-      if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-        if (!svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
-          svg_canvas_points["w_" + op[0]]["h_" + op[1]] = {};
+      for (var q = 0; q < pathSeg.length; q++) {
+        var op = getBlock(pathSeg[q].x, pathSeg[q].y);
+        if (!svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+          svg_canvas_points["w_" + op[0]] = {};
         }
-      }
-      if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-        if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
-          if (
-            !svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(
-              register_id
-            )
-          ) {
-            svg_canvas_points["w_" + op[0]]["h_" + op[1]][
-              register_id
-            ] = 1;
+        if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+          if (!svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
+            svg_canvas_points["w_" + op[0]]["h_" + op[1]] = {};
+          }
+        }
+        if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+          if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
+            if (
+              !svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(
+                register_id
+              )
+            ) {
+              svg_canvas_points["w_" + op[0]]["h_" + op[1]][
+                register_id
+              ] = 1;
+            }
           }
         }
       }
+      if (typeof callback === 'function') {
+        callback()
+      }
     }
-if(typeof callback === 'function'){
-callback()
-    }
-    }
-    catch(e) {
-    if(typeof callback === 'function'){
-callback()
-    }
+    catch (e) {
+      if (typeof callback === 'function') {
+        callback()
+      }
     }
   }
   function openWhiteboardByID(id, callback) {
-    var update_prog = function(p,a) {
+    var update_prog = function (p, a) {
 
-    document.querySelector('.load_cover .load').style.setProperty("--k-width",`${p/(a-1)*100}%`);
-console.log(p/a,new Date().getTime())
-     if(prog>=prog_a-1 && ca) {
-          ca = false
-    svg_canvas_history.push(svg_canvas_p.innerHTML);
-    var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
-    if (last_content.length >= 1) {
-      localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
-    }
-               callback()
-}
-      
+      document.querySelector('.load_cover .load').style.setProperty("--k-width", `${p / (a - 1) * 100}%`);
+      console.log(p / a, new Date().getTime())
+      if (prog >= prog_a - 1 && ca) {
+        ca = false
+        svg_canvas_history.push(svg_canvas_p.innerHTML);
+        var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
+        if (last_content.length >= 1) {
+          localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+        }
+        callback()
+      }
+
     }
     if (localStorage.hasOwnProperty(id)) {
       set_urlparams('id', id)
@@ -616,37 +616,37 @@ console.log(p/a,new Date().getTime())
       var prog_a = allpath_len + allpoint_len
       var path_index = 0
       var point_index = 0
-     var ca = true
-      var path_f = function(o) { 
+      var ca = true
+      var path_f = function (o) {
         var f = gid('path')
         allpath[o].id = f
-        new Promise(function(resolve) {
-          register_element(f, pathToSegments(0, f),resolve)
-      }).then(function(){
-      	 prog += 1
+        new Promise(function (resolve) {
+          register_element(f, pathToSegments(0, f), resolve)
+        }).then(function () {
+          prog += 1
           path_index += 1
           path_f(path_index)
-          update_prog(prog,prog_a)
-   
-      });
-        
+          update_prog(prog, prog_a)
+
+        });
+
       }
-                                
-         var point_f = function(o) { 
+
+      var point_f = function (o) {
         var f = gid('point')
         allpoint[o].id = f
-        new Promise(function(resolve) {
-          register_element(f, pathToSegments(0, f),resolve)
-      }).then(function(){
-      	 prog += 1
+        new Promise(function (resolve) {
+          register_element(f, pathToSegments(0, f), resolve)
+        }).then(function () {
+          prog += 1
           point_index += 1
           point_f(point_index)
-          update_prog(prog,prog_a)
-          
-      });
-        
-      }   
-                                
+          update_prog(prog, prog_a)
+
+        });
+
+      }
+
       path_f(0)
       point_f(0)
     }
