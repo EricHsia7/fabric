@@ -116,8 +116,6 @@
       width: clamp(120px, 80%, 180px);
       border-radius: 5px;
       position: absolute;
-      top: 0px;
-      left: 0px;
       background: var(--d-f5f5f5);
       top: 50%;
       left: 50%;
@@ -125,16 +123,11 @@
       overflow: hidden;
     }
 
-    .load {
-      height: 5px;
-      width: 100%;
+    .load_box canvas {
       position: absolute;
       top: 0px;
       left: 0px;
-      background: var(--d-333333);
-      transform: translateX(calc(-1 * (100% - var(--k-width))));
     }
-
 
     .load_cover {
       position: fixed;
