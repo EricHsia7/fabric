@@ -616,7 +616,9 @@
         }).then(function () {
           prog += 1
           path_index += 1
-          path_f(path_index)
+          if (path_index < allpath_len) {
+            path_f(path_index)
+          }
         });
       }
 
@@ -628,14 +630,20 @@
         }).then(function () {
           prog += 1
           point_index += 1
-          point_f(point_index)
+          if (point_index < allpoint_len) {
+            point_f(point_index)
+          }
         });
 
       }
       window.requestAnimationFrame(update_prog)
+      if (allpath_len > 0) {
+        path_f(0)
+      }
+      if (allpoint_len > 0) {
+        point_f(0)
 
-      path_f(0)
-      point_f(0)
+      }
 
     }
     else {
