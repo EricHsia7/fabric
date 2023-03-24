@@ -580,8 +580,8 @@
     }
   }
   function openWhiteboardByID(id, callback) {
-    var update_prog = function (p, a) {
-      progress_bar_ctx.fillRect(0, 0, progress_bar.width * p / (a - 1), progress_bar.height);
+    var update_prog = function () {
+      progress_bar_ctx.fillRect(0, 0, progress_bar.width * prog / (prog_a - 1), progress_bar.height);
       if (prog >= prog_a - 1 && ca) {
         ca = false
         svg_canvas_history.push(svg_canvas_p.innerHTML);
@@ -591,6 +591,7 @@
         }
         callback()
       }
+      window.requestAnimationFrame(update_prog)
     }
     if (localStorage.hasOwnProperty(id)) {
       set_urlparams('id', id)
@@ -616,9 +617,6 @@
           prog += 1
           path_index += 1
           path_f(path_index)
-          window.requestAnimationFrame(function () {
-            update_prog(prog, prog_a)
-          })
         });
       }
 
@@ -631,15 +629,14 @@
           prog += 1
           point_index += 1
           point_f(point_index)
-          window.requestAnimationFrame(function () {
-            update_prog(prog, prog_a)
-          })
         });
 
       }
+      window.requestAnimationFrame(update_prog)
 
       path_f(0)
       point_f(0)
+
     }
     else {
       callback()
