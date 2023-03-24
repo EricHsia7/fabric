@@ -330,7 +330,14 @@
   var current_qx = 0
   var current_qy = 0
   var move = false
-
+  var io
+  var prog = 0
+  var prog_a = allpath_len + allpoint_len
+  var path_index = 0
+  var point_index = 0
+  var ca = true
+  var progress_bar = document.querySelector('#progress_bar')
+  var progress_bar_ctx = progress_bar.getContext('2d')
   set_urlparams('id', canvas_id)
 
   function urlparams(p) {
@@ -579,12 +586,7 @@
       }
     }
   }
-  var io
-  var prog = 0
-  var prog_a = allpath_len + allpoint_len
-  var path_index = 0
-  var point_index = 0
-  var ca = true
+
   function openWhiteboardByID(id, callback) {
 
     if (localStorage.hasOwnProperty(id)) {
@@ -1057,8 +1059,7 @@
     };
     img.src = "data:image/svg+xml;base64," + btoa(svgString);
   }
-  var progress_bar = document.querySelector('#progress_bar')
-  var progress_bar_ctx = progress_bar.getContext('2d')
+
   window.addEventListener("load", (event) => {
     drawBlocks(window.innerWidth, window.innerHeight);
     progress_bar.width = Math.max(Math.min(120, window.innerWidth * 0.8), 180)
