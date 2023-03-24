@@ -1062,8 +1062,8 @@
 
   window.addEventListener("load", (event) => {
     drawBlocks(window.innerWidth, window.innerHeight);
-    progress_bar.width = Math.max(Math.min(120, window.innerWidth * 0.8), 180)
-    progress_bar.height = 5
+    progress_bar.setAttribute('width', Math.max(Math.min(120, window.innerWidth * 0.8), 180) + 'px')
+    progress_bar.setAttribute('height', 5 + 'px')
     progress_bar_ctx.clearRect(0, 0, progress_bar.width, progress_bar.height);
     progress_bar_ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--d-333333');
     setTimeout(function () {
