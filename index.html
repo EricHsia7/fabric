@@ -579,6 +579,12 @@
       }
     }
   }
+  var io
+  var prog = 0
+  var prog_a = allpath_len + allpoint_len
+  var path_index = 0
+  var point_index = 0
+  var ca = true
   function openWhiteboardByID(id, callback) {
 
     if (localStorage.hasOwnProperty(id)) {
@@ -591,12 +597,11 @@
       var allpath_len = allpath.length
       var allpoint_len = allpoint.length
       var register_list = []
-      var prog = 0
-      var prog_a = allpath_len + allpoint_len
-      var path_index = 0
-      var point_index = 0
-      var ca = true
-      var io
+      prog = 0
+      prog_a = allpath_len + allpoint_len
+      path_index = 0
+      point_index = 0
+      ca = true
       var update_prog = function () {
         progress_bar_ctx.fillRect(0, 0, progress_bar.width * prog / (prog_a - 1), progress_bar.height);
         if (prog >= prog_a - 1 && ca) {
