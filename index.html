@@ -283,12 +283,40 @@
   </div>
 
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.3/dexie.min.js"></script>
 <script>
+  const db = new Dexie("whiteboard_storage");
+  db.version(1).stores({
+    whiteboard: '++index,key,content'
+  });
+
+
   const x_storage = {
     'setItem': function (k, s) {
-      return localStorage.setItem(k, s)
+      db.open().then(function () {
+        return db.whiteboard.add({ key: k, content: s });
+      }).catch(Dexie.MissingAPIError, function (e) {
+        console.log(e);
+      }).catch('SecurityError', function (e) {
+        console.log(e);
+      }).catch(function (e) {
+        console.log(e);
+      });
+      return true
     },
     'getItem': function (k) {
+      db.open().then(function () {
+        db.myObjectStore.get(k).then(record => {
+          if (record) {
+            return record.content
+          } else {
+            return ''
+          }
+        }).catch(error => {
+          console.error('Error retrieving record', error);
+          return ''
+        });
+      })
       return localStorage.getItem(k)
     },
     'removeItem': function (k) {
