@@ -297,7 +297,7 @@
       return db.sto.put({ key, value });
     },
     'getItem': async function getItem(key) {
-      const result = await db.localStorage.get(key);
+      const result = await db.sto.get(key);
       return result && result.value;
     },
     'removeItem': function (key) {
