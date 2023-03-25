@@ -423,6 +423,25 @@
   function getMid(x1, y1, x2, y2) {
     return { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
   }
+  function getBoundary(points) {
+    //separate x and y
+    var points_len = points.length
+    var x = []
+    var y = []
+    for (var o = 0; o < points_len; o++) {
+      x.push(points[o].x)
+      y.push(points[o].y)
+    }
+    x.sort(function (a, b) {
+      return a - b
+    })
+    y.sort(function (a, b) {
+      return a - b
+    })
+    var point_1 = { x: x[0], y: y[0] }
+    var point_2 = { x: x[x.length - 1], y: y[y.length - 1] }
+    return [point_1, point_2]
+  }
   function calcPoints(arr) {
     if (arr.length < 5) {
       return arr;
@@ -649,12 +668,13 @@
         allpoint[o].id = f
         register_element(f, pathToSegments(0, f))
       }
-          svg_canvas_history.push(svg_canvas_p.innerHTML);
-    var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
-    if (last_content.length >= 1) {
-      localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
-    }
-    
+
+      svg_canvas_history.push(svg_canvas_p.innerHTML);
+      var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
+      if (last_content.length >= 1) {
+        localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+      }
+
       callback()
     }
     else {
