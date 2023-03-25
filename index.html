@@ -283,37 +283,16 @@
   </div>
 
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.3/dexie.min.js"></script>
 <script>
-  const db = new Dexie('whiteboard_1');
-  db.version(1).stores({
-    sto: 'key,value'
-  });
-
-  db.open();
-
   const x_storage = {
-    'setItem': function (key, value) {
-      return db.sto.put({ key, value });
+    'setItem': function (k, s) {
+      return localStorage.setItem(k, s)
     },
-    'getItem': async function getItem(key) {
-      const result = await db.sto.get(key);
-      return result.value;
+    'getItem': function (k) {
+      return localStorage.getItem(k)
     },
-    'removeItem': function (key) {
-      return db.sto.delete(key);
-    },
-    'clear': function () {
-      return db.sto.clear();
-    },
-    'length': function () {
-      return db.sto.count();
-    },
-    'key': function (index) {
-      return db.sto.toCollection().nth(index).then(result => result && result.key);
-    },
-    'hasOwnProperty': function (key) {
-      return db.sto.get(key).then(result => !!result);
+    'removeItem': function (k) {
+      return localStorage.removeItem(k)
     }
   }
   Math.ol = function (p) {
