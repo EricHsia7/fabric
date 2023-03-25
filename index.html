@@ -161,8 +161,10 @@
   document.querySelector("svg#preview #pen").innerHTML = content
 
   var preview_svg = document.querySelector("svg#preview")
-  preview_svg.width = window.innerWidth
-  preview_svg.height = window.innerHeight
+  preview_svg.setAttributeNS(null, "width", window.innerWidth + "px");
+  preview_svg.setAttributeNS(null, "height", window.innerHeight + "px");
+  preview_svg.setAttributeNS(null, "viewbox", `0,0,${window.innerWidth},${window.innerHeight}`);
+
   var dpr = 0.5
   var w = preview_svg.clientWidth * dpr
   var h = preview_svg.clientHeight * dpr
