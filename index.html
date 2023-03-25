@@ -309,6 +309,9 @@
     },
     'key': function (index) {
       return db.localStorage.toCollection().nth(index).then(result => result && result.key);
+    },
+    'hasOwnProperty': function (key) {
+      return db.localStorage.get(key).then(result => !!result);
     }
   }
   Math.ol = function (p) {
