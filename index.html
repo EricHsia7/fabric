@@ -284,6 +284,17 @@
 
 </body>
 <script>
+  const x_storage = {
+    'setItem': function (k, s) {
+      return localStorage.setItem(k, s)
+    },
+    'getItem': function (k) {
+      return localStorage.getItem(k)
+    },
+    'removeItem': function (k) {
+      return localStorage.removeItem(k)
+    }
+  }
   Math.ol = function (p) {
     if (Math.abs(parseInt(p) - p) > 0) {
       return parseFloat(parseFloat(p).toFixed(3))
@@ -649,10 +660,10 @@
     }
   }
   function openWhiteboardByID(id, callback) {
-    if (localStorage.hasOwnProperty(id)) {
+    if (x_storage.hasOwnProperty(id)) {
       set_urlparams('id', id)
       canvas_id = id
-      var pen_layer_content = String(localStorage.getItem(id))
+      var pen_layer_content = String(x_storage.getItem(id))
       svg_canvas_p.innerHTML = pen_layer_content
       var allpath = document.querySelectorAll('svg#canvas #pen path')
       var allpoint = document.querySelectorAll('svg#canvas #pen circle')
@@ -673,7 +684,7 @@
       svg_canvas_history.push(svg_canvas_p.innerHTML);
       var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
       if (last_content.length >= 1) {
-        localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+        x_storage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
       }
 
       callback()
@@ -931,7 +942,7 @@
 
     var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
     if (last_content.length >= 1) {
-      localStorage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+      x_storage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
     }
 
   });
