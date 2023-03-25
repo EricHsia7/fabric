@@ -294,7 +294,7 @@
     'removeItem': function (k) {
       return localStorage.removeItem(k)
     },
-    'hasOwnProperty':function(k) {
+    'hasOwnProperty': function (k) {
       return localStorage.hasOwnProperty(k)
     }
   }
@@ -594,14 +594,22 @@
     svg_canvas_p.appendChild(p);
   }
 
-  function updatePath(d, s, m) {
+  function updatePath(d, s, m, boundary) {
     var p = document.querySelector("#" + s);
     if (!(p === null)) {
-      p.setAttribute("d", d);
+      if (!(m === 2)) {
+        p.setAttribute("d", d);
+      }
       if (m === 1) {
         p.setAttributeNS(null, "stroke-width", 0);
         p.setAttributeNS(null, "fill", current_pen_color);
         p.setAttributeNS(null, "stroke", "none");
+      }
+      if (m === 2) {
+        p.setAttributeNS(null, "bd-x1", boundary[0].x)
+        p.setAttributeNS(null, "bd-y1", boundary[0].y)
+        p.setAttributeNS(null, "bd-x2", boundary[1].x)
+        p.setAttributeNS(null, "bd-y2", boundary[1].y)
       }
     }
 
@@ -914,10 +922,14 @@
         }
         if (pen_type === 1) {
           updatePath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1.6).concat(simplifyPath(penPoints_b.reverse(), w * 1.6)))), current_path_id, 1)
+          updatePath('', current_path_id, 2, getBoundary(penPoints))
+
           drawPath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 1);
+          updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
         }
         else {
           updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}`, 0);
+          updatePath('', current_path_id, 2, getBoundary(penPoints))
         }
         // releaseElement(current_path_id)
         removeElement(current_point_id);
