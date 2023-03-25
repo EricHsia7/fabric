@@ -287,14 +287,14 @@
 <script>
   const db = new Dexie("whiteboard_storage_1");
   db.version(1).stores({
-    whiteboard: '&key, content, ++index'
+    whiteboard: '&key,content,++index'
   });
 
 
   const x_storage = {
     'setItem': function (k, s) {
       db.open().then(function () {
-        return db.whiteboard.add({ key: k, content: s });
+        return db.whiteboard.put({ key: k, content: s });
       }).catch(Dexie.MissingAPIError, function (e) {
         console.log(e);
       }).catch('SecurityError', function (e) {
