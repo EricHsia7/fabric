@@ -284,15 +284,49 @@
 
 </body>
 <script>
+  // Define the database and the store
+  const db = new Dexie('whiteboard_1');
+  db.version(1).stores({
+    localStorage: 'key,value'
+  });
+
+  // Open the database
+  db.open();
+
+  // Define the functions to get and set data
+
+
+
+
+  // Define the other localStorage-like functions
+
+
+
+
+  function key(index) {
+    return db.localStorage.toCollection().nth(index).then(result => result && result.key);
+  }
+
+
+
   const x_storage = {
-    'setItem': function (k, s) {
-      return localStorage.setItem(k, s)
+    'setItem': function (key, value) {
+      return db.localStorage.put({ key, value });
     },
-    'getItem': function (k) {
-      return localStorage.getItem(k)
+    'getItem': function (key) {
+      return db.localStorage.get(key).then(result => result && result.value);
     },
-    'removeItem': function (k) {
-      return localStorage.removeItem(k)
+    'removeItem': function (key) {
+      return db.localStorage.delete(key);
+    },
+    'clear': function () {
+      return db.localStorage.clear();
+    },
+    'length': function () {
+      return db.localStorage.count();
+    },
+    'key': function (index) {
+      return db.localStorage.toCollection().nth(index).then(result => result && result.key);
     }
   }
   Math.ol = function (p) {
