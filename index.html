@@ -54,20 +54,8 @@
 </body>
 <script>
  var bg_exist = 0
- const x_storage = {
-  'setItem': function (k, s) {
-   return localStorage.setItem(k, s)
-  },
-  'getItem': function (k) {
-   return localStorage.getItem(k)
-  },
-  'removeItem': function (k) {
-   return localStorage.removeItem(k)
-  },
-  'hasOwnProperty': function (k) {
-   return localStorage.hasOwnProperty(k)
-  }
- }
+
+ 
  Math.ol = function (p) {
   if (Math.abs(parseInt(p) - p) > 0) {
    return parseFloat(parseFloat(p).toFixed(3))
@@ -165,12 +153,12 @@
  }
 
  function generatePreviewPicture(id, picture_container_element) {
-  if (x_storage.hasOwnProperty(id)) {
+  if (localStorage.hasOwnProperty(id)) {
    if (bg_exist === 0) {
     drawBlocks(window.innerWidth, window.innerHeight)
     bg_exist = 1
    }
-   var content = String(x_storage.getItem(id))
+   var content = String(localStorage.getItem(id))
    var preview_svg = document.querySelector("svg#preview")
    preview_svg.innerHTML = content
    preview_svg.width = window.innerWidth
