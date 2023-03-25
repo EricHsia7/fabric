@@ -297,7 +297,7 @@
       return db.sto.put({ key, value });
     },
     'getItem': function (key) {
-      return db.sto.get(key).then(result => result && result.value);
+      return db.sto.get(key).then(result => result.value);
     },
     'removeItem': function (key) {
       return db.sto.delete(key);
