@@ -153,13 +153,13 @@
  }
 
  function generatePreviewPicture(content, picture_container_element) {
-
   if (bg_exist === 0) {
    drawBlocks(window.innerWidth, window.innerHeight)
    bg_exist = 1
   }
+  document.querySelector("svg#preview pen").innerHTML = content
+
   var preview_svg = document.querySelector("svg#preview")
-  preview_svg.innerHTML = content
   preview_svg.width = window.innerWidth
   preview_svg.height = window.innerHeight
   var dpr = 0.5
@@ -200,14 +200,14 @@
   for (var e in localStorage) {
    if (!(typeof (localStorage.getItem(e)) === 'function')) {
     if (String(e).indexOf('whiteboard_') > -1) {
-    // list.push({ key: e, value: String(localStorage.getItem(e)) })
+     // list.push({ key: e, value: String(localStorage.getItem(e)) })
      var elt_id = gid('e')
      var whiteboard_item = document.createElement('div')
      whiteboard_item.id = elt_id
      whiteboard_item.classList.add('whiteboard_item')
      whiteboard_item.innerHTML = `<div class="preview"></div><div class="title"></div><div class="least_modification_time"></div>`
      document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
-     generatePreviewPicture( String(localStorage.getItem(e)) , document.querySelector('#' + elt_id + ' .preview'))
+     generatePreviewPicture(String(localStorage.getItem(e)), document.querySelector('#' + elt_id + ' .preview'))
     }
    }
   }
