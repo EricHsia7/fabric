@@ -283,7 +283,7 @@
   </div>
 
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.3/dexie.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dexie/3.2.3/dexie.min.js"></script>
 <script>
   const db = new Dexie('whiteboard_1');
   db.version(1).stores({
@@ -296,8 +296,9 @@
     'setItem': function (key, value) {
       return db.sto.put({ key, value });
     },
-    'getItem': function (key) {
-      return db.sto.get(key).then(result => result.value);
+    'getItem': async function getItem(key) {
+      const result = await db.localStorage.get(key);
+      return result && result.value;
     },
     'removeItem': function (key) {
       return db.sto.delete(key);
