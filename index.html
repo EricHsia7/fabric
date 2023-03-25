@@ -624,7 +624,7 @@
     }
     for (var q = 0; q < pathSeg.length; q++) {
       var op = getBlock(pathSeg[q].x, pathSeg[q].y);
-      boundary_points = boundary_points.concat(getBoundary(pathSeg.concat(boundary_points)))
+      boundary_points = getBoundary(pathSeg.concat(boundary_points))
       if (!svg_canvas_points.hasOwnProperty("w_" + op[0])) {
         svg_canvas_points["w_" + op[0]] = {};
       }
