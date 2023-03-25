@@ -298,7 +298,7 @@
     },
     'getItem': async function getItem(key) {
       const result = await db.sto.get(key);
-      return result && result.value;
+      return result.value;
     },
     'removeItem': function (key) {
       return db.sto.delete(key);
