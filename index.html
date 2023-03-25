@@ -306,7 +306,7 @@
     },
     'getItem': function (k) {
       db.open().then(function () {
-        db.myObjectStore.get(k).then(record => {
+        db.whiteboard.get(k).then(record => {
           if (record) {
             return record.content
           } else {
