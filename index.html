@@ -55,7 +55,7 @@
 <script>
  var bg_exist = 0
 
- 
+
  Math.ol = function (p) {
   if (Math.abs(parseInt(p) - p) > 0) {
    return parseFloat(parseFloat(p).toFixed(3))
@@ -152,63 +152,62 @@
   document.querySelector("#bg").innerHTML = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
  }
 
- function generatePreviewPicture(id, picture_container_element) {
-  if (localStorage.hasOwnProperty(id)) {
-   if (bg_exist === 0) {
-    drawBlocks(window.innerWidth, window.innerHeight)
-    bg_exist = 1
-   }
-   var content = String(localStorage.getItem(id))
-   var preview_svg = document.querySelector("svg#preview")
-   preview_svg.innerHTML = content
-   preview_svg.width = window.innerWidth
-   preview_svg.height = window.innerHeight
-   var dpr = 0.5
-   var w = preview_svg.clientWidth * dpr
-   var h = preview_svg.clientHeight * dpr
+ function generatePreviewPicture(content, picture_container_element) {
 
-   if (w * h > 512 * 512) {
-    if (w > h) {
-     h = h * (512 / w)
-     w = 512
-    }
-    else {
-     w = w * (512 / h)
-     h = 512
-    }
-   }
-
-   const canvas = document.createElement("canvas");
-   canvas.width = w;
-   canvas.height = h;
-   const ctx = canvas.getContext("2d");
-   ctx.fillStyle = "white";
-
-   const svgString = new XMLSerializer().serializeToString(preview_svg);
-   const img = new Image();
-   img.onload = function () {
-    ctx.drawImage(img, 0, 0, w, h);
-    canvas.toBlob(function (blob) {
-     var url = window.URL.createObjectURL(blob);
-     picture_container_element.style.setProperty('--p-preview', `url(${url})`)
-    }, "image/png");
-   };
-   img.src = "data:image/svg+xml;base64," + btoa(svgString);
+  if (bg_exist === 0) {
+   drawBlocks(window.innerWidth, window.innerHeight)
+   bg_exist = 1
   }
+  var preview_svg = document.querySelector("svg#preview")
+  preview_svg.innerHTML = content
+  preview_svg.width = window.innerWidth
+  preview_svg.height = window.innerHeight
+  var dpr = 0.5
+  var w = preview_svg.clientWidth * dpr
+  var h = preview_svg.clientHeight * dpr
+
+  if (w * h > 512 * 512) {
+   if (w > h) {
+    h = h * (512 / w)
+    w = 512
+   }
+   else {
+    w = w * (512 / h)
+    h = 512
+   }
+  }
+
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "white";
+
+  const svgString = new XMLSerializer().serializeToString(preview_svg);
+  const img = new Image();
+  img.onload = function () {
+   ctx.drawImage(img, 0, 0, w, h);
+   canvas.toBlob(function (blob) {
+    var url = window.URL.createObjectURL(blob);
+    picture_container_element.style.setProperty('--p-preview', `url(${url})`)
+   }, "image/png");
+  };
+  img.src = "data:image/svg+xml;base64," + btoa(svgString);
+
  }
  function printWhiteboardList() {
   var list = []
   for (var e in localStorage) {
    if (!(typeof (localStorage.getItem(e)) === 'function')) {
     if (String(e).indexOf('whiteboard_') > -1) {
-     list.push({ key: e, value: String(localStorage.getItem(e)) })
+    // list.push({ key: e, value: String(localStorage.getItem(e)) })
      var elt_id = gid('e')
      var whiteboard_item = document.createElement('div')
      whiteboard_item.id = elt_id
      whiteboard_item.classList.add('whiteboard_item')
      whiteboard_item.innerHTML = `<div class="preview"></div><div class="title"></div><div class="least_modification_time"></div>`
      document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
-     generatePreviewPicture(e, document.querySelector('#' + elt_id))
+     generatePreviewPicture( String(localStorage.getItem(e)) , document.querySelector('#' + elt_id + ' .preview'))
     }
    }
   }
