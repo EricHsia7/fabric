@@ -189,7 +189,9 @@
   img.onload = function () {
    ctx.drawImage(img, 0, 0, w, h);
    canvas.toBlob(function (blob) {
-    var url = window.URL.createObjectURL(blob);
+    var u = window.URL || window.webkitURL
+
+    var url = u.createObjectURL(blob);
     picture_container_element.style.setProperty('--p-preview', `url(${url})`)
    }, "image/png");
   };

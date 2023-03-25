@@ -1057,10 +1057,11 @@
       })
     }
     else {
+      var u = window.URL || window.webkitURL
       const a = document.createElement('a');
       document.body.appendChild(a);
       a.download = `${name}`;
-      a.href = window.URL.createObjectURL(b);
+      a.href = u.createObjectURL(b);
       a.click()
       a.remove()
     }
