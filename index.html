@@ -19,6 +19,11 @@
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
  <style>
+  :root {
+   --g-preview-width: 300px;
+   --g-preview-height: 150px;
+  }
+
   svg#preview {
    position: fixed;
    top: 0px;
@@ -34,10 +39,11 @@
    overflow: scroll;
    background: var(--d-canvas-bg);
   }
+
   .whiteboard_item .preview {
-   width:var(--g-preview-width);
-   height:var(--g-preview-height);
-   background:var(--p-preview);
+   width: var(--g-preview-width);
+   height: var(--g-preview-height);
+   background: var(--p-preview);
    background-size: cover;
    background-repeat: no-repeat;
    background-position: center;
