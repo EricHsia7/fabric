@@ -286,32 +286,32 @@
 <script>
   const db = new Dexie('whiteboard_1');
   db.version(1).stores({
-    localStorage: 'key,value'
+    sto: 'key,value'
   });
 
   db.open();
 
   const x_storage = {
     'setItem': function (key, value) {
-      return db.localStorage.put({ key, value });
+      return db.sto.put({ key, value });
     },
     'getItem': function (key) {
-      return db.localStorage.get(key).then(result => result && result.value);
+      return db.sto.get(key).then(result => result && result.value);
     },
     'removeItem': function (key) {
-      return db.localStorage.delete(key);
+      return db.sto.delete(key);
     },
     'clear': function () {
-      return db.localStorage.clear();
+      return db.sto.clear();
     },
     'length': function () {
-      return db.localStorage.count();
+      return db.sto.count();
     },
     'key': function (index) {
-      return db.localStorage.toCollection().nth(index).then(result => result && result.key);
+      return db.sto.toCollection().nth(index).then(result => result && result.key);
     },
     'hasOwnProperty': function (key) {
-      return db.localStorage.get(key).then(result => !!result);
+      return db.sto.get(key).then(result => !!result);
     }
   }
   Math.ol = function (p) {
