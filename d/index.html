@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Whiteboard</title>
+  <meta name="description" content="Whiteboard">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0" />
+  <link href="https://erichsia7.github.io/whiteboard/pwaicon2/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="defualt" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="icon" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="bookmark" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="shortcut icon" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" kji="light">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121417" kji="dark">
+  <link rel="manifest" href="https://erichsia7.github.io/whiteboard/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --d-333333: #333333;
+      --d-f5f5f5: #f5f5f5;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --d-333333: #ffffff;
+        --d-f5f5f5: #1f1f1f;
+      }
+    }
+
+    * {
+      -webkit-appearance: none;
+      appearance: none;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    body {
+      background: var(--d-canvas-bg);
+    }
+
+    svg#canvas,
+    canvas#canvas_p {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .tools {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      width: 120px;
+      height: 40px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 13px;
+      background: rgba(26, 26, 26, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .f {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 10px;
+      height: 2px;
+      transform-origin: top left;
+      background: #ff0000;
+    }
+
+    button {
+      -webkit-appearance: none;
+      appearance: none;
+      border: none;
+      margin: 0px;
+      padding: 0px;
+      box-sizing: border-box;
+      background: transparent;
+      display: block;
+      border-radius: 0px;
+      font-size: unset;
+      font-weight: unset;
+    }
+
+    .tools button svg {
+      width: 25px;
+      height: 25px;
+      opacity: 0.6;
+      transition: opacity 0.35s;
+    }
+
+    .tools button[s="1"] svg {
+      opacity: 1;
+    }
+
+    .tools button {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .load_box {
+      height: 58px;
+      width: 58px;
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .load {
+      border: 4px solid var(--d-f5f5f5);
+      border-right: 4px solid var(--d-333333);
+      border-bottom: 4px solid var(--d-333333);
+      border-left: 4px solid var(--d-333333);
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      animation: loading 0.9s infinite linear;
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .load_ball_box {
+      width: 4px;
+      height: 58px;
+      background: rgba(0, 0, 0, 0);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      animation: loading_a 0.9s infinite linear;
+    }
+
+    .load_ball {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      position: absolute;
+      background: var(--d-333333);
+      top: 0px;
+      left: 0px;
+    }
+
+    .load_ball_boxf {
+      width: 4px;
+      height: 58px;
+      background: rgba(0, 0, 0, 0);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      animation: loading_b 0.9s infinite linear;
+    }
+
+    .load_ball {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      position: absolute;
+      background: var(--d-333333);
+      top: 0px;
+      left: 0px;
+    }
+
+    .load_cover {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      background: var(--d-canvas-bg);
+    }
+
+    @keyframes loading {
+      from {
+        -webkit-transform: rotate(0deg);
+      }
+
+      to {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes loading_a {
+      from {
+        -webkit-transform: translate(-50%, -50%) rotate(45deg);
+      }
+
+      to {
+        -webkit-transform: translate(-50%, -50%) rotate(405deg);
+      }
+    }
+
+    @keyframes loading_b {
+      from {
+        -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+      }
+
+      to {
+        -webkit-transform: translate(-50%, -50%) rotate(315deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <svg width="100" height="100" id="canvas">
+    <style>
+      :root {
+        --d-pen-000000-color: #355f8d;
+        --d-block-f5f5f5-color: #f0f0f0;
+        --d-canvas-bg: #ffffff;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --d-pen-000000-color: #ffffff;
+          --d-block-f5f5f5-color: #1b1e22;
+          --d-canvas-bg: #121417;
+        }
+      }
+    </style>
+    <g id="bg"></g>
+    <g id="pen"></g>
+    <g id="rubber_eraser">
+      <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
+    </g>
+  </svg>
+  <canvas id="canvas_p"></canvas>
+  <div class="tools">
+
+    <button onclick="setTool(0)" s="1">
+      <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M30.1562 4.65625L22.875 19.8125C22.5556 20.4216 22.6695 21.1695 23.1562 21.6562L27.1875 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L36.8125 25.6875L40.8438 21.6562C41.3305 21.1695 41.4444 20.4234 41.125 19.8125L33.875 4.65625C33.7256 4.37014 33.2812 4.4904 33.2812 4.8125L33.2812 15.7188C33.3496 15.7583 33.404 15.797 33.4688 15.8438C33.5704 15.913 33.6886 16.0065 33.7812 16.0938C33.7929 16.1054 33.8008 16.1133 33.8125 16.125C33.8224 16.1349 33.8348 16.1472 33.8438 16.1562C33.9157 16.2318 33.9692 16.3154 34.0312 16.4062C34.7807 17.404 34.7194 18.8118 33.8125 19.7188C33.7783 19.7529 33.7226 19.781 33.6875 19.8125C33.6668 19.8314 33.6778 19.857 33.6562 19.875C33.6122 19.9119 33.545 19.9346 33.5 19.9688C33.446 20.0083 33.3995 20.0283 33.3438 20.0625C33.2601 20.1138 33.1819 20.1774 33.0938 20.2188C33.0389 20.2448 32.9638 20.2597 32.9062 20.2812C32.8073 20.319 32.7258 20.3498 32.625 20.375C32.5746 20.3876 32.5191 20.3973 32.4688 20.4062C32.1637 20.4629 31.8363 20.4629 31.5312 20.4062C31.4809 20.3973 31.4557 20.3867 31.4062 20.375C31.3055 20.3498 31.1909 20.319 31.0938 20.2812C31.0362 20.2597 30.9933 20.2457 30.9375 20.2188C30.8502 20.1783 30.7712 20.1138 30.6875 20.0625C30.6317 20.0283 30.554 20.0083 30.5 19.9688C30.4541 19.9355 30.4191 19.9119 30.375 19.875C30.3534 19.857 30.3323 19.8305 30.3125 19.8125C30.2756 19.781 30.2529 19.7529 30.2188 19.7188C29.3118 18.8118 29.2202 17.4031 29.9688 16.4062C30.0317 16.3145 30.1155 16.23 30.1875 16.1562C30.1974 16.1464 30.2089 16.1349 30.2188 16.125C30.2304 16.1133 30.2374 16.1045 30.25 16.0938C30.3418 16.0056 30.4287 15.9139 30.5312 15.8438C30.596 15.797 30.6816 15.7583 30.75 15.7188L30.75 4.8125C30.75 4.4904 30.3056 4.37014 30.1562 4.65625Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
+      </svg>
+
+
+    </button>
+    <button onclick="setTool(1)" class="rubber_eraser">
+      <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M32.0625 4.5C30.7426 4.5 29.8645 5.12515 29.4375 6.40625L23 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L41.0312 25.6875L34.5625 6.40625C34.1161 5.12515 33.2854 4.5 32.0625 4.5Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
+      </svg>
+    </button>
+    <button onclick="setTool(2)">
+
+      <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M32.0625 4.5C30.7426 4.5 29.8645 5.12515 29.4375 6.40625L23 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L41.0312 25.6875L34.5625 6.40625C34.1161 5.12515 33.2854 4.5 32.0625 4.5ZM32 9.125C33.609 13.9599 35.6489 20.0368 37.5312 25.6875L26.5 25.6875C28.3735 20.0374 30.3978 13.9589 32 9.125Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
+      </svg>
+
+
+    </button>
+  </div>
+  <div class="load_cover">
+    <div class="load_box">
+      <div class="load">
+      </div>
+      <div class="load_ball_box">
+        <div class="load_ball"></div>
+      </div>
+      <div class="load_ball_boxf">
+        <div class="load_ball"></div>
+      </div>
+    </div>
+  </div>
+
+</body>
+<script>
+  const x_storage = {
+    'setItem': function (k, s) {
+      return localStorage.setItem(k, s)
+    },
+    'getItem': function (k) {
+      return localStorage.getItem(k)
+    },
+    'removeItem': function (k) {
+      return localStorage.removeItem(k)
+    },
+    'hasOwnProperty': function (k) {
+      return localStorage.hasOwnProperty(k)
+    }
+  }
+  Math.ol = function (p) {
+    if (Math.abs(parseInt(p) - p) > 0) {
+      return parseFloat(parseFloat(p).toFixed(3))
+    }
+    return p
+  }
+
+
+  var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+  function preventDefault(e) {
+    e.preventDefault();
+  }
+
+  function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+      preventDefault(e);
+      return false;
+    }
+  }
+
+  // modern Chrome requires { passive: false } when adding event
+  var supportsPassive = false;
+  try {
+    window.addEventListener(
+      "test",
+      null,
+      Object.defineProperty({}, "passive", {
+        get: function () {
+          supportsPassive = true;
+        }
+      })
+    );
+  } catch (e) { }
+
+  var wheelOpt = supportsPassive ? { passive: false } : false;
+  var wheelEvent =
+    "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
+
+  // call this to Disable
+  function disableScroll() {
+    window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+    window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
+    window.addEventListener("keydown", preventDefaultForScrollKeys, false);
+  }
+  // call this to Enable
+  function enableScroll() {
+    window.removeEventListener("DOMMouseScroll", preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener("touchmove", preventDefault, wheelOpt);
+    window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
+  }
+
+  var svg_canvas = document.querySelector("svg#canvas");
+  var canvas = document.querySelector("canvas#canvas_p");
+  var canvas_ctx = canvas.getContext('2d');
+
+  var svg_canvas_p = document.querySelector("svg#canvas g#pen");
+  var svg_canvas_bg = document.querySelector("svg#canvas g#bg");
+  svg_canvas.setAttributeNS(null, "width", window.innerWidth + "px");
+  svg_canvas.setAttributeNS(null, "height", window.innerHeight + "px");
+  svg_canvas.setAttributeNS(null, "viewbox", `0,0,${window.innerWidth},${window.innerHeight}`);
+  var dpr = window.devicePixelRatio
+  canvas.setAttributeNS(null, "width", window.innerWidth * dpr + "px");
+  canvas.setAttributeNS(null, "height", window.innerHeight * dpr + "px");
+
+  var doc = document.documentElement;
+  var x = 0;
+  var y = 0;
+  var current_pen_color = "var(--d-pen-000000-color)";
+  var pen_width_base = 1.7
+  var current_pen_width = 1.5
+  var s_block_size = 45
+  var block_size = 10
+  var current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
+  var pendown = false;
+  var penPoints = [];
+  var penPoints_a = []
+  var penPoints_b = []
+  var svg_canvas_history = [];
+  var speed_log = []
+  var svg_canvas_points = {};
+  var current_path_points = {};
+  var current_path_id = gid("path");
+  var current_point_id = gid("point");
+  var current_path_points_offset = 0
+  var rubber_eraser = false;
+  var pen_type = 1 //0:ball_pen,1:fountain_pen
+  var force = 0
+  var wq = 0
+  var lk = false
+  var speed = 0
+  var canvas_id = urlparams('id') || gid('whiteboard')
+  var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle')
+  var path_main, path_a, path_b
+  var offset_x = 0
+  var offset_y = 0
+  var s_block_offset_x = 0
+  var s_block_offset_y = 0
+  var move_start_x = 0
+  var move_start_y = 0
+  var current_qx = 0
+  var current_qy = 0
+  var move = false
+  var boundary_points = []
+  set_urlparams('id', canvas_id)
+
+  function urlparams(p) {
+    var getUrlString = location.href;
+    var url = new URL(getUrlString);
+    return url.searchParams.get(p)
+  }
+
+  function set_urlparams(p, k) {
+    var getUrlString = location.href;
+    var url = new URL(getUrlString);
+    url.searchParams.set(p, k)
+    history.pushState(null, null, url)
+  }
+
+  function gid(n) {
+    var genidchars =
+      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
+    var genid = "";
+    for (var i = 0; i < 16; i++) {
+      var genrandomNumber = Math.floor(Math.random() * genidchars.length);
+      genid += genidchars.substring(genrandomNumber, genrandomNumber + 1);
+    }
+    if (!(n === undefined)) {
+      n = n.replaceAll("-", "_");
+      return n + "_" + genid;
+    }
+    return "id_" + genid;
+  }
+
+  function getMid(x1, y1, x2, y2) {
+    return { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
+  }
+  function getBoundary(points) {
+    //separate x and y
+    var points_len = points.length
+    var x = []
+    var y = []
+    for (var o = 0; o < points_len; o++) {
+      x.push(points[o].x)
+      y.push(points[o].y)
+    }
+    x.sort(function (a, b) {
+      return a - b
+    })
+    y.sort(function (a, b) {
+      return a - b
+    })
+    var point_1 = { x: x[0], y: y[0] }
+    var point_2 = { x: x[x.length - 1], y: y[y.length - 1] }
+    return [point_1, point_2]
+  }
+  function calcPoints(arr) {
+    if (arr.length < 5) {
+      return arr;
+    }
+
+    return res;
+  }
+  function drawBlocks(w, h) {
+    var block = function (x, y) {
+      return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/></g>`;
+    };
+    var j = [];
+    var wc = Math.floor(w / s_block_size) + 1;
+    var hc = Math.floor(h / s_block_size) + 1;
+    for (var m = 0; m < hc * 3; m++) {
+      for (var n = 0; n < wc * 3; n++) {
+        j.push(block(-1 * wc * s_block_size + n * s_block_size, -1 * hc * s_block_size + m * s_block_size));
+      }
+    }
+
+    document.querySelector("#bg").innerHTML = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
+  }
+
+  function getBlock(x, y) {
+    var wc = String(Math.floor(x / block_size) + 1).replaceAll('-', 'i')
+    var hc = String(Math.floor(y / block_size) + 1).replaceAll('-', 'i')
+    return [wc, hc];
+  }
+  function drawPoint(x, y, s) {
+    var p = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    p.setAttributeNS(null, "id", s);
+    p.setAttributeNS(null, "cx", x);
+    p.setAttributeNS(null, "cy", y);
+    p.setAttributeNS(null, "r", 1);
+    p.setAttributeNS(null, "fill", current_pen_color);
+    svg_canvas_p.appendChild(p);
+  }
+  function segmentsToPath(segments) {
+    var pathCommand = `M${segments[0].x},${segments[0].y}`;
+    for (var i = 1; i < segments.length - 1; i++) {
+      var c = segments[i];
+      var n = segments[i + 1] || c;
+
+      pathCommand += `Q${c.x},${c.y},${(c.x + n.x) / 2},${(c.y + n.y) / 2}`;
+    }
+    return pathCommand;
+  }
+  function pathToOriginalSegments(path) {
+    var all_q = path.match(/Q[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,}/gm);
+    var o = [];
+    var j = all_q.length;
+    for (var w = 0; w < j; w++) {
+      var k = all_q[w].substring(1).split(",");
+      o.push({ x: Math.ol(k[0]), y: Math.ol(k[1]) });
+    }
+    return o;
+  }
+
+  function pathToSegments(m, d) {
+    if (m === 0) {
+      var p = document.querySelector("#" + d);
+      if (p === null) {
+        return []
+      }
+    }
+    var points = [];
+    var totalLength = p.getTotalLength();
+    for (let i = 0; i < totalLength; i += 1) {
+      var { x, y } = p.getPointAtLength(i);
+      points.push({ x: Math.ol(x), y: Math.ol(y) });
+    }
+    return points;
+  }
+
+  function simplifyPath(points, tolerance) {
+    if (points.length < 3) {
+      return points;
+    }
+
+    var dmax = 0;
+    var index = 0;
+
+    // Find the point with the maximum distance
+    for (var i = 1; i < points.length - 1; i++) {
+      var d = distanceToSegment(points[i], points[0], points[points.length - 1]);
+      if (d > dmax) {
+        index = i;
+        dmax = d;
+      }
+    }
+
+    // If max distance is greater than tolerance, split the curve
+    if (dmax > tolerance) {
+      var leftPoints = points.slice(0, index + 1);
+      var rightPoints = points.slice(index);
+      var simplifiedLeft = simplifyPath(leftPoints, tolerance);
+      var simplifiedRight = simplifyPath(rightPoints, tolerance);
+      return simplifiedLeft
+        .slice(0, simplifiedLeft.length - 1)
+        .concat(simplifiedRight);
+    } else {
+      return [points[0], points[points.length - 1]];
+    }
+  }
+
+  function distanceToSegment(point, start, end) {
+    var dx = end.x - start.x
+    var dy = end.y - start.y
+    var d = dx * dx + dy * dy;
+    var t = ((point.x - start.x) * dx + (point.y - start.y) * dy) / d;
+
+    if (t < 0) {
+      dx = point.x - start.x;
+      dy = point.y - start.y;
+    } else if (t > 1) {
+      dx = point.x - end.x;
+      dy = point.y - end.y;
+    } else {
+      var closestPoint = { x: start.x + t * dx, y: start.y + t * dy };
+      dx = point.x - closestPoint.x;
+      dy = point.y - closestPoint.y;
+    }
+
+    return Math.sqrt(dx * dx + dy * dy)
+  }
+
+  function drawPath(d, w) {
+    var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    p.setAttributeNS(null, "d", d);
+    p.setAttributeNS(null, "stroke-width", pen_width_base);
+    p.setAttributeNS(null, "stroke", current_pen_color);
+    p.setAttributeNS(null, "fill", "none");
+    p.setAttributeNS(null, "stroke-linecap", "round");
+    p.setAttributeNS(null, "fill-rule", "nonzero");
+    p.setAttributeNS(null, "id", w);
+    svg_canvas_p.appendChild(p);
+  }
+
+  function updatePath(d, s, m, boundary) {
+    var p = document.querySelector("#" + s);
+    if (!(p === null)) {
+      if (!(m === 2)) {
+        p.setAttribute("d", d);
+      }
+      if (m === 1) {
+        p.setAttributeNS(null, "stroke-width", 0);
+        p.setAttributeNS(null, "fill", current_pen_color);
+        p.setAttributeNS(null, "stroke", "none");
+      }
+      if (m === 2) {
+        p.setAttributeNS(null, "bd-x1", boundary[0].x)
+        p.setAttributeNS(null, "bd-y1", boundary[0].y)
+        p.setAttributeNS(null, "bd-x2", boundary[1].x)
+        p.setAttributeNS(null, "bd-y2", boundary[1].y)
+      }
+    }
+
+  }
+  function releaseElement(s) {
+    var p = document.querySelector("#" + s);
+    if (!(p === null)) {
+      p.removeAttribute("id");
+    }
+  }
+  function removeElement(s) {
+    var p = document.querySelector("#" + s);
+    if (!(p === null)) {
+      p.remove();
+    } else {
+      return true;
+    }
+  }
+  function removeElements(s) {
+    var s = document.querySelectorAll(s);
+    if (!(s === null)) {
+      var j = s.length;
+      for (var r = 0; r < j; r++) {
+        var p = s[r];
+        if (!(p === null)) {
+          p.remove();
+        }
+      }
+    }
+  }
+  function register_element(register_id, pathSeg) {
+    if (pathSeg === null || pathSeg === undefined) {
+      return ''
+    }
+    for (var q = 0; q < pathSeg.length; q++) {
+      var op = getBlock(pathSeg[q].x, pathSeg[q].y);
+      boundary_points = getBoundary(pathSeg.concat(boundary_points))
+      if (!svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+        svg_canvas_points["w_" + op[0]] = {};
+      }
+      if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+        if (!svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
+          svg_canvas_points["w_" + op[0]]["h_" + op[1]] = {};
+        }
+      }
+      if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+        if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
+          if (
+            !svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(
+              register_id
+            )
+          ) {
+            svg_canvas_points["w_" + op[0]]["h_" + op[1]][
+              register_id
+            ] = 1;
+          }
+        }
+      }
+    }
+  }
+  function openWhiteboardByID(id, callback) {
+    if (x_storage.hasOwnProperty(id)) {
+      set_urlparams('id', id)
+      canvas_id = id
+      var pen_layer_content = String(x_storage.getItem(id))
+      svg_canvas_p.innerHTML = pen_layer_content
+      var allpath = document.querySelectorAll('svg#canvas #pen path')
+      var allpoint = document.querySelectorAll('svg#canvas #pen circle')
+      var allpath_len = allpath.length
+      var allpoint_len = allpoint.length
+      var register_list = []
+      for (var o = 0; o < allpath_len; o++) {
+        var f = gid('path')
+        allpath[o].id = f
+        register_element(f, pathToSegments(0, f))
+      }
+      for (var o = 0; o < allpoint_len; o++) {
+        var f = gid('point')
+        allpoint[o].id = f
+        register_element(f, pathToSegments(0, f))
+      }
+
+      svg_canvas_history.push(svg_canvas_p.innerHTML);
+      var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
+      if (last_content.length >= 1) {
+        x_storage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+      }
+
+      callback()
+    }
+    else {
+      callback()
+    }
+  }
+
+
+
+  canvas.addEventListener("touchstart", function (e) {
+    disableScroll();
+    x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
+    y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
+    penPoints = [];
+    penPoints_a = []
+    penPoints_b = []
+    speed_log = []
+    force = 0
+    wq = 0
+    lk = false
+    speed = 0
+    current_path_points = {}
+    current_pen_width = pen_width_base * 1
+    current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
+    if (e.targetTouches.length < 2) {
+      if (!rubber_eraser) {
+        pendown = true;
+        drawPath("", current_path_id);
+        drawPoint(x, y, current_point_id);
+        penPoints.push({ x: x, y: y });
+        path_main = new Path2D()
+        path_a = new Path2D()
+        path_b = new Path2D()
+        path_main.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+        path_a.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+        path_b.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+      }
+      else {
+        rubber_eraser_symbol.setAttribute('transform', `translate(${x + offset_x} ${y + offset_x})`)
+        rubber_eraser_symbol.setAttribute('opacity', '1')
+      }
+
+    }
+    else {
+      move = true
+      move_start_x = x + offset_x
+      move_start_y = y + offset_y
+    }
+
+
+    current_path_points_offset = 0
+  });
+  canvas.addEventListener("touchmove", function (e) {
+    x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
+    y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
+    if (move) {
+      if (pendown) {
+        removeElement(current_point_id);
+        removeElement(current_path_id);
+        pendown = false
+      }
+      if (rubber_eraser) {
+        rubber_eraser_symbol.setAttribute('opacity', '0')
+      }
+      current_qx = x + offset_x
+      current_qy = y + offset_y
+      var canvas_offset_x = current_qx - move_start_x
+      var canvas_offset_y = current_qy - move_start_y
+      svg_canvas_p.setAttribute('transform', `translate(${offset_x + canvas_offset_x} ${offset_y + canvas_offset_y})`)
+      svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
+    }
+    else {
+      var op = getBlock(x, y);
+      if (pendown) {
+        if (e.targetTouches[0].force) {
+          force = e.targetTouches[0].force
+        }
+
+        if (penPoints.length > 5) {
+          var last_p = penPoints.slice(penPoints.length - 5, penPoints.length - 1)
+          var last_x = []
+          var last_y = []
+          for (var t = 0; t < last_p.length; t++) {
+            last_x.push(last_p[t].x)
+            last_y.push(last_p[t].y)
+          }
+          var lp = getLine(last_x, last_y)
+          wq = -1 / lp.a
+
+          if (lp.sx < lp.sy) {
+            lk = true
+          }
+        }
+        var current_time = new Date().getTime()
+        var a1 = 180 + Math.atan(wq) * 180 / Math.PI
+        var a2 = a1 + 180
+
+        if (isNaN(a1)) {
+          if (lk) {
+            a1 = 180
+            a2 = 360
+          }
+          else {
+            a1 = 90
+            a2 = 270
+          }
+        }
+
+        penPoints.push({ x: x, y: y, force: force, angle: a1, time_stamp: current_time });
+        if (penPoints.length > 2) {
+          path_main = new Path2D()
+
+          var pervious_point = penPoints[penPoints.length - 2]
+          path_main.moveTo((pervious_point.x + offset_x) * dpr, (pervious_point.y + offset_y) * dpr);
+          if (penPoints_a.length > 3) {
+            path_a = new Path2D()
+            path_b = new Path2D()
+            var pervious_point_a = penPoints_a[penPoints_a.length - 1]
+            var pervious_point_b = penPoints_b[penPoints_b.length - 1]
+
+            path_a.moveTo(pervious_point_a.sx, pervious_point_a.sy);
+            path_b.moveTo(pervious_point_b.sx, pervious_point_b.sy);
+          }
+
+          var pervious_point = penPoints[penPoints.length - 2]
+          s = Math.sqrt(Math.pow(pervious_point.x - x, 2) + Math.pow(pervious_point.y - y, 2)) / (current_time - pervious_point.time_stamp)
+          speed = s
+          if (speed < 0) {
+            speed = 0
+          }
+          if (speed > 3) {
+            speed = 3
+          }
+          speed_log.push(s)
+        }
+
+        current_pen_width = Math.min(Math.max(Math.min(Math.max(pen_width_base * 0.75 + pen_width_base * (1 / (speed)) * 0.25, pen_width_base), pen_width_base * (1 + 0.35)), current_pen_width - (0.01)), current_pen_width + (0.1))
+
+        canvas_ctx.lineCap = "round";
+        canvas_ctx.lineWidth = current_pen_width * dpr
+        canvas_ctx.strokeStyle = current_pen_color_snapshot;
+        path_main.lineTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+        canvas_ctx.stroke(path_main);
+        var radius = current_pen_width
+        if (pen_type === 1) {
+          radius *= (1 + force / 0.25) / 2
+        }
+        radius = Math.min(radius - 0.01, current_pen_width)
+
+        var cx1 = (x) + radius * Math.cos(2 * Math.PI * a1 / 360)
+        var cy1 = (y) + radius * Math.sin(2 * Math.PI * a1 / 360)
+        var cx2 = (x) + radius * Math.cos(2 * Math.PI * a2 / 360)
+        var cy2 = (y) + radius * Math.sin(2 * Math.PI * a2 / 360)
+
+        var radius_a = (radius - current_pen_width / 2) * dpr
+        canvas_ctx.lineWidth = current_pen_width * dpr
+
+        var s_cx1 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a1 / 360)
+        var s_cy1 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a1 / 360)
+        var s_cx2 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a2 / 360)
+        var s_cy2 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a2 / 360)
+
+        if (pen_type === 1) {
+
+          penPoints_a.push({ x: Math.ol(cx1), y: Math.ol(cy1), sx: (s_cx1), sy: (s_cy1) })
+          penPoints_b.push({ x: Math.ol(cx2), y: Math.ol(cy2), sx: (s_cx2), sy: (s_cy2) })
+          path_a.lineTo(s_cx1, s_cy1);
+          canvas_ctx.stroke(path_a);
+          canvas_ctx.closePath(path_a);
+          path_b.lineTo(s_cx2, s_cy2);
+          canvas_ctx.stroke(path_b);
+          canvas_ctx.closePath(path_b);
+
+        }
+      }
+
+      if (rubber_eraser) {
+        rubber_eraser_symbol.setAttribute('transform', `translate(${x + offset_x} ${y + offset_y})`)
+        if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
+          if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
+            if (svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(current_path_id)) {
+
+            }
+            var all_id = svg_canvas_points["w_" + op[0]]["h_" + op[1]];
+
+            var all_id_len = all_id.length
+
+            for (var e in all_id) {
+              var oo = removeElement(e);
+              var oo = removeElement(`${e}_main`);
+              delete svg_canvas_points["w_" + op[0]]["h_" + op[1]][e];
+            }
+          }
+        }
+      }
+    }
+  });
+  canvas.addEventListener("touchend", function (e) {
+    enableScroll();
+    if (move) {
+      move = false
+      offset_x += current_qx - move_start_x
+      offset_y += current_qy - move_start_y
+      var canvas_offset_x = (current_qx - move_start_x) % s_block_size
+      var canvas_offset_y = (current_qy - move_start_y) % s_block_size
+      svg_canvas_p.setAttribute('transform', `translate(${offset_x} ${offset_y})`)
+      svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
+    }
+    if (pendown) {
+      pendown = false;
+      var doc = document.documentElement;
+      penPoints.push({ x: x, y: y });
+      var register_id = current_path_id
+      if (penPoints.length > 3) {
+        var w = Math.ol(penPoints.length / 50);
+        if (w < 0.5) {
+          w = 0;
+        } else {
+          if (w > 1) {
+            w = 1;
+          }
+        }
+        if (pen_type === 1) {
+          updatePath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1.6).concat(simplifyPath(penPoints_b.reverse(), w * 1.6)))), current_path_id, 1)
+          updatePath('', current_path_id, 2, getBoundary(penPoints))
+
+          drawPath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 1);
+          updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
+        }
+        else {
+          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}`, 0);
+          updatePath('', current_path_id, 2, getBoundary(penPoints))
+        }
+        // releaseElement(current_path_id)
+        removeElement(current_point_id);
+        var pathSeg = pathToSegments(0, `${current_path_id}`);
+      } else {
+        var pathSeg = penPoints
+        register_id = current_point_id
+        //releaseElement(current_point_id)
+      }
+
+
+      register_element(register_id, pathSeg)
+
+
+      canvas_ctx.closePath();
+      canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
+      svg_canvas_history.push(svg_canvas_p.innerHTML);
+      current_path_id = gid("path");
+      current_point_id = gid("point");
+    }
+    if (rubber_eraser) {
+      svg_canvas_history.push(svg_canvas_p.innerHTML);
+      rubber_eraser_symbol.setAttribute('opacity', '0')
+    }
+
+    var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
+    if (last_content.length >= 1) {
+      x_storage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
+    }
+
+  });
+
+  window.addEventListener("resize", (event) => {
+    svg_canvas.setAttributeNS(null, "width", window.innerWidth + "px");
+    svg_canvas.setAttributeNS(null, "height", window.innerHeight + "px");
+    svg_canvas.setAttributeNS(
+      null,
+      "viewbox",
+      `0,0,${window.innerWidth},${window.innerHeight}`
+    );
+    canvas.setAttributeNS(null, "width", window.innerWidth * dpr + "px");
+    canvas.setAttributeNS(null, "height", window.innerHeight * dpr + "px");
+    drawBlocks(window.innerWidth, window.innerHeight);
+  });
+
+
+
+  function getLine(x, y) {
+    var x_avg = getAvgerage(x)
+    var y_avg = getAvgerage(y)
+    var s_xx = getSi2(x, x_avg)
+    var s_yy = getSi2(y, y_avg)
+    var s_xy = getSi3(x, y, x_avg, y_avg)
+    var sigma_x = Math.sqrt(s_xx / x.length)
+    var sigma_y = Math.sqrt(s_yy / y.length)
+    var r = s_xy / (Math.sqrt(s_xx * s_yy))
+    var line_a = r * sigma_y / sigma_x
+    var line_b = (y_avg) - line_a * (x_avg)
+    return { a: line_a, b: line_b, sx: sigma_x, sy: sigma_y }
+  }
+  function getSum(arr) {
+    var initialValue = 0
+    var sum = arr.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      initialValue
+    );
+    return sum
+  }
+  function getSi2(arr1, avg1) {
+    var g = 0
+    var sum = 0
+    var arr_len = arr1.length
+    for (var w = 0; w < arr_len; w++) {
+      var u = Math.pow(arr1[w] - avg1, 2)
+      sum += u
+    }
+    return sum
+  }
+  function getSi3(arr1, arr2, avg1, avg2) {
+    var g = 0
+    var sum = 0
+    var arr_len = arr1.length
+    for (var w = 0; w < arr_len; w++) {
+      var u = (arr1[w] - avg1) * (arr2[w] - avg2)
+      sum += u
+    }
+    return sum
+  }
+  function getAvgerage(arr) {
+    var initialValue = 0
+    var sum = arr.reduce(
+      (accumulator, currentValue) => accumulator + currentValue,
+      initialValue
+    );
+    return sum / arr.length
+  }
+
+  function setTool(k) {
+
+    if (k === 0) {
+      rubber_eraser = false
+      pen_type = 1
+    }
+    if (k === 1) {
+      rubber_eraser = false
+      pen_type = 0
+    }
+
+    if (k === 2) {
+      rubber_eraser = true
+    }
+    var elt = document.querySelectorAll('.tools button')
+    for (var e = 0; e < elt.length; e++) {
+      elt[e].setAttribute('s', '0')
+    }
+    elt[k].setAttribute('s', 1)
+
+  }
+
+  function downloadblob(b, name) {
+    const image = new File([b], name, { type: b.type })
+    if (navigator.canShare && navigator.canShare({ files: [image] })) {
+      navigator.share({
+        files: [image]
+      })
+    }
+    else {
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.download = `${name}`;
+      a.href = window.URL.createObjectURL(b);
+      a.click()
+      a.remove()
+    }
+
+  }
+
+  function saveAsSvg() {
+    var serializer = new XMLSerializer();
+    var svgString = serializer.serializeToString(document.querySelector("svg#canvas"));
+    var blob = new Blob([svgString], { type: "image/svg+xml" });
+    downloadblob(blob, gid('svg') + '.svg')
+  }
+
+  function saveAsPng() {
+    var w = document.querySelector("svg#canvas").clientWidth * Math.pow(dpr, 3)
+    var h = document.querySelector("svg#canvas").clientHeight * Math.pow(dpr, 3)
+
+    if (w * h > 4096 * 4096) {
+      if (w > h) {
+        h = h * (4096 / w)
+        w = 4096
+      }
+      else {
+        w = w * (4096 / h)
+        h = 4096
+      }
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "white";
+
+    const svgString = new XMLSerializer().serializeToString(document.querySelector("svg#canvas"));
+    const img = new Image();
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, w, h);
+      canvas.toBlob(function (blob) {
+        downloadblob(blob, gid('png') + '.png')
+      }, "image/png");
+    };
+    img.src = "data:image/svg+xml;base64," + btoa(svgString);
+  }
+
+
+  window.addEventListener("load", (event) => {
+
+    drawBlocks(window.innerWidth, window.innerHeight);
+    setTimeout(function () {
+      openWhiteboardByID(canvas_id, function () {
+        document.querySelector('.load_cover').style.display = 'none'
+      })
+    }, 1500);
+
+  });
+</script>
+
+</html>
