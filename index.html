@@ -37,14 +37,17 @@
       }
     }
 
+    * {
+      -webkit-appearance: none;
+      appearance: none;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
     body {
       background: var(--f-f5f5f5);
       margin: 0px;
       padding: 0px;
-    }
-
-    #preview_x {
-      display: none;
     }
 
     .whiteboard_list {
@@ -52,6 +55,8 @@
       top: 0px;
       left: 0px;
       padding: 5px;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .whiteboard_item {
@@ -62,6 +67,8 @@
       border-radius: 15px;
       float: left;
       overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
     }
 
     .whiteboard_item .preview {
@@ -88,35 +95,7 @@
 </head>
 
 <body>
-  <div id="preview_x">
-
-    <svg width="100" height="100" id="preview">
-      <style>
-        :root {
-          --d-pen-000000-color: #355f8d;
-          --d-block-f5f5f5-color: #f0f0f0;
-          --d-canvas-bg: #ffffff;
-        }
-
-        @media (prefers-color-scheme: dark) {
-          :root {
-            --d-pen-000000-color: #ffffff;
-            --d-block-f5f5f5-color: #1b1e22;
-            --d-canvas-bg: #121417;
-          }
-        }
-      </style>
-      <g id="bg"></g>
-      <g id="pen"></g>
-      <g id="rubber_eraser">
-        <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
-      </g>
-    </svg>
-  </div>
-
-  <div class="whiteboard_list">
-
-  </div>
+  <div class="whiteboard_list"></div>
 </body>
 <script>
   var bg_exist = 0
@@ -286,7 +265,9 @@
     }
     img.src = "data:image/svg+xml;base64," + btoa(svgString);
   }
-
+  function openWhiteboard(id) {
+    location.replace('https://erichsia7.github.io/whiteboard/d/?id=' + id)
+  }
   function printWhiteboardList() {
     var size = []
     var t_width = r_width * 1
@@ -317,6 +298,7 @@
           var whiteboard_item = document.createElement('div')
           whiteboard_item.id = elt_id
           whiteboard_item.classList.add('whiteboard_item')
+          whiteboard_item.setAttribute('onclick', `openWhiteboard(${e})`)
           whiteboard_item.innerHTML = `<div class="preview"></div><div class="title"></div><div class="least_modification_time"></div>`
           document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
           generatePreviewPicture(String(localStorage.getItem(e)), document.querySelector('#' + elt_id + ' .preview'))
