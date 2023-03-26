@@ -264,11 +264,7 @@
     const svgString = `
     <svg width="${r_width}px" height="${r_height}px" id="preview" xmlns="http://www.w3.org/2000/svg" viewbox="0,0,${r_width},${r_height}">
       <style>
-      
-
-      @media (prefers-color-scheme: dark) {
-        
-      }
+      ${color_set}
     </style>
     <g id="bg">${blocks_string}</g>
     <g id="pen">${content}</g>
