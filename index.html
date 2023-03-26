@@ -18,33 +18,38 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <style>
+  <style id="size">
     :root {
       --g-preview-width: 300px;
       --g-preview-height: 150px;
     }
-
+  </style>
+  <style>
     #preview_x {
       display: none;
     }
 
     .whiteboard_list {
-      position: fixed;
+      position: relative;
       top: 0px;
       left: 0px;
-      width: 100%;
-      height: 100%;
-      overflow: scroll;
       background: var(--d-canvas-bg);
     }
 
     .whiteboard_item .preview {
-      width: var(--g-preview-width);
-      height: var(--g-preview-height);
+      width: calc(var(--g-preview-width) - 10px);
+      height: calc(var(--g-preview-height) - 10px);
       background: var(--p-preview);
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
+    }
+
+    @media screen and (min-width: 650px) {
+      .whiteboard_item .preview {
+        width: calc(var(--g-preview-width) / 3 - 10px);
+        height: calc(var(--g-preview-height) / 3 - 10px);
+      }
     }
   </style>
 </head>
@@ -257,6 +262,12 @@
   }
 
   function printWhiteboardList() {
+    var size = []
+    var r_width = Math.max(window.innerWidth, window.innerHeight)
+    var r_height = Math.min(window.innerWidth, window.innerHeight)
+    size.push('--p-preview-width:' + r_width + 'px')
+    size.push('--p-preview-height:' + r_height + 'px')
+    document.querySelector('style#size').innerHTML = `:root{${size.join(';')}}`
     var list = []
     for (var e in localStorage) {
       if (!(typeof (localStorage.getItem(e)) === 'function')) {
