@@ -265,8 +265,8 @@
     var size = []
     var r_width = Math.max(window.innerWidth, window.innerHeight)
     var r_height = Math.min(window.innerWidth, window.innerHeight)
-    size.push('--p-preview-width:' + r_width + 'px')
-    size.push('--p-preview-height:' + r_height + 'px')
+    size.push('--g-preview-width:' + r_width + 'px')
+    size.push('--g-preview-height:' + r_height + 'px')
     document.querySelector('style#size').innerHTML = `:root{${size.join(';')}}`
     var list = []
     for (var e in localStorage) {
