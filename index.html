@@ -51,6 +51,7 @@
       position: relative;
       top: 0px;
       left: 0px;
+      padding: 5px;
     }
 
     .whiteboard_item {
@@ -300,8 +301,8 @@
         t_height = height
       }
     }
-    size.push('--g-preview-width:' + t_width + 'px')
-    size.push('--g-preview-height:' + t_height + 'px')
+    size.push('--g-preview-width:' + (t_width - 10) + 'px')
+    size.push('--g-preview-height:' + (t_height - 10) + 'px')
 
     size.push('--j-width:' + width + 'px')
     size.push('--j-height:' + height + 'px')
