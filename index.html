@@ -55,8 +55,8 @@
 
     .whiteboard_item {
       background: var(--f-ffffff);
-      width: calc(var(--j-width) - 10px);
-      height: calc(var(--g-preview-height) * (var(--j-width) / var(--g-preview-width)) - 10px + 90px);
+      width: calc(var(--g-preview-width) - 10px);
+      height: calc(var(--g-preview-height) - 10px + 90px);
       margin: 5px;
       border-radius: 15px;
       float: left;
@@ -297,12 +297,22 @@
 
   function printWhiteboardList() {
     var size = []
-
+    var t_width = r_width * 1
+    var t_height = r_height * 1
+    if (t_width > width) {
+      t_height *= width / t_width
+      t_width = width
+    }
+    else {
+      t_width *= height / t_height
+      t_height = height
+    }
     size.push('--g-preview-width:' + r_width + 'px')
     size.push('--g-preview-height:' + r_height + 'px')
 
     size.push('--j-width:' + width + 'px')
     size.push('--j-height:' + height + 'px')
+
     document.querySelector('style#size').innerHTML = `:root{${size.join(';')}}`
     var list = []
     for (var e in localStorage) {
