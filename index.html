@@ -52,29 +52,29 @@
 <body>
   <div id="preview_x">
 
-  <svg width="100" height="100" id="preview">
-    <style>
-      :root {
-        --d-pen-000000-color: #355f8d;
-        --d-block-f5f5f5-color: #f0f0f0;
-        --d-canvas-bg: #ffffff;
-      }
-
-      @media (prefers-color-scheme: dark) {
+    <svg width="100" height="100" id="preview">
+      <style>
         :root {
-          --d-pen-000000-color: #ffffff;
-          --d-block-f5f5f5-color: #1b1e22;
-          --d-canvas-bg: #121417;
+          --d-pen-000000-color: #355f8d;
+          --d-block-f5f5f5-color: #f0f0f0;
+          --d-canvas-bg: #ffffff;
         }
-      }
-    </style>
-    <g id="bg"></g>
-    <g id="pen"></g>
-    <g id="rubber_eraser">
-      <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
-    </g>
-  </svg>
-</div>
+
+        @media (prefers-color-scheme: dark) {
+          :root {
+            --d-pen-000000-color: #ffffff;
+            --d-block-f5f5f5-color: #1b1e22;
+            --d-canvas-bg: #121417;
+          }
+        }
+      </style>
+      <g id="bg"></g>
+      <g id="pen"></g>
+      <g id="rubber_eraser">
+        <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
+      </g>
+    </svg>
+  </div>
 
   <div class="whiteboard_list">
 
@@ -165,6 +165,7 @@
     }
     return "id_" + genid;
   }
+  var blocks_string = ''
   function drawBlocks(w, h) {
     var block = function (x, y) {
       return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/></g>`;
@@ -178,7 +179,7 @@
       }
     }
 
-    document.querySelector("#bg").innerHTML = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
+    blocks_string = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
   }
 
   function generatePreviewPicture(content, picture_container_element) {
@@ -187,11 +188,6 @@
       bg_exist = 1
     }
     document.querySelector("svg#preview #pen").innerHTML = content
-
-    var preview_svg = document.querySelector("svg#preview")
-    preview_svg.setAttributeNS(null, "width", window.innerWidth + "px");
-    preview_svg.setAttributeNS(null, "height", window.innerHeight + "px");
-    preview_svg.setAttributeNS(null, "viewbox", `0,0,${window.innerWidth},${window.innerHeight}`);
     /*
     var offset_x = window.innerWidth / -2
     var offset_y = window.innerHeight / -2
@@ -222,7 +218,31 @@
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "white";
 
-    const svgString = new XMLSerializer().serializeToString(preview_svg);
+    const svgString = `
+    <svg width="${window.innerWidth}px" height="${window.innerHeight}px" id="preview" xmlns="http://www.w3.org/2000/svg" viewbox="0,0,${window.innerWidth},${window.innerHeight}">
+      <style>
+      :root {
+        --d-pen-000000-color: #355f8d;
+        --d-block-f5f5f5-color: #f0f0f0;
+        --d-canvas-bg: #ffffff;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --d-pen-000000-color: #ffffff;
+          --d-block-f5f5f5-color: #1b1e22;
+          --d-canvas-bg: #121417;
+        }
+      }
+    </style>
+    <g id="bg">${blocks_string}</g>
+    <g id="pen">${content}</g>
+    <g id="rubber_eraser">
+      <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
+    </g>
+  </svg>
+    `
+    //new XMLSerializer().serializeToString(preview_svg);
     const img = new Image();
     img.onload = function () {
       ctx.drawImage(img, 0, 0, w, h);
