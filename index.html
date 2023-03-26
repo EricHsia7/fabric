@@ -251,7 +251,10 @@
         h = 512
       }
     }
-
+    var color_set = `:root {--d-pen-000000-color: #355f8d;--d-block-f5f5f5-color: #f0f0f0;--d-canvas-bg: #ffffff;}`
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      var color_set = `:root {--d-pen-000000-color: #ffffff;--d-block-f5f5f5-color: #1b1e22;--d-canvas-bg: #121417;}`
+    }
     const canvas = document.createElement("canvas");
     canvas.width = w;
     canvas.height = h;
@@ -261,18 +264,10 @@
     const svgString = `
     <svg width="${r_width}px" height="${r_height}px" id="preview" xmlns="http://www.w3.org/2000/svg" viewbox="0,0,${r_width},${r_height}">
       <style>
-      :root {
-        --d-pen-000000-color: #355f8d;
-        --d-block-f5f5f5-color: #f0f0f0;
-        --d-canvas-bg: #ffffff;
-      }
+      
 
       @media (prefers-color-scheme: dark) {
-        :root {
-          --d-pen-000000-color: #ffffff;
-          --d-block-f5f5f5-color: #1b1e22;
-          --d-canvas-bg: #121417;
-        }
+        
       }
     </style>
     <g id="bg">${blocks_string}</g>
@@ -300,14 +295,14 @@
     var t_width = r_width * 1
     var t_height = r_height * 1
     if (t_width > width) {
-      if(t_width > t_height) {
-      t_height *= width / t_width
-      t_width = width
-    }
-    else {
-      t_width *= height / t_height
-      t_height = height
-    }
+      if (t_width > t_height) {
+        t_height *= width / t_width
+        t_width = width
+      }
+      else {
+        t_width *= height / t_height
+        t_height = height
+      }
     }
     size.push('--g-preview-width:' + t_width + 'px')
     size.push('--g-preview-height:' + t_height + 'px')
