@@ -24,10 +24,8 @@
       --g-preview-height: 150px;
     }
 
-    svg#preview {
-      position: fixed;
-      top: 0px;
-      left: 0px;
+    #preview_x {
+      display: none;
     }
 
     .whiteboard_list {
@@ -52,6 +50,8 @@
 </head>
 
 <body>
+  <div id="preview_x">
+
   <svg width="100" height="100" id="preview">
     <style>
       :root {
@@ -74,6 +74,8 @@
       <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
     </g>
   </svg>
+</div>
+
   <div class="whiteboard_list">
 
   </div>
