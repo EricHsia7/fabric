@@ -298,7 +298,7 @@
           var whiteboard_item = document.createElement('div')
           whiteboard_item.id = elt_id
           whiteboard_item.classList.add('whiteboard_item')
-          whiteboard_item.setAttribute('onclick', `openWhiteboard(${e})`)
+          whiteboard_item.setAttribute('onclick', `openWhiteboard('${e}'')`)
           whiteboard_item.innerHTML = `<div class="preview"></div><div class="title"></div><div class="least_modification_time"></div>`
           document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
           generatePreviewPicture(String(localStorage.getItem(e)), document.querySelector('#' + elt_id + ' .preview'))
