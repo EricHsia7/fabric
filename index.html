@@ -217,18 +217,18 @@
     document.querySelector("svg#preview #pen").setAttribute('transform', `translate(${offset_x} ${offset_y})`)
     document.querySelector("svg#preview #bg").setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
   */
-    var dpr = 0.5
+    var dpr = window.devicePixelRatio
     var w = r_width * dpr
     var h = r_height * dpr
 
-    if (w * h > 512 * 512) {
+    if (w * h > 800 * 800) {
       if (w > h) {
-        h = h * (512 / w)
-        w = 512
+        h = h * (800 / w)
+        w = 800
       }
       else {
-        w = w * (512 / h)
-        h = 512
+        w = w * (800 / h)
+        h = 800
       }
     }
     var color_set = `:root {--d-pen-000000-color: #355f8d;--d-block-f5f5f5-color: #f0f0f0;--d-canvas-bg: #ffffff;}`
