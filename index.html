@@ -2,254 +2,257 @@
 <html lang="en">
 
 <head>
- <meta charset="UTF-8">
- <title>Whiteboard</title>
- <meta name="description" content="Whiteboard">
- <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0" />
- <link href="https://erichsia7.github.io/whiteboard/pwaicon2/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
- <meta name="apple-mobile-web-app-capable" content="yes" />
- <meta name="apple-mobile-web-app-status-bar-style" content="defualt" />
- <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="icon" />
- <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="bookmark" />
- <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="shortcut icon" />
- <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" kji="light">
- <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121417" kji="dark">
- <link rel="manifest" href="https://erichsia7.github.io/whiteboard/manifest.json">
- <link rel="preconnect" href="https://fonts.googleapis.com">
- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
- <style>
-  :root {
-   --g-preview-width: 300px;
-   --g-preview-height: 150px;
-  }
+  <meta charset="UTF-8">
+  <title>Whiteboard</title>
+  <meta name="description" content="Whiteboard">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0" />
+  <link href="https://erichsia7.github.io/whiteboard/pwaicon2/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="defualt" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="icon" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="bookmark" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon2/256x256_corner_radius.ico" rel="shortcut icon" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" kji="light">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121417" kji="dark">
+  <link rel="manifest" href="https://erichsia7.github.io/whiteboard/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --g-preview-width: 300px;
+      --g-preview-height: 150px;
+    }
 
-  svg#preview {
-   position: fixed;
-   top: 0px;
-   left: 0px;
-  }
+    svg#preview {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+    }
 
-  .whiteboard_list {
-   position: fixed;
-   top: 0px;
-   left: 0px;
-   width: 100%;
-   height: 100%;
-   overflow: scroll;
-   background: var(--d-canvas-bg);
-  }
+    .whiteboard_list {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      overflow: scroll;
+      background: var(--d-canvas-bg);
+    }
 
-  .whiteboard_item .preview {
-   width: var(--g-preview-width);
-   height: var(--g-preview-height);
-   background: var(--p-preview);
-   background-size: cover;
-   background-repeat: no-repeat;
-   background-position: center;
-  }
- </style>
+    .whiteboard_item .preview {
+      width: var(--g-preview-width);
+      height: var(--g-preview-height);
+      background: var(--p-preview);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  </style>
 </head>
 
 <body>
- <svg width="100" height="100" id="preview">
-  <style>
-   :root {
-    --d-pen-000000-color: #355f8d;
-    --d-block-f5f5f5-color: #f0f0f0;
-    --d-canvas-bg: #ffffff;
-   }
+  <svg width="100" height="100" id="preview">
+    <style>
+      :root {
+        --d-pen-000000-color: #355f8d;
+        --d-block-f5f5f5-color: #f0f0f0;
+        --d-canvas-bg: #ffffff;
+      }
 
-   @media (prefers-color-scheme: dark) {
-    :root {
-     --d-pen-000000-color: #ffffff;
-     --d-block-f5f5f5-color: #1b1e22;
-     --d-canvas-bg: #121417;
-    }
-   }
-  </style>
-  <g id="bg"></g>
-  <g id="pen"></g>
-  <g id="rubber_eraser">
-   <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
-  </g>
- </svg>
- <div class="whiteboard_list">
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --d-pen-000000-color: #ffffff;
+          --d-block-f5f5f5-color: #1b1e22;
+          --d-canvas-bg: #121417;
+        }
+      }
+    </style>
+    <g id="bg"></g>
+    <g id="pen"></g>
+    <g id="rubber_eraser">
+      <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
+    </g>
+  </svg>
+  <div class="whiteboard_list">
 
- </div>
+  </div>
 </body>
 <script>
- var bg_exist = 0
+  var bg_exist = 0
 
- var s_block_size = 45
+  var s_block_size = 45
 
- Math.ol = function (p) {
-  if (Math.abs(parseInt(p) - p) > 0) {
-   return parseFloat(parseFloat(p).toFixed(3))
-  }
-  return p
- }
-
-
- var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
-
- function preventDefault(e) {
-  e.preventDefault();
- }
-
- function preventDefaultForScrollKeys(e) {
-  if (keys[e.keyCode]) {
-   preventDefault(e);
-   return false;
-  }
- }
-
- // modern Chrome requires { passive: false } when adding event
- var supportsPassive = false;
- try {
-  window.addEventListener(
-   "test",
-   null,
-   Object.defineProperty({}, "passive", {
-    get: function () {
-     supportsPassive = true;
+  Math.ol = function (p) {
+    if (Math.abs(parseInt(p) - p) > 0) {
+      return parseFloat(parseFloat(p).toFixed(3))
     }
-   })
-  );
- } catch (e) { }
-
- var wheelOpt = supportsPassive ? { passive: false } : false;
- var wheelEvent =
-  "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
-
- // call this to Disable
- function disableScroll() {
-  window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
-  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-  window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
-  window.addEventListener("keydown", preventDefaultForScrollKeys, false);
- }
- // call this to Enable
- function enableScroll() {
-  window.removeEventListener("DOMMouseScroll", preventDefault, false);
-  window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-  window.removeEventListener("touchmove", preventDefault, wheelOpt);
-  window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
- }
- function urlparams(p) {
-  var getUrlString = location.href;
-  var url = new URL(getUrlString);
-  return url.searchParams.get(p)
- }
-
- function set_urlparams(p, k) {
-  var getUrlString = location.href;
-  var url = new URL(getUrlString);
-  url.searchParams.set(p, k)
-  history.pushState(null, null, url)
- }
-
- function gid(n) {
-  var genidchars =
-   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
-  var genid = "";
-  for (var i = 0; i < 16; i++) {
-   var genrandomNumber = Math.floor(Math.random() * genidchars.length);
-   genid += genidchars.substring(genrandomNumber, genrandomNumber + 1);
-  }
-  if (!(n === undefined)) {
-   n = n.replaceAll("-", "_");
-   return n + "_" + genid;
-  }
-  return "id_" + genid;
- }
- function drawBlocks(w, h) {
-  var block = function (x, y) {
-   return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/></g>`;
-  };
-  var j = [];
-  var wc = Math.floor(w / s_block_size) + 1;
-  var hc = Math.floor(h / s_block_size) + 1;
-  for (var m = 0; m < hc * 3; m++) {
-   for (var n = 0; n < wc * 3; n++) {
-    j.push(block(-1 * wc * s_block_size + n * s_block_size, -1 * hc * s_block_size + m * s_block_size));
-   }
+    return p
   }
 
-  document.querySelector("#bg").innerHTML = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
- }
 
- function generatePreviewPicture(content, picture_container_element) {
-  if (bg_exist === 0) {
-   drawBlocks(window.innerWidth, window.innerHeight)
-   bg_exist = 1
-  }
-  document.querySelector("svg#preview #pen").innerHTML = content
+  var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
-  var preview_svg = document.querySelector("svg#preview")
-  preview_svg.setAttributeNS(null, "width", window.innerWidth + "px");
-  preview_svg.setAttributeNS(null, "height", window.innerHeight + "px");
-  preview_svg.setAttributeNS(null, "viewbox", `0,0,${window.innerWidth},${window.innerHeight}`);
-  /*
-  var offset_x = window.innerWidth / -2
-  var offset_y = window.innerHeight / -2
-  var canvas_offset_x = offset_x % s_block_size
-  var canvas_offset_y = offset_y % s_block_size
-  
-  document.querySelector("svg#preview #pen").setAttribute('transform', `translate(${offset_x} ${offset_y})`)
-  document.querySelector("svg#preview #bg").setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
-*/
-  var dpr = 0.5
-  var w = preview_svg.clientWidth * dpr
-  var h = preview_svg.clientHeight * dpr
-
-  if (w * h > 512 * 512) {
-   if (w > h) {
-    h = h * (512 / w)
-    w = 512
-   }
-   else {
-    w = w * (512 / h)
-    h = 512
-   }
+  function preventDefault(e) {
+    e.preventDefault();
   }
 
-  const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext("2d");
-  ctx.fillStyle = "white";
-
-  const svgString = new XMLSerializer().serializeToString(preview_svg);
-  const img = new Image();
-  img.onload = function () {
-   ctx.drawImage(img, 0, 0, w, h);
-   canvas.toBlob(function (b) {
-    var u = window.URL || window.webkitURL
-    var url = String(u.createObjectURL(b));
-    picture_container_element.style.setProperty('--p-preview', `url(${url})`)
-   }, "image/png");
-  }
-  img.src = "data:image/svg+xml;base64," + btoa(svgString);
- }
-
- function printWhiteboardList() {
-  var list = []
-  for (var e in localStorage) {
-   if (!(typeof (localStorage.getItem(e)) === 'function')) {
-    if (String(e).indexOf('whiteboard_') > -1) {
-     // list.push({ key: e, value: String(localStorage.getItem(e)) })
-     var elt_id = gid('e')
-     var whiteboard_item = document.createElement('div')
-     whiteboard_item.id = elt_id
-     whiteboard_item.classList.add('whiteboard_item')
-     whiteboard_item.innerHTML = `<div class="preview"></div><div class="title"></div><div class="least_modification_time"></div>`
-     document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
-     generatePreviewPicture(String(localStorage.getItem(e)), document.querySelector('#' + elt_id + ' .preview'))
+  function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+      preventDefault(e);
+      return false;
     }
-   }
   }
- }
+
+  // modern Chrome requires { passive: false } when adding event
+  var supportsPassive = false;
+  try {
+    window.addEventListener(
+      "test",
+      null,
+      Object.defineProperty({}, "passive", {
+        get: function () {
+          supportsPassive = true;
+        }
+      })
+    );
+  } catch (e) { }
+
+  var wheelOpt = supportsPassive ? { passive: false } : false;
+  var wheelEvent =
+    "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
+
+  // call this to Disable
+  function disableScroll() {
+    window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+    window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
+    window.addEventListener("keydown", preventDefaultForScrollKeys, false);
+  }
+  // call this to Enable
+  function enableScroll() {
+    window.removeEventListener("DOMMouseScroll", preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener("touchmove", preventDefault, wheelOpt);
+    window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
+  }
+  function urlparams(p) {
+    var getUrlString = location.href;
+    var url = new URL(getUrlString);
+    return url.searchParams.get(p)
+  }
+
+  function set_urlparams(p, k) {
+    var getUrlString = location.href;
+    var url = new URL(getUrlString);
+    url.searchParams.set(p, k)
+    history.pushState(null, null, url)
+  }
+
+  function gid(n) {
+    var genidchars =
+      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
+    var genid = "";
+    for (var i = 0; i < 16; i++) {
+      var genrandomNumber = Math.floor(Math.random() * genidchars.length);
+      genid += genidchars.substring(genrandomNumber, genrandomNumber + 1);
+    }
+    if (!(n === undefined)) {
+      n = n.replaceAll("-", "_");
+      return n + "_" + genid;
+    }
+    return "id_" + genid;
+  }
+  function drawBlocks(w, h) {
+    var block = function (x, y) {
+      return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/></g>`;
+    };
+    var j = [];
+    var wc = Math.floor(w / s_block_size) + 1;
+    var hc = Math.floor(h / s_block_size) + 1;
+    for (var m = 0; m < hc * 3; m++) {
+      for (var n = 0; n < wc * 3; n++) {
+        j.push(block(-1 * wc * s_block_size + n * s_block_size, -1 * hc * s_block_size + m * s_block_size));
+      }
+    }
+
+    document.querySelector("#bg").innerHTML = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
+  }
+
+  function generatePreviewPicture(content, picture_container_element) {
+    if (bg_exist === 0) {
+      drawBlocks(window.innerWidth, window.innerHeight)
+      bg_exist = 1
+    }
+    document.querySelector("svg#preview #pen").innerHTML = content
+
+    var preview_svg = document.querySelector("svg#preview")
+    preview_svg.setAttributeNS(null, "width", window.innerWidth + "px");
+    preview_svg.setAttributeNS(null, "height", window.innerHeight + "px");
+    preview_svg.setAttributeNS(null, "viewbox", `0,0,${window.innerWidth},${window.innerHeight}`);
+    /*
+    var offset_x = window.innerWidth / -2
+    var offset_y = window.innerHeight / -2
+    var canvas_offset_x = offset_x % s_block_size
+    var canvas_offset_y = offset_y % s_block_size
+    
+    document.querySelector("svg#preview #pen").setAttribute('transform', `translate(${offset_x} ${offset_y})`)
+    document.querySelector("svg#preview #bg").setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
+  */
+    var dpr = 0.5
+    var w = preview_svg.clientWidth * dpr
+    var h = preview_svg.clientHeight * dpr
+
+    if (w * h > 512 * 512) {
+      if (w > h) {
+        h = h * (512 / w)
+        w = 512
+      }
+      else {
+        w = w * (512 / h)
+        h = 512
+      }
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "white";
+
+    const svgString = new XMLSerializer().serializeToString(preview_svg);
+    const img = new Image();
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, w, h);
+      canvas.toBlob(function (b) {
+        var u = window.URL || window.webkitURL
+        var url = String(u.createObjectURL(b));
+        picture_container_element.style.setProperty('--p-preview', `url(${url})`)
+      }, "image/png");
+    }
+    img.src = "data:image/svg+xml;base64," + btoa(svgString);
+  }
+
+  function printWhiteboardList() {
+    var list = []
+    for (var e in localStorage) {
+      if (!(typeof (localStorage.getItem(e)) === 'function')) {
+        if (String(e).indexOf('whiteboard_') > -1) {
+          // list.push({ key: e, value: String(localStorage.getItem(e)) })
+          var elt_id = gid('e')
+          var whiteboard_item = document.createElement('div')
+          whiteboard_item.id = elt_id
+          whiteboard_item.classList.add('whiteboard_item')
+          whiteboard_item.innerHTML = `<div class="preview"></div><div class="title"></div><div class="least_modification_time"></div>`
+          document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
+          generatePreviewPicture(String(localStorage.getItem(e)), document.querySelector('#' + elt_id + ' .preview'))
+        }
+      }
+    }
+  }
+  window.addEventListener("load", (event) => {
+    printWhiteboardList()
+  });
 </script>
 
 </html>
