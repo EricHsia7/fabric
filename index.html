@@ -187,7 +187,6 @@
       drawBlocks(window.innerWidth, window.innerHeight)
       bg_exist = 1
     }
-    document.querySelector("svg#preview #pen").innerHTML = content
     /*
     var offset_x = window.innerWidth / -2
     var offset_y = window.innerHeight / -2
@@ -198,8 +197,8 @@
     document.querySelector("svg#preview #bg").setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
   */
     var dpr = 0.5
-    var w = preview_svg.clientWidth * dpr
-    var h = preview_svg.clientHeight * dpr
+    var w = window.innerWidth * dpr
+    var h = window.innerHeight * dpr
 
     if (w * h > 512 * 512) {
       if (w > h) {
