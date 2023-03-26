@@ -300,6 +300,7 @@
     var t_width = r_width * 1
     var t_height = r_height * 1
     if (t_width > width) {
+      if(t_width > t_height) {
       t_height *= width / t_width
       t_width = width
     }
@@ -307,8 +308,9 @@
       t_width *= height / t_height
       t_height = height
     }
-    size.push('--g-preview-width:' + r_width + 'px')
-    size.push('--g-preview-height:' + r_height + 'px')
+    }
+    size.push('--g-preview-width:' + t_width + 'px')
+    size.push('--g-preview-height:' + t_height + 'px')
 
     size.push('--j-width:' + width + 'px')
     size.push('--j-height:' + height + 'px')
