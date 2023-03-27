@@ -317,9 +317,9 @@
     printWhiteboardList()
   });
   document.addEventListener("scroll", (event) => {
-    var scrolltop = document.querySelector(".whiteboard_list").scrollTop
+    var scrolltop = document.documentElement.scrollTop
     var scrollheight = document.documentElement.scrollHeight
-    var clientheight = document.querySelector(".whiteboard_list").clientHeight
+    var clientheight = document.documentElement.clientHeight
 
     if (scrolltop > scrollheight - clientheight - clientheight * 1.5) {
       if (index <= ll && list_ststus === 0) {
