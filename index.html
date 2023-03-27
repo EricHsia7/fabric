@@ -76,7 +76,7 @@
     .whiteboard_item .preview {
       width: calc(var(--g-preview-width) - 10px);
       height: calc(var(--g-preview-height) - 10px);
-      background: var(--f-e3e3e3) var(--p-preview);
+      background: var(--p-preview);
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -292,7 +292,7 @@
           whiteboard_item.id = elt_id
           whiteboard_item.classList.add('whiteboard_item')
           whiteboard_item.setAttribute('onclick', `openWhiteboard('${e}')`)
-          whiteboard_item.innerHTML = `<div class="preview" style="--p-preview:rgba(0,0,0,0)"></div><div class="title"></div><div class="least_modification_time"></div>`
+          whiteboard_item.innerHTML = `<div class="preview" style="--p-preview:var(--f-e3e3e3)"></div><div class="title"></div><div class="least_modification_time"></div>`
           document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
           generatePreviewPicture(String(localStorage.getItem(e)), document.querySelector('#' + elt_id + ' .preview'))
         }
