@@ -327,7 +327,9 @@
     if (scrolltop > scrollheight - clientheight - clientheight * 1.5) {
       if (index <= ll && list_ststus === 0) {
         for (var e = index; e < Math.max(index + 5, ll); e++) {
+          if(!(list[e] === undefined)) {
           generatePreviewPicture(String(localStorage.getItem(list[e].e)), document.querySelector('#' + list[e].elt + ' .preview'))
+          }
         }
         index += 5
         list_ststus = 1;
