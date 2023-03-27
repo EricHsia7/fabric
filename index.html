@@ -285,7 +285,7 @@
 
     size.push('--j-width:' + width + 'px')
     size.push('--j-height:' + height + 'px')
-    var len = height / ((t_height - 10) - 10 + 90)
+    var len = Math.round(height / ((t_height - 10) - 10 + 90))
     if (width > 650) {
       len *= 3
     }
@@ -311,7 +311,7 @@
         }
       }
     }
-    index = len*1
+    index = len * 1
   }
   window.addEventListener("load", (event) => {
     printWhiteboardList()
