@@ -322,7 +322,7 @@
     var clientheight = document.querySelector(".whiteboard_list").clientHeight
 
     if (scrolltop > scrollheight - clientheight - clientheight * 1.5) {
-      if (index < ll && list_ststus === 0) {
+      if (index <= ll && list_ststus === 0) {
         for (var e = index; e < Math.max(index + 5, ll); e++) {
           generatePreviewPicture(String(localStorage.getItem(list[e].e)), document.querySelector('#' + list[e].elt + ' .preview'))
         }
