@@ -205,6 +205,9 @@
   }
 
   function generatePreviewPicture(content, picture_container_element) {
+    if (picture_container_element.getAttribute('k') === '1') {
+      return ''
+    }
     if (bg_exist === 0) {
       drawBlocks(r_width, r_height)
       bg_exist = 1
