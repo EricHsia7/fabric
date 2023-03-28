@@ -208,6 +208,11 @@
     if (picture_container_element.getAttribute('k') === '1') {
       return ''
     }
+    if(!(document.readyState === 'complete')) {
+window.addEventListener("load", (event) => {
+    generatePreviewPicture(content, picture_container_element)
+  },{once:true});
+    }
     if (bg_exist === 0) {
       drawBlocks(r_width, r_height)
       bg_exist = 1
