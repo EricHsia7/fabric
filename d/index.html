@@ -858,6 +858,10 @@
 
             path_a.moveTo(pervious_point_a.sx, pervious_point_a.sy);
             path_b.moveTo(pervious_point_b.sx, pervious_point_b.sy);
+            if (Math.abs(pervious_point.angle - a1) > 180) {
+              a1 = pervious_point.angle
+              a2 = a1 + 180
+            }
           }
 
           var pervious_point = penPoints[penPoints.length - 2]
