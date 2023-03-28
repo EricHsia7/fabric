@@ -71,6 +71,19 @@
       overflow: hidden;
       user-select: none;
       -webkit-user-select: none;
+      position: relative;
+    }
+
+    .whiteboard_item a {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      display: block;
+      box-sizing: border-box;
+      margin: 0px;
+      padding: 0px;
     }
 
     .whiteboard_item .preview {
@@ -208,10 +221,10 @@
     if (picture_container_element.getAttribute('k') === '1') {
       return ''
     }
-    if(!(document.readyState === 'complete')) {
-window.addEventListener("load", (event) => {
-    generatePreviewPicture(content, picture_container_element)
-  },{once:true});
+    if (!(document.readyState === 'complete')) {
+      window.addEventListener("load", (event) => {
+        generatePreviewPicture(content, picture_container_element)
+      }, { once: true });
     }
     if (bg_exist === 0) {
       drawBlocks(r_width, r_height)
@@ -267,9 +280,7 @@ window.addEventListener("load", (event) => {
     }
     img.src = "data:image/svg+xml;base64," + btoa(svgString);
   }
-  function openWhiteboard(id) {
-    location.replace('https://erichsia7.github.io/whiteboard/d/?id=' + id)
-  }
+
   var index = 0
   var ll = 0
   var list_ststus = 0
@@ -307,8 +318,7 @@ window.addEventListener("load", (event) => {
           var whiteboard_item = document.createElement('div')
           whiteboard_item.id = elt_id
           whiteboard_item.classList.add('whiteboard_item')
-          whiteboard_item.setAttribute('onclick', `openWhiteboard('${e}')`)
-          whiteboard_item.innerHTML = `<div class="preview" style="--p-preview:var(--f-e3e3e3)"></div><div class="title"></div><div class="least_modification_time"></div>`
+          whiteboard_item.innerHTML = `<a href="https://erichsia7.github.io/whiteboard/d/?id=${e}"><div class="preview" style="--p-preview:var(--f-e3e3e3)"></div><div class="title"></div><div class="least_modification_time"></div></a>`
           document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
           list.push({ 'e': e, 'elt': elt_id })
           if (index <= len) {
@@ -332,8 +342,8 @@ window.addEventListener("load", (event) => {
     if (scrolltop > scrollheight - clientheight - clientheight * 1.5) {
       if (index <= ll && list_ststus === 0) {
         for (var e = index; e < Math.max(index + 5, ll); e++) {
-          if(!(list[e] === undefined)) {
-          generatePreviewPicture(String(localStorage.getItem(list[e].e)), document.querySelector('#' + list[e].elt + ' .preview'))
+          if (!(list[e] === undefined)) {
+            generatePreviewPicture(String(localStorage.getItem(list[e].e)), document.querySelector('#' + list[e].elt + ' .preview'))
           }
         }
         index += 5
