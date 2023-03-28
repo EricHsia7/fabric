@@ -876,7 +876,7 @@
           speed_log.push(s)
         }
 
-        current_pen_width = Math.min(Math.max(Math.min(Math.max(pen_width_base * 0.75 + pen_width_base * (1 / (speed)) * 0.25, pen_width_base), pen_width_base * (1 + 0.35)), current_pen_width - (0.01)), current_pen_width + (0.1))
+        current_pen_width = Math.min(Math.max(Math.min(Math.max(pen_width_base * 0.75 + pen_width_base * (1 / (speed)) * 0.25, pen_width_base), pen_width_base * (1 + 0.5)), current_pen_width - (0.01)), current_pen_width + (0.1))
 
         canvas_ctx.lineCap = "round";
         canvas_ctx.lineWidth = current_pen_width * dpr
