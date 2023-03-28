@@ -110,6 +110,11 @@
       transition: opacity 0.35s;
     }
 
+    .back button svg {
+      width: 25px;
+      height: 25px;
+    }
+
     .tools button[s="1"] svg {
       opacity: 1;
     }
@@ -1125,9 +1130,11 @@
     img.src = "data:image/svg+xml;base64," + btoa(svgString);
   }
 
-
+  function backToPreviousPage() {
+    location.replace('https://erichsia7.github.io/whiteboard/')
+  }
+  
   window.addEventListener("load", (event) => {
-
     drawBlocks(window.innerWidth, window.innerHeight);
     setTimeout(function () {
       openWhiteboardByID(canvas_id, function () {
