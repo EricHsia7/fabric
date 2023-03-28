@@ -53,12 +53,9 @@
       -webkit-user-select: none;
     }
 
-    .tools {
+    .tools,
+    .back {
       position: fixed;
-      top: 15px;
-      left: 15px;
-      width: 120px;
-      height: 40px;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-radius: 13px;
@@ -66,6 +63,20 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .tools {
+      top: 15px;
+      left: 65px;
+      width: 120px;
+      height: 40px;
+    }
+
+    .back {
+      top: 15px;
+      left: 15px;
+      width: 40px;
+      height: 40px;
     }
 
     .f {
@@ -246,6 +257,13 @@
     </g>
   </svg>
   <canvas id="canvas_p"></canvas>
+  <div class="back">
+    <button onclick="backToPreviousPage()" s="1">
+      <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <path d="M20.3579 26.6967C17.4289 29.6256 17.4289 34.3744 20.3579 37.3033L41.5711 58.5165C42.5474 59.4928 44.1303 59.4928 45.1066 58.5165C46.0829 57.5402 46.0829 55.9573 45.1066 54.981L28.8431 38.7175L23.8934 33.7678C22.9171 32.7915 22.9171 31.2085 23.8934 30.2322L28.8431 25.2825L45.1066 9.01903C46.0829 8.04272 46.0829 6.45981 45.1066 5.4835C44.1303 4.50718 42.5474 4.50718 41.5711 5.4835L20.3579 26.6967Z" fill="#000000" fill-rule="nonzero" opacity="1" stroke="none" />
+      </svg>
+    </button>
+  </div>
   <div class="tools">
 
     <button onclick="setTool(0)" s="1">
