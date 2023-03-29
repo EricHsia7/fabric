@@ -95,6 +95,14 @@
       background-position: center;
     }
 
+    .add {
+      position: fixed;
+      right: 15px;
+      bottom: 15px;
+      border-radius: 15px;
+      background: var(--f-ffffff);
+    }
+
     @media screen and (min-width: 650px) {
       .whiteboard_item .preview {
         width: calc(var(--g-preview-width) / 3 - 10px);
@@ -111,6 +119,7 @@
 
 <body>
   <div class="whiteboard_list"></div>
+  <div class="add"></div>
 </body>
 <script>
   var bg_exist = 0
