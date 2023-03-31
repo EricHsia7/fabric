@@ -802,8 +802,8 @@
           force = e.targetTouches[0].force
         }
 
-        if (penPoints.length > 5) {
-          var last_p = penPoints.slice(penPoints.length - 5, penPoints.length - 1)
+        if (penPoints.length > 3) {
+          var last_p = penPoints.slice(penPoints.length - Math.min(5, penPoints.length - 1), penPoints.length - 1)
           var last_x = []
           var last_y = []
           for (var t = 0; t < last_p.length; t++) {
