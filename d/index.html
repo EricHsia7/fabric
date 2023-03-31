@@ -540,7 +540,7 @@
     return o;
   }
 
-  function pathToSegments(m, d) {
+  function pathToSegments(m, d, f) {
     if (m === 0) {
       var p = document.querySelector("#" + d);
       if (p === null) {
@@ -549,7 +549,7 @@
     }
     var points = [];
     var totalLength = p.getTotalLength();
-    for (let i = 0; i < totalLength; i += 1) {
+    for (let i = 0; i < totalLength; i += f) {
       var { x, y } = p.getPointAtLength(i);
       points.push({ x: Math.ol(x), y: Math.ol(y) });
     }
@@ -710,7 +710,7 @@
       for (var o = 0; o < allpath_len; o++) {
         var f = gid('path')
         allpath[o].id = f
-        register_element(f, pathToSegments(0, f))
+        register_element(f, pathToSegments(0, f, 1))
       }
       for (var o = 0; o < allpoint_len; o++) {
         var f = gid('point')
@@ -975,7 +975,7 @@
         }
         // releaseElement(current_path_id)
         removeElement(current_point_id);
-        var pathSeg = pathToSegments(0, `${current_path_id}`);
+        var pathSeg = pathToSegments(0, `${current_path_id}`, 5);
       } else {
         var pathSeg = penPoints
         register_id = current_point_id
