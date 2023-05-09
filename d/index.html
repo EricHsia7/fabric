@@ -877,7 +877,7 @@
           speed_log.push(s)
         }
 
-        current_pen_width = Math.max(pen_width_base, Math.min(pen_width_base * 0.6 * 2 + pen_width_base, pen_width_base * (1 / speed)))
+        current_pen_width = Math.max(pen_width_base, Math.min(pen_width_base * 0.8 * 2 + pen_width_base, pen_width_base * (1 / speed)))
 
         canvas_ctx.lineCap = "round";
         canvas_ctx.lineWidth = current_pen_width * dpr
@@ -889,7 +889,7 @@
           radius *= (1 + force / 0.25) / 2
         }
 
-        radius = Math.min(Math.max(Math.max(Math.min(radius - 0.05, radius), radius + 0.05), 0), pen_width_base * 0.6)
+        radius = Math.min(Math.max(Math.max(Math.min(radius - 0.05, radius), radius + 0.05), 0), pen_width_base * 0.8)
 
         var cx1 = (x) + radius * Math.cos(2 * Math.PI * a1 / 360)
         var cy1 = (y) + radius * Math.sin(2 * Math.PI * a1 / 360)
