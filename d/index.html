@@ -886,7 +886,7 @@
         canvas_ctx.stroke(path_main);
         var radius = current_pen_width
         if (pen_type === 1) {
-          radius *= (1 + force / 0.25) / 2
+          radius += (1 + force / 0.25) / 2
         }
 
         radius = Math.min(Math.max(Math.max(Math.min(radius - 0.05, radius), radius + 0.05), 0), pen_width_base * 0.8)
