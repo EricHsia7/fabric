@@ -395,8 +395,8 @@
   var x = 0;
   var y = 0;
   var current_pen_color = "var(--d-pen-000000-color)";
-  var pen_width_base = 1.7
-  var current_pen_width = 1.5
+  var pen_width_base = 3
+  var current_pen_width = 3
   var s_block_size = 45
   var block_size = 10
   var current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
@@ -876,7 +876,7 @@
           speed_log.push(s)
         }
 
-        current_pen_width = Math.min(Math.max(Math.min(Math.max(pen_width_base * 0.75 + pen_width_base * (1 / (speed)) * 0.25, pen_width_base), pen_width_base * (1 + 0.5)), current_pen_width - (0.01)), current_pen_width + (0.1))
+        current_pen_width = Math.max(pen_width_base, Math.min(pen_width_base * 0.66 * 2 + pen_width_base, pen_width_base * (1 / speed)))
 
         canvas_ctx.lineCap = "round";
         canvas_ctx.lineWidth = current_pen_width * dpr
@@ -887,7 +887,8 @@
         if (pen_type === 1) {
           radius *= (1 + force / 0.25) / 2
         }
-        radius = Math.min(radius - 0.01, current_pen_width)
+
+        radius = Math.max(Math.min(radius - 0.01, current_pen_width * 0.66), 0)
 
         var cx1 = (x) + radius * Math.cos(2 * Math.PI * a1 / 360)
         var cy1 = (y) + radius * Math.sin(2 * Math.PI * a1 / 360)
