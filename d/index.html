@@ -395,8 +395,8 @@
   var x = 0;
   var y = 0;
   var current_pen_color = "var(--d-pen-000000-color)";
-  var pen_width_base = 3
-  var current_pen_width = 3
+  var pen_width_base = 1.2
+  var current_pen_width = 1.2
   var s_block_size = 45
   var block_size = 10
   var current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
@@ -751,7 +751,7 @@
     if (e.targetTouches.length < 2) {
       if (!rubber_eraser) {
         pendown = true;
-        drawPath("", current_path_id);
+        drawPath("", `${current_path_id}_main`);
         drawPoint(x, y, current_point_id);
         penPoints.push({ x: x, y: y });
         path_main = new Path2D()
@@ -782,7 +782,7 @@
     if (move) {
       if (pendown) {
         removeElement(current_point_id);
-        removeElement(current_path_id);
+        removeElement(`${current_path_id}_main`);
         pendown = false
       }
       if (rubber_eraser) {
@@ -888,7 +888,7 @@
           radius *= (1 + force / 0.25) / 2
         }
 
-        radius = Math.max(Math.min(radius - 0.01, current_pen_width * 0.66), 0)
+        radius = Math.max(Math.min(Math.max(Math.min(radius - 0.01, current_pen_width * 0.66), 0), radius + 0.01), radius - 0.01)
 
         var cx1 = (x) + radius * Math.cos(2 * Math.PI * a1 / 360)
         var cy1 = (y) + radius * Math.sin(2 * Math.PI * a1 / 360)
@@ -964,19 +964,19 @@
           }
         }
         if (pen_type === 1) {
-          updatePath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1.6).concat(simplifyPath(penPoints_b.reverse(), w * 1.6)))), current_path_id, 1)
-          updatePath('', current_path_id, 2, getBoundary(penPoints))
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1.6))), `${current_path_id}_a`, 1)
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1.6))), `${current_path_id}_b`, 1)
 
-          drawPath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 1);
+          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 1);
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
         }
         else {
-          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}`, 0);
-          updatePath('', current_path_id, 2, getBoundary(penPoints))
+          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
+          updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
         }
         // releaseElement(current_path_id)
         removeElement(current_point_id);
-        var pathSeg = pathToSegments(0, `${current_path_id}`, 5);
+        var pathSeg = pathToSegments(0, `${current_path_id}_main`, 5);
       } else {
         var pathSeg = penPoints
         register_id = current_point_id
