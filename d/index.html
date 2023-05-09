@@ -880,7 +880,7 @@
         current_pen_width = Math.max(pen_width_base, Math.min(pen_width_base * 0.8 * 2 + pen_width_base, pen_width_base * (1 / speed)))
 
         canvas_ctx.lineCap = "round";
-        canvas_ctx.lineWidth = current_pen_width * dpr
+        canvas_ctx.lineWidth = pen_width_base * dpr
         canvas_ctx.strokeStyle = current_pen_color_snapshot;
         path_main.lineTo((x + offset_x) * dpr, (y + offset_y) * dpr);
         canvas_ctx.stroke(path_main);
