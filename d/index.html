@@ -897,8 +897,8 @@
         var cx2 = (x) + radius * Math.cos(2 * Math.PI * a2 / 360)
         var cy2 = (y) + radius * Math.sin(2 * Math.PI * a2 / 360)
 
-        var radius_a = (radius - current_pen_width / 2) * dpr
-        canvas_ctx.lineWidth = current_pen_width * dpr
+        var radius_a = (radius) * dpr
+        canvas_ctx.lineWidth = pen_width_base * dpr
 
         var s_cx1 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a1 / 360)
         var s_cy1 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a1 / 360)
