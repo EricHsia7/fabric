@@ -889,7 +889,7 @@
           radius *= (1 + force / 0.25) / 2
         }
 
-        radius = Math.min(Math.max(Math.max(Math.min(radius - 0.01, radius), radius + 0.01), 0), current_pen_width * 0.5)
+        radius = Math.min(Math.max(Math.max(Math.min(radius - 0.01, radius), radius + 0.01), 0), pen_width_base * 0.8)
 
         var cx1 = (x) + radius * Math.cos(2 * Math.PI * a1 / 360)
         var cy1 = (y) + radius * Math.sin(2 * Math.PI * a1 / 360)
