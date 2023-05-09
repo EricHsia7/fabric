@@ -781,7 +781,8 @@
     y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
     if (move) {
       if (pendown) {
-        removeElement(current_point_id);
+        removeElement(`${current_path_id}_a`);
+        removeElement(`${current_path_id}_b`);
         removeElement(`${current_path_id}_main`);
         pendown = false
       }
@@ -964,10 +965,10 @@
           }
         }
         if (pen_type === 1) {
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1.6))), `${current_path_id}_a`, 1)
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1.6))), `${current_path_id}_b`, 1)
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1.6))), `${current_path_id}_a`)
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1.6))), `${current_path_id}_b`)
 
-          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 1);
+          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
         }
         else {
