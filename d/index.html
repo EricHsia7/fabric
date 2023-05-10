@@ -395,8 +395,8 @@
   var x = 0;
   var y = 0;
   var current_pen_color = "var(--d-pen-000000-color)";
-  var pen_width_base = 1.2
-  var current_pen_width = 1.2
+  var pen_width_base = 2
+  var current_pen_width = 2
   var s_block_size = 45
   var block_size = 10
   var current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
@@ -888,7 +888,7 @@
         path_main.lineTo((x + offset_x) * dpr, (y + offset_y) * dpr);
         canvas_ctx.stroke(path_main);
         var radius = current_pen_width
-        radius = Math.min(Math.max(current_pen_width * 0.5 - pen_width_base * 0.5, 0), pen_width_base * 0.5)
+        radius = Math.min(Math.max(current_pen_width * 0.5 - pen_width_base * 0.5, 0), pen_width_base * 0.66)
 
         var cx1 = (x) + radius * Math.cos(2 * Math.PI * a1 / 360)
         var cy1 = (y) + radius * Math.sin(2 * Math.PI * a1 / 360)
