@@ -1017,7 +1017,22 @@
     drawBlocks(window.innerWidth, window.innerHeight);
   });
 
+  function standardizeCoordinates(coordinates) {
+    var xValues = coordinates.map(coord => coord.x); // Extract x-coordinates from coordinates array
+    var yValues = coordinates.map(coord => coord.y); // Extract y-coordinates from coordinates array
 
+    var xMean = xValues.reduce((sum, value) => sum + value, 0) / xValues.length; // Calculate mean of x-coordinates
+    var yMean = yValues.reduce((sum, value) => sum + value, 0) / yValues.length; // Calculate mean of y-coordinates
+
+    var xStdDev = Math.sqrt(xValues.reduce((sum, value) => sum + Math.pow(value - xMean, 2), 0) / xValues.length); // Calculate standard deviation of x-coordinates
+    var yStdDev = Math.sqrt(yValues.reduce((sum, value) => sum + Math.pow(value - yMean, 2), 0) / yValues.length); // Calculate standard deviation of y-coordinates
+    var standardizedCoordinates = coordinates.map(coord => {
+      var standardizedX = (coord.x - xMean) / xStdDev; // Standardize x-coordinate
+      var standardizedY = (coord.y - yMean) / yStdDev; // Standardize y-coordinate
+      return { x: standardizedX, y: standardizedY }; // Return standardized coordinate
+    });
+    return standardizedCoordinates
+  }
 
   function getLine(x, y) {
     var x_avg = getAvgerage(x)
