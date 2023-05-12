@@ -874,7 +874,7 @@
         if (pen_type === 1) {
           f2 = force
         }
-        current_pen_width = pen_width_base + (pen_width_base * 0.66) * Math.pow(f2, 0.4) + (pen_width_base * 0.66) * speed
+        current_pen_width = pen_width_base + (pen_width_base * 0.66) * Math.pow(f2, 0.4) * 2 - (pen_width_base * 0.66) * speed
 
         canvas_ctx.lineCap = "round";
         canvas_ctx.lineWidth = pen_width_base * dpr
@@ -1039,7 +1039,7 @@
     var correlation = covariance / (xStdDev * yStdDev);
     return correlation
   }
-  
+
   function getLine(x, y) {
     var x_avg = getAvgerage(x)
     var y_avg = getAvgerage(y)
