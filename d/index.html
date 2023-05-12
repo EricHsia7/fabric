@@ -1026,7 +1026,20 @@
     });
     return standardizedCoordinates
   }
-
+  function getCorrelation(xValues, yValues) {
+    var xMean = xValues.reduce((sum, value) => sum + value, 0) / xValues.length;
+    var yMean = yValues.reduce((sum, value) => sum + value, 0) / yValues.length;
+    var xStdDev = Math.sqrt(xValues.reduce((sum, value) => sum + Math.pow(value - xMean, 2), 0) / xValues.length);
+    var yStdDev = Math.sqrt(yValues.reduce((sum, value) => sum + Math.pow(value - yMean, 2), 0) / yValues.length);
+    var covariance = 0;
+    for (let i = 0; i < xValues.length; i++) {
+      covariance += (xValues[i] - xMean) * (yValues[i] - yMean);
+    }
+    covariance /= xValues.length - 1;
+    var correlation = covariance / (xStdDev * yStdDev);
+    return correlation
+  }
+  
   function getLine(x, y) {
     var x_avg = getAvgerage(x)
     var y_avg = getAvgerage(y)
