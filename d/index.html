@@ -807,9 +807,6 @@
     y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
     if (move) {
       if (pendown) {
-        removeElement(`${current_path_id}_a`);
-        removeElement(`${current_path_id}_b`);
-        removeElement(`${current_path_id}_main`);
         pendown = false
       }
       if (rubber_eraser) {
@@ -949,8 +946,10 @@
             var all_id_len = all_id.length
 
             for (var e in all_id) {
-              var oo = removeElement(e);
-              var oo = removeElement(`${e}_main`);
+              removeElement(`${e}_a`);
+        removeElement(`${e_b`);
+        removeElement(`${e}_main`);
+        removeElement(`${e}`);
               delete svg_canvas_points["w_" + op[0]]["h_" + op[1]][e];
             }
           }
