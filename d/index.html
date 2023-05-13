@@ -1064,8 +1064,6 @@
         for (var e = 0; e < coordinates_len; e++) {
           shape_coordinates.push({ x: radius * Math.cos(2 * Math.PI * 360 / coordinates_len * e / 360), y: radius * Math.sin(2 * Math.PI * 360 / coordinates_len * e / 360) })
         }
-        shape_coordinates = standardizeCoordinates(shape_coordinates)
-        var correlation = getCorrelation(coordinates.map(coord => coord.x), shape_coordinates.map(coord => coord.x)) * getCorrelation(coordinates.map(coord => coord.y), shape_coordinates.map(coord => coord.y))
       }
       if (shape_list[w].type === 'rect') {
         var shape_coordinates = []
@@ -1088,11 +1086,18 @@
             start = { x: boundary[0].x, y: boundary[1].y }
             end = { x: boundary[0].x, y: boundary[0].y }
           }
-          for (var q = 0; q < coordinates_len / 4; q++) {
+          for (var q = 0; q < Math.floor(coordinates_len / 4); q++) {
             shape_coordinates.push({ x: start.x + (end.x - start.x) * (q / (coordinates_len / 4)), y: start.y + (end.y - start.y) * (q / (coordinates_len / 4)) })
           }
+
+        }
+        for (var t = 0; t < coordinates_len - shape_coordinates; t++) {
+          shape_coordinates.push(shape_coordinates[shape_coordinates.length - 1])
         }
       }
+      shape_coordinates = standardizeCoordinates(shape_coordinates)
+      var correlation = getCorrelation(coordinates.map(coord => coord.x), shape_coordinates.map(coord => coord.x)) * getCorrelation(coordinates.map(coord => coord.y), shape_coordinates.map(coord => coord.y))
+
       correlation_coefficient.push({ 'type': shape_list[w].type, correlation: Math.abs(correlation) })
     }
     correlation_coefficient.sort(function (a, b) {
