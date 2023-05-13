@@ -410,6 +410,7 @@
   var current_path_points = {};
   var current_path_id = gid("path");
   var current_point_id = gid("point");
+  var current_rect_id = gid("rect")
   var current_path_points_offset = 0
   var rubber_eraser = false;
   var pen_type = 1 //0:ball_pen,1:fountain_pen,2:shapes
@@ -650,6 +651,20 @@
       p.setAttributeNS(null, "stroke", current_pen_color);
       p.setAttributeNS(null, "stroke-width", pen_width_base);
     }
+  }
+  function drawRect(x1, y1, x2, y2, s) {
+    var p = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    p.setAttributeNS(null, "x", x1);
+    p.setAttributeNS(null, "y", y1);
+    p.setAttributeNS(null, "width", x2 - x1);
+    p.setAttributeNS(null, "height", y2 - y1);
+    p.setAttributeNS(null, "stroke-width", pen_width_base);
+    p.setAttributeNS(null, "stroke", current_pen_color);
+    p.setAttributeNS(null, "fill", "none");
+    p.setAttributeNS(null, "stroke-linecap", "round");
+    p.setAttributeNS(null, "fill-rule", "nonzero");
+    p.setAttributeNS(null, "id", s);
+    svg_canvas_p.appendChild(p);
   }
   function releaseElement(s) {
     var p = document.querySelector("#" + s);
@@ -989,7 +1004,12 @@
               var shape = recognizeShapes(penPoints)
               var boundary = getBoundary(penPoints)
               removeElement(current_path_id);
-              updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id,1)
+              if (shape[0].type === 'circle') {
+                updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id, 1)
+              }
+              if (shape[0].type === 'rect') {
+                drawRect(boundary[0].x, boundary[0].y, boundary[1].x, boundary[1].y, current_rect_id)
+              }
             }
           }
         }
