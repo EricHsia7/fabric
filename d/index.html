@@ -985,7 +985,7 @@
               var boundary = getBoundary(penPoints)
               updatePath(segmentsToPath(simplifyPath(shape[0].penPoints, w)), `${current_path_id}_main`, 0);
               updatePath('', `${current_path_id}_main`, 2, getBoundary(shape[0].penPoints))
-              updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 2, current_path_id)
+              updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 2, current_point_id)
             }
           }
         }
