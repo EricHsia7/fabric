@@ -1091,8 +1091,13 @@
           }
 
         }
-        for (var t = 0; t < coordinates_len - shape_coordinates; t++) {
-          shape_coordinates.push(shape_coordinates[shape_coordinates.length - 1])
+        for (var t = 0; t < Math.abs(coordinates_len - shape_coordinates); t++) {
+          if (coordinates_len - shape_coordinates > 0) {
+            shape_coordinates.push(shape_coordinates[shape_coordinates.length - 1])
+          }
+          else {
+            shape_coordinates.splice(shape_coordinates.length - 1, 1)
+          }
         }
       }
       shape_coordinates = standardizeCoordinates(shape_coordinates)
