@@ -1091,8 +1091,9 @@
           }
 
         }
-        for (var t = 0; t < Math.abs(coordinates_len - shape_coordinates); t++) {
-          if (coordinates_len - shape_coordinates > 0) {
+        var shape_coordinates_len = shape_coordinates.length
+        for (var t = 0; t < Math.abs(coordinates_len - shape_coordinates_len); t++) {
+          if (coordinates_len - shape_coordinates_len > 0) {
             shape_coordinates.push(shape_coordinates[shape_coordinates.length - 1])
           }
           else {
