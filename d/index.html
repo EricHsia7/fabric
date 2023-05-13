@@ -974,7 +974,7 @@
           else {
             if (pen_type === 2) {
               var shape = recognizeShapes(penPoints)
-              console.log(shape)
+              console.log(shape,shape[0].type)
             }
           }
         }
@@ -1107,7 +1107,7 @@
       correlation_coefficient.push({ 'type': shape_list[w].type, correlation: Math.abs(correlation) })
     }
     correlation_coefficient.sort(function (a, b) {
-      return a.correlation - b.correlation
+      return b.correlation - a.correlation
     })
     return correlation_coefficient
   }
