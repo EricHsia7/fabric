@@ -515,7 +515,7 @@
     p.setAttributeNS(null, "id", s);
     p.setAttributeNS(null, "cx", x);
     p.setAttributeNS(null, "cy", y);
-    p.setAttributeNS(null, "r", 1);
+    p.setAttributeNS(null, "r", r);
     p.setAttributeNS(null, "fill", current_pen_color);
     svg_canvas_p.appendChild(p);
   }
@@ -644,7 +644,7 @@
     var p = document.querySelector("#" + s);
     p.setAttributeNS(null, "cx", x);
     p.setAttributeNS(null, "cy", y);
-    p.setAttributeNS(null, "r", 1);
+    p.setAttributeNS(null, "r", r);
   }
   function releaseElement(s) {
     var p = document.querySelector("#" + s);
