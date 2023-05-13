@@ -640,11 +640,16 @@
     }
 
   }
-  function updatePoint(x, y, r, s) {
+  function updatePoint(x, y, r, s, c) {
     var p = document.querySelector("#" + s);
     p.setAttributeNS(null, "cx", x);
     p.setAttributeNS(null, "cy", y);
     p.setAttributeNS(null, "r", r);
+    if (c === 1) {
+      p.setAttributeNS(null, "fill", "none");
+      p.setAttributeNS(null, "stroke", current_pen_color);
+      p.setAttributeNS(null, "stroke-width", pen_width_base);
+    }
   }
   function releaseElement(s) {
     var p = document.querySelector("#" + s);
@@ -983,9 +988,8 @@
             if (pen_type === 2) {
               var shape = recognizeShapes(penPoints)
               var boundary = getBoundary(penPoints)
-              updatePath(segmentsToPath(simplifyPath(shape[0].penPoints, w)), `${current_path_id}_main`, 0);
-              updatePath('', `${current_path_id}_main`, 2, getBoundary(shape[0].penPoints))
-              updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id)
+              removeElement(current_path_id);
+              updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id,1)
             }
           }
         }
