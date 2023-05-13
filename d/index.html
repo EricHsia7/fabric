@@ -1004,11 +1004,13 @@
               var shape = recognizeShapes(penPoints)
               var boundary = getBoundary(penPoints)
               removeElement(current_path_id);
-              if (shape[0].type === 'circle') {
-                updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id, 1)
-              }
-              if (shape[0].type === 'rect') {
-                drawRect(boundary[0].x, boundary[0].y, boundary[1].x, boundary[1].y, current_rect_id)
+              if (shape[0].correlation >= 0.2) {
+                if (shape[0].type === 'circle') {
+                  updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id, 1)
+                }
+                if (shape[0].type === 'rect') {
+                  drawRect(boundary[0].x, boundary[0].y, boundary[1].x, boundary[1].y, current_rect_id)
+                }
               }
             }
           }
