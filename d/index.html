@@ -1050,7 +1050,7 @@
   }
   function recognizeShapes(coordinates_o) {
     var boundary = getBoundary(coordinates_o)
-  var  coordinates = standardizeCoordinates(coordinates_o)
+    var coordinates = standardizeCoordinates(coordinates_o)
     var coordinates_len = coordinates.length
     var shape_list = [{ 'type': 'circle' }, { 'type': 'rect' }, { 'type': 'triangle' }]
     var shape_list_len = shape_list.length
@@ -1062,7 +1062,7 @@
           shape_coordinates.push({ x: radius * Math.cos(2 * Math.PI * 360 / coordinates_len * e / 360), y: radius * Math.sin(2 * Math.PI * 360 / coordinates_len * e / 360) })
         }
         shape_coordinates = standardizeCoordinates(shape_coordinates)
-        var correlation = getCorrelation(coordinates,shape_coordinates)
+        var correlation = getCorrelation(coordinates.map(coord => coord.x), shape_coordinates.map(coord => coord.x)) * getCorrelation(coordinates.map(coord => coord.y), shape_coordinates.map(coord => coord.y))
         correlation_coefficient.push(correlation)
       }
     }
