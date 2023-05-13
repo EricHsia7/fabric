@@ -1101,6 +1101,9 @@
           }
         }
       }
+      if (shape_list[w].type === 'triangle') {
+        continue
+      }
       shape_coordinates = standardizeCoordinates(shape_coordinates)
       var correlation = getCorrelation(coordinates.map(coord => coord.x), shape_coordinates.map(coord => coord.x)) * getCorrelation(coordinates.map(coord => coord.y), shape_coordinates.map(coord => coord.y))
 
