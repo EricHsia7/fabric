@@ -985,7 +985,7 @@
               var boundary = getBoundary(penPoints)
               updatePath(segmentsToPath(simplifyPath(shape[0].penPoints, w)), `${current_path_id}_main`, 0);
               updatePath('', `${current_path_id}_main`, 2, getBoundary(shape[0].penPoints))
-              updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 2, current_point_id)
+              updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id)
             }
           }
         }
@@ -1069,7 +1069,7 @@
     var correlation_coefficient = []
     for (var w = 0; w < shape_list_len; w++) {
       if (shape_list[w].type === 'circle') {
-        var radius = (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 2
+        var radius = (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4
         var shape_coordinates = []
         for (var e = 0; e < coordinates_len; e++) {
           shape_coordinates.push({ x: radius * Math.cos(2 * Math.PI * 360 / coordinates_len * e / 360), y: radius * Math.sin(2 * Math.PI * 360 / coordinates_len * e / 360) })
