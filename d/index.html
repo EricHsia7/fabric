@@ -1067,6 +1067,32 @@
         shape_coordinates = standardizeCoordinates(shape_coordinates)
         var correlation = getCorrelation(coordinates.map(coord => coord.x), shape_coordinates.map(coord => coord.x)) * getCorrelation(coordinates.map(coord => coord.y), shape_coordinates.map(coord => coord.y))
       }
+      if (shape_list[w].type === 'rect') {
+        var shape_coordinates = []
+        for (var t = 0; t < 4; t++) {
+          var start
+          var end
+          if (t === 0) {
+            start = { x: boundary[0].x, y: boundary[0].y }
+            end = { x: boundary[1].x, y: boundary[0].y }
+          }
+          if (t === 1) {
+            start = { x: boundary[1].x, y: boundary[0].y }
+            end = { x: boundary[1].x, y: boundary[1].y }
+          }
+          if (t === 2) {
+            start = { x: boundary[1].x, y: boundary[1].y }
+            end = { x: boundary[0].x, y: boundary[1].y }
+          }
+          if (t === 3) {
+            start = { x: boundary[0].x, y: boundary[1].y }
+            end = { x: boundary[0].x, y: boundary[0].y }
+          }
+          for (var q = 0; q < coordinates_len / 4; q++) {
+            shape_coordinates.push()
+          }
+        }
+      }
       correlation_coefficient.push({ 'type': shape_list[w].type, correlation: Math.abs(correlation) })
     }
     correlation_coefficient.sort(function (a, b) {
