@@ -510,7 +510,7 @@
     var hc = String(Math.floor(y / block_size) + 1).replaceAll('-', 'i')
     return [wc, hc];
   }
-  function drawPoint(x, y, s) {
+  function drawPoint(x, y, r, s) {
     var p = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     p.setAttributeNS(null, "id", s);
     p.setAttributeNS(null, "cx", x);
@@ -640,6 +640,12 @@
     }
 
   }
+  function updatePoint(x, y, r, s) {
+    var p = document.querySelector("#" + s);
+    p.setAttributeNS(null, "cx", x);
+    p.setAttributeNS(null, "cy", y);
+    p.setAttributeNS(null, "r", 1);
+  }
   function releaseElement(s) {
     var p = document.querySelector("#" + s);
     if (!(p === null)) {
@@ -752,7 +758,7 @@
       if (!rubber_eraser) {
         pendown = true;
         drawPath("", `${current_path_id}_main`);
-        drawPoint(x, y, current_point_id);
+        drawPoint(x, y, 1, current_point_id);
         penPoints.push({ x: x, y: y });
         path_main = new Path2D()
         path_a = new Path2D()
@@ -965,22 +971,25 @@
 
           updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
+          removeElement(current_point_id);
         }
         else {
           if (pen_type === 0) {
             updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
             updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
+            removeElement(current_point_id);
           }
           else {
             if (pen_type === 2) {
               var shape = recognizeShapes(penPoints)
+              var boundary = getBoundary(penPoints)
               updatePath(segmentsToPath(simplifyPath(shape[0].penPoints, w)), `${current_path_id}_main`, 0);
               updatePath('', `${current_path_id}_main`, 2, getBoundary(shape[0].penPoints))
+              updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 2, current_path_id)
             }
           }
         }
         // releaseElement(current_path_id)
-        removeElement(current_point_id);
         var pathSeg = pathToSegments(0, `${current_path_id}_main`, 5);
       } else {
         var pathSeg = penPoints
