@@ -974,6 +974,7 @@
           else {
             if (pen_type === 2) {
               var shape = recognizeShapes(penPoints)
+              console(shape)
             }
           }
         }
@@ -993,7 +994,7 @@
       canvas_ctx.closePath();
       canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
       svg_canvas_history.push(svg_canvas_p.innerHTML);
-      current_path_id = gid("path");
+      current_path_id = gid("path");s
       current_point_id = gid("point");
     }
     if (rubber_eraser) {
