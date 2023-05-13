@@ -412,7 +412,7 @@
   var current_point_id = gid("point");
   var current_path_points_offset = 0
   var rubber_eraser = false;
-  var pen_type = 1 //0:ball_pen,1:fountain_pen
+  var pen_type = 1 //0:ball_pen,1:fountain_pen,2:shapes
   var force = 0
   var wq = 0
   var lk = false
@@ -967,8 +967,15 @@
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
         }
         else {
-          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
-          updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
+          if (pen_type === 0) {
+            updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
+            updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
+          }
+          else {
+            if (pen_type === 2) {
+              var shape = recognizeShapes(penPoints)
+            }
+          }
         }
         // releaseElement(current_path_id)
         removeElement(current_point_id);
@@ -1041,7 +1048,22 @@
     var correlation = covariance / (xStdDev * yStdDev);
     return correlation
   }
-
+  function recognizeShapes(coordinates_o) {
+    var boundary = getBoundary(coordinates_o)
+  var  coordinates = standardizeCoordinates(coordinates_o)
+    var coordinates_len = coordinates.length
+    var shape_list = [{ 'type': 'circle' }, { 'type': 'rect' }, { 'type': 'triangle' }]
+    var shape_list_len = shape_list.length
+    for (var w = 0; w < shape_list_len; w++) {
+      if (shape_list[w].type === 'circle') {
+        var shape_coordinates = []
+        for (var e = 0; e < coordinates_len; e++) {
+          shape_coordinates.push({ x: radius * Math.cos(2 * Math.PI * 360 / coordinates_len * e / 360), y: radius * Math.sin(2 * Math.PI * 360 / coordinates_len * e / 360) })
+        }
+        shape_coordinates = standardizeCoordinates(shape_coordinates)
+      }
+    }
+  }
   function getLine(x, y) {
     var x_avg = getAvgerage(x)
     var y_avg = getAvgerage(y)
@@ -1055,6 +1077,7 @@
     var line_b = (y_avg) - line_a * (x_avg)
     return { a: line_a, b: line_b, sx: sigma_x, sy: sigma_y }
   }
+
   function getSum(arr) {
     var initialValue = 0
     var sum = arr.reduce(
