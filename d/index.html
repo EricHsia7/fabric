@@ -974,7 +974,8 @@
           else {
             if (pen_type === 2) {
               var shape = recognizeShapes(penPoints)
-              console.log(shape,shape[0].type)
+              updatePath(segmentsToPath(simplifyPath(shape[0].penPoints, w)), `${current_path_id}_main`, 0);
+              updatePath('', `${current_path_id}_main`, 2, getBoundary(shape[0].penPoints))
             }
           }
         }
@@ -1107,7 +1108,7 @@
       shape_coordinates = standardizeCoordinates(shape_coordinates)
       var correlation = getCorrelation(coordinates.map(coord => coord.x), shape_coordinates.map(coord => coord.x)) * getCorrelation(coordinates.map(coord => coord.y), shape_coordinates.map(coord => coord.y))
 
-      correlation_coefficient.push({ 'type': shape_list[w].type, correlation: Math.abs(correlation) })
+      correlation_coefficient.push({ 'type': shape_list[w].type, correlation: Math.abs(correlation), penPoints: shape_coordinates })
     }
     correlation_coefficient.sort(function (a, b) {
       return b.correlation - a.correlation
