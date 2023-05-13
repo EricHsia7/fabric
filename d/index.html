@@ -1007,9 +1007,13 @@
               if (shape[0].correlation >= 0.2) {
                 if (shape[0].type === 'circle') {
                   updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id, 1)
+                  register_id = current_point_id
+                  pathSeg = penPoints
                 }
                 if (shape[0].type === 'rect') {
                   drawRect(boundary[0].x, boundary[0].y, boundary[1].x, boundary[1].y, current_rect_id)
+                register_id = current_rect_id
+                pathSeg = penPoints
                 }
               }
             }
