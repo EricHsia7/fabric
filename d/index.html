@@ -994,7 +994,7 @@
       canvas_ctx.closePath();
       canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
       svg_canvas_history.push(svg_canvas_p.innerHTML);
-      current_path_id = gid("path");s
+      current_path_id = gid("path"); s
       current_point_id = gid("point");
     }
     if (rubber_eraser) {
@@ -1067,7 +1067,7 @@
         shape_coordinates = standardizeCoordinates(shape_coordinates)
         var correlation = getCorrelation(coordinates.map(coord => coord.x), shape_coordinates.map(coord => coord.x)) * getCorrelation(coordinates.map(coord => coord.y), shape_coordinates.map(coord => coord.y))
       }
-      correlation_coefficient.push({ 'type': shape_list[w].type, correlation: correlation })
+      correlation_coefficient.push({ 'type': shape_list[w].type, correlation: Math.abs(correlation) })
     }
     correlation_coefficient.sort(function (a, b) {
       return a.correlation - b.correlation
