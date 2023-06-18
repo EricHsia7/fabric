@@ -958,8 +958,7 @@
     }
   });
   canvas.addEventListener("touchend", function (e) {
-    x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
-    y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
+    
     enableScroll();
     if (move) {
       move = false
