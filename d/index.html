@@ -922,8 +922,8 @@
 
         if (pen_type === 1) {
 
-          penPoints_a.push({ x: Math.ol(cx1), y: Math.ol(cy1), sx: (s_cx1), sy: (s_cy1) })
-          penPoints_b.push({ x: Math.ol(cx2), y: Math.ol(cy2), sx: (s_cx2), sy: (s_cy2) })
+          penPoints_a.push({ x: Math.ol(cx1), y: Math.ol(cy1), sx: (s_cx1), sy: (s_cy1), px: x, py: y })
+          penPoints_b.push({ x: Math.ol(cx2), y: Math.ol(cy2), sx: (s_cx2), sy: (s_cy2), px: x, py: y })
           path_a.lineTo(s_cx1, s_cy1);
           canvas_ctx.stroke(path_a);
           canvas_ctx.closePath(path_a);
@@ -985,8 +985,8 @@
           }
         }
         if (pen_type === 1) {
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1.6))), `${current_path_id}_a`)
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1.6))), `${current_path_id}_b`)
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1))), `${current_path_id}_a`)
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1))), `${current_path_id}_b`)
 
           updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
