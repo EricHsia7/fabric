@@ -450,7 +450,7 @@
     var genidchars =
       "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
     var genid = "";
-    for (var i = 0; i < 16; i++) {
+    for (var i = 0; i < 32; i++) {
       var genrandomNumber = Math.floor(Math.random() * genidchars.length);
       genid += genidchars.substring(genrandomNumber, genrandomNumber + 1);
     }
@@ -722,6 +722,160 @@
       }
     }
   }
+  function getCoordinateOnCircleBorder(centerX, centerY, radius, radian) {
+    var x = parseFloat((centerX + Math.cos(radian) * radius).toFixed(10))
+    var y = parseFloat((centerY + Math.sin(radian) * radius).toFixed(10))
+
+    var degree = radian * (180 / Math.PI)
+    return { x, y, radian, degree }
+  }
+  function drawFountainPenPath(points) {
+    var pathCommand = segmentsToPath(simplifyPath(points, 3));
+    var id = "temporary-path-" + gid();
+    drawPath(pathCommand, id);
+    var sc = -1;
+    var curved_points = pathToSegments(document.querySelector("path#" + id), 3).map(
+      (r) => ({
+        x: r.x,
+        y: r.y,
+        force: (function () {
+          var dd = points
+            .map((a) => ({
+              distance: Math.sqrt(Math.pow(a.x - r.x, 2) + Math.pow(a.y - r.y, 2)),
+              x: a.x,
+              y: a.y,
+              force: a.force,
+              id: a.id
+            }))
+            .sort(function (a, b) {
+              return a.distance - b.distance;
+            });
+          return dd[0].distance < 10 ? dd[0] : -3;
+        })()
+      })
+    );
+
+    curved_points = curved_points.map((d) => {
+      sc += 1;
+      return {
+        x: d.x,
+        y: d.y,
+        force:
+          curved_points[sc - 1] === null
+            ? typeof d.force === "object"
+              ? d.force.force
+              : { f: -3, d: false }
+            : typeof d.force === "object" &&
+              typeof curved_points[sc - 1] === "object"
+              ? curved_points[sc - 1].force.id === d.force.id
+                ? { f: -3, d: false }
+                : { f: d.force.force, d: true }
+              : { f: -3, d: false }
+      };
+    });
+
+    // Add an index to each item
+    curved_points.forEach((point, index) => {
+      point.index = index;
+    });
+
+    // Separate data into two arrays: one with known forces and one with unknown forces
+    var knownForces = curved_points.filter((point) => point.force.d === true);
+    var unknownForces = curved_points.filter((point) => point.force.d === false);
+
+    // Calculate weights based on distances between known force points
+
+    for (let i = 0; i < knownForces.length; i++) {
+
+      var currentKnownPoint = knownForces[i];
+      var prevKnownPoint = knownForces[i - 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true } });
+      var nextKnownPoint = knownForces[i + 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true } });
+      if (i === knownForces.length - 1) {
+        currentKnownPoint.forceFn = getFn(
+          prevKnownPoint.index,
+          prevKnownPoint.force.f,
+          currentKnownPoint.index,
+          currentKnownPoint.force.f
+        );
+        currentKnownPoint.indexRange = [prevKnownPoint.index, currentKnownPoint.index]
+
+      } else {
+        currentKnownPoint.forceFn = getFn(
+          currentKnownPoint.index,
+          currentKnownPoint.force.f,
+          nextKnownPoint.index,
+          nextKnownPoint.force.f
+        );
+
+        currentKnownPoint.indexRange = [currentKnownPoint.index, nextKnownPoint.index]
+      }
+      knownForces.splice(i, 1, currentKnownPoint);
+    }
+
+
+    unknownForces = unknownForces.map((e) => ({
+      x: e.x,
+      y: e.y,
+      force: (function () {
+        var h = knownForces.filter((g) =>
+          (e.index > g.indexRange[0] && e.index < g.indexRange[1]) ? true : false
+        )
+        if (h.length === 0) {
+          if (e.index < knownForces[0].indexRange[0] && e.index >= 0) {
+            return knownForces[0]
+          }
+          else {
+            if (e.index > knownForces[0].indexRange[1]) {
+              return knownForces[knownForces.length - 1]
+            }
+          }
+          return 0
+        }
+        else {
+          return h[0]
+        }
+
+      }()).forceFn(e.index),
+      index: e.index
+    }));
+    // Sort the array by index
+    curved_points = unknownForces.concat(knownForces.map(e => ({ x: e.x, y: e.y, force: e.force.f, index: e.index })))
+    curved_points.sort((a, b) => a.index - b.index);
+    curved_points.forEach((f, index) => {
+      var current = curved_points[index]
+      var prev = curved_points[index - 1] || current
+      var next = curved_points[index + 1] || current
+      var x1 = prev.x
+      var y1 = prev.y
+      var x2 = next.x
+      var y2 = next.y
+      var angleRadians
+      if (x2 - x1 === 0) {
+        // Handle vertical line (x-coordinates are the same)
+        if (y2 > y1) {
+          angleRadians = Math.PI / 2;  // 90 degrees or π/2 radians
+        } else if (y2 < y1) {
+          angleRadians = -Math.PI / 2; // -90 degrees or -π/2 radians
+        } else {
+          angleRadians = 0;  // Points are the same (angle is 0 radians)
+        }
+      } else {
+        // Non-vertical line
+        angleRadians = Math.atan2(y2 - y1, x2 - x1) + (Math.PI * 0.5);
+        // Ensure the angle is positive (between 0 and 2π)
+        if (angleRadians < 0) {
+          angleRadians += 2 * Math.PI;
+        }
+      }
+      curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, f.force * 5, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, f.force * 5, angleRadians + Math.PI) })
+    })
+    removeElement(id)
+    var ftid = gid()
+    drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid)
+
+  }
+
+
   function openWhiteboardByID(id, callback) {
     if (x_storage.hasOwnProperty(id)) {
       set_urlparams('id', id)
@@ -990,7 +1144,7 @@
           drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1))), `${current_path_id}_b`)
 
           updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
-        //  updatePath(segmentsToPath(simplifyPath(penPoints_b, w * 1).concat(simplifyPath(penPoints_a, w * 1).reverse())), `${current_path_id}_main`, 0);
+          //  updatePath(segmentsToPath(simplifyPath(penPoints_b, w * 1).concat(simplifyPath(penPoints_a, w * 1).reverse())), `${current_path_id}_main`, 0);
 
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
           removeElement(current_point_id);
