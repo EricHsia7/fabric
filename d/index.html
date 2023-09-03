@@ -745,6 +745,7 @@
               x: a.x,
               y: a.y,
               force: a.force,
+              time_stamp: a.time_stamp,
               id: a.id
             }))
             .sort(function (a, b) {
@@ -769,7 +770,7 @@
               typeof curved_points[sc - 1] === "object"
               ? curved_points[sc - 1].force.id === d.force.id
                 ? { f: -3, d: false }
-                : { f: d.force.force, d: true }
+                : { f: d.force.force, d: true, time_stamp: d.time_stamp }
               : { f: -3, d: false }
       };
     });
@@ -786,7 +787,6 @@
     // Calculate weights based on distances between known force points
 
     for (let i = 0; i < knownForces.length; i++) {
-
       var currentKnownPoint = knownForces[i];
       var prevKnownPoint = knownForces[i - 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true } });
       var nextKnownPoint = knownForces[i + 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true } });
@@ -867,12 +867,13 @@
           angleRadians += 2 * Math.PI;
         }
       }
-      curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, f.force * 5, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, f.force * 5, angleRadians + Math.PI) })
+      var radius = (pen_width_base + (pen_width_base * 0.66) * Math.pow(f.force, 0.4) + (pen_width_base * 0.66) * speed)
+      curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI) })
     })
+    console.log(curved_points)
     removeElement(id)
     var ftid = gid()
-    drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid)
-
+   // drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid)
   }
 
 
@@ -1148,6 +1149,7 @@
 
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
           removeElement(current_point_id);
+          drawFountainPenPath(penPoints)
         }
         else {
           if (pen_type === 0) {
@@ -1190,7 +1192,7 @@
       canvas_ctx.closePath();
       canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
       svg_canvas_history.push(svg_canvas_p.innerHTML);
-      current_path_id = gid("path"); s
+      current_path_id = gid("path");
       current_point_id = gid("point");
     }
     if (rubber_eraser) {
