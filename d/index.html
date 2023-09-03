@@ -801,8 +801,8 @@
       var prevKnownPoint = knownForces[i - 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true, time_stamp: 0 } });
       var nextKnownPoint = knownForces[i + 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true, time_stamp: end_time - start_time } });
       if (i === knownForces.length - 1) {
-        var prevSpeed = (Math.sqrt(Math.pow(prevKnownPoint2.x - prevKnownPoint.x, 2) + Math.pow(prevKnownPoint2.y - prevKnownPoint.y, 2))) / (prevKnownPoint.force.time_stamp - prevKnownPoint2.force.time_stamp)
-        var currentSpeed = (Math.sqrt(Math.pow(currentKnownPoint.x - prevKnownPoint.x, 2) + Math.pow(currentKnownPoint.y - prevKnownPoint.y, 2))) / (currentKnownPoint.force.time_stamp - prevKnownPoint.force.time_stamp)
+        var prevSpeed = (Math.sqrt(Math.pow(prevKnownPoint2.x - prevKnownPoint.x, 2) + Math.pow(prevKnownPoint2.y - prevKnownPoint.y, 2))) / Math.max(1, prevKnownPoint.force.time_stamp - prevKnownPoint2.force.time_stamp)
+        var currentSpeed = (Math.sqrt(Math.pow(currentKnownPoint.x - prevKnownPoint.x, 2) + Math.pow(currentKnownPoint.y - prevKnownPoint.y, 2))) / Math.max(1, currentKnownPoint.force.time_stamp - prevKnownPoint.force.time_stamp)
 
         currentKnownPoint.forceFn = getFn(
           prevKnownPoint.index,
@@ -819,8 +819,8 @@
         currentKnownPoint.force.speed = currentSpeed
         currentKnownPoint.indexRange = [prevKnownPoint.index, currentKnownPoint.index]
       } else {
-        var currentSpeed = (Math.sqrt(Math.pow(currentKnownPoint.x - prevKnownPoint.x, 2) + Math.pow(currentKnownPoint.y - prevKnownPoint.y, 2))) / (currentKnownPoint.force.time_stamp - prevKnownPoint.force.time_stamp)
-        var nextSpeed = (Math.sqrt(Math.pow(nextKnownPoint.x - currentKnownPoint.x, 2) + Math.pow(nextKnownPoint.y - currentKnownPoint.y, 2))) / (nextKnownPoint.force.time_stamp - currentKnownPoint.force.time_stamp)
+        var currentSpeed = (Math.sqrt(Math.pow(currentKnownPoint.x - prevKnownPoint.x, 2) + Math.pow(currentKnownPoint.y - prevKnownPoint.y, 2))) / Math.max(1, currentKnownPoint.force.time_stamp - prevKnownPoint.force.time_stamp)
+        var nextSpeed = (Math.sqrt(Math.pow(nextKnownPoint.x - currentKnownPoint.x, 2) + Math.pow(nextKnownPoint.y - currentKnownPoint.y, 2))) / Math.max(1, nextKnownPoint.force.time_stamp - currentKnownPoint.force.time_stamp)
         currentKnownPoint.forceFn = getFn(
           currentKnownPoint.index,
           currentKnownPoint.force.f,
