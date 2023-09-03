@@ -1328,6 +1328,16 @@
     return correlation_coefficient
   }
 
+  function getFn(x0, y0, x1, y1) {
+    var a = x1 - x0;
+    var b = y1 - y0;
+    var m = b / a;
+    var k = (b * x1 - a * y1) / (-1 * a);
+    return function (x) {
+      return x * m + k
+      //Math.min(Math.max(x * m + k, Math.min(y0, y1)), Math.max(y0, y1));
+    };
+  }
 
   function getLine(x, y) {
     var x_avg = getAvgerage(x)
