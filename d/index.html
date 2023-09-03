@@ -731,6 +731,8 @@
   }
   function drawFountainPenPath(points) {
     var start_time = points[0].time_stamp
+    var end_time = points[points.length-1].time_stamp
+
     points = points.map(g => ({
       x: g.x, y: g.y, force: g.force, time_stamp: g.time_stamp-start_time, id: gid()
     }))
@@ -795,8 +797,8 @@
 
     for (let i = 0; i < knownForces.length; i++) {
       var currentKnownPoint = knownForces[i];
-      var prevKnownPoint = knownForces[i - 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true } });
-      var nextKnownPoint = knownForces[i + 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true } });
+      var prevKnownPoint = knownForces[i - 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true ,time_stamp:0} });
+      var nextKnownPoint = knownForces[i + 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true,time_stamp:end_time-start_time } });
       if (i === knownForces.length - 1) {
         currentKnownPoint.forceFn = getFn(
           prevKnownPoint.index,
