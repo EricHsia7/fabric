@@ -1172,7 +1172,7 @@
       penPoints_a.push({ x: x, y: y, sx: x, sy: y });
       penPoints_b.push({ x: x, y: y, sx: x, sy: y });
       var register_id = current_path_id
-      if (penPoints.length > 3) {
+      if (penPoints.length >= 2) {
         var w = Math.ol(penPoints.length / 50);
         if (w < 0.5) {
           w = 0.1;
