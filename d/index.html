@@ -777,7 +777,7 @@
             typeof curved_points[sc - 1] === "object"
             ? curved_points[sc - 1].force.id === d.force.id
               ? { f: -3, d: false }
-              : { f: d.force.force, d: true, time_stamp: d.time_stamp }
+              : { f: d.force.force, d: true, time_stamp: d.force.time_stamp }
             : { f: -3, d: false }
       };
     });
