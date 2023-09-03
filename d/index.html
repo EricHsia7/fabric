@@ -870,7 +870,11 @@
           angleRadians += 2 * Math.PI;
         }
       }
-      var radius = (pen_width_base + (pen_width_base * 0.66) * Math.pow(f.force, 0.4) + (pen_width_base * 0.66) * speed)
+      /*
+      var s = Math.sqrt(Math.pow(prev.x - current.x, 2) + Math.pow(prev.y - current.y, 2)) / (current.time_stamp - prev.time_stamp)
+    */
+      //var speed = 1 + (3 - 1) * Math.min(s, 10) / 10
+      var radius = (pen_width_base + (pen_width_base * 0.66) * Math.pow(f.force, 0.4)/* + (pen_width_base * 0.66) * speed)*/
       curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI) })
     })
     removeElement(id)
