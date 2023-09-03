@@ -521,6 +521,9 @@
     svg_canvas_p.appendChild(p);
   }
   function segmentsToPath(segments) {
+    if (segmentsToPath.length < 1) {
+      return ''
+    }
     var pathCommand = `M${segments[0].x},${segments[0].y}`;
     for (var i = 1; i < segments.length - 1; i++) {
       var c = segments[i];
