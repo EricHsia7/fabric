@@ -520,7 +520,7 @@
     p.setAttributeNS(null, "fill", current_pen_color);
     svg_canvas_p.appendChild(p);
   }
-  
+  /*
   function segmentsToPath(segments) {
     if (segmentsToPath.length < 1) {
       return ''
@@ -533,9 +533,43 @@
       pathCommand += `Q${c.x},${c.y},${(c.x + n.x) / 2},${(c.y + n.y) / 2}`;
     }
     return pathCommand;
+  }*/
+
+  function segmentsToPath(coordinates) {
+    var path = "";
+    var startPoint = coordinates[0];
+    path += "M" + startPoint.x + "," + startPoint.y;
+
+    for (var i = 0; i < coordinates.length - 1; i++) {
+      var endPoint = coordinates[i + 1];
+      var controlPoints = calculateControlPoints(startPoint, endPoint);
+      path += "Q" + controlPoints[0].x + "," + controlPoints[0].y + " " + endPoint.x + "," + endPoint.y;
+      startPoint = endPoint;
+    }
+
+    return path;
   }
-  
-  
+
+  function calculateControlPoints(startPoint, endPoint) {
+    var dx = endPoint.x - startPoint.x;
+    var dy = endPoint.y - startPoint.y;
+    var distance = Math.sqrt(dx * dx + dy * dy);
+    var angle = Math.atan2(dy, dx);
+    var controlPointDistance = distance / 4;
+
+    var controlPoint1 = {
+      x: startPoint.x + controlPointDistance * Math.cos(angle - Math.PI / 2),
+      y: startPoint.y + controlPointDistance * Math.sin(angle - Math.PI / 2)
+    };
+
+    var controlPoint2 = {
+      x: endPoint.x + controlPointDistance * Math.cos(angle + Math.PI / 2),
+      y: endPoint.y + controlPointDistance * Math.sin(angle + Math.PI / 2)
+    };
+
+    return [controlPoint1, controlPoint2];
+  }
+
   function pathToOriginalSegments(path) {
     var all_q = path.match(/Q[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,}/gm);
     var o = [];
