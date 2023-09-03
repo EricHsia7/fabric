@@ -733,7 +733,6 @@
     points = points.map(g => ({
       x: g.x, y: g.y, force: g.force, time_stamp: g.time_stamp, id: gid()
     }))
-    console.log(points)
     var pathCommand = segmentsToPath(simplifyPath(points, 3));
     var id = "temporary-path-" + gid();
     drawPath(pathCommand, id);
@@ -759,7 +758,6 @@
         })()
       })
     );
-    console.log(curved_points)
 
     curved_points = curved_points.map((d) => {
       sc += 1;
@@ -779,13 +777,11 @@
               : { f: -3, d: false }
       };
     });
-    console.log(curved_points)
 
     // Add an index to each item
     curved_points.forEach((point, index) => {
       point.index = index;
     });
-    console.log(curved_points)
 
     // Separate data into two arrays: one with known forces and one with unknown forces
     var knownForces = curved_points.filter((point) => point.force.d === true);
@@ -818,8 +814,6 @@
       }
       knownForces.splice(i, 1, currentKnownPoint);
     }
-    console.log(knownForces)
-
 
     unknownForces = unknownForces.map((e) => ({
       x: e.x,
@@ -846,7 +840,6 @@
       }()).forceFn(e.index),
       index: e.index
     }));
-    console.log(unknownForces)
 
     // Sort the array by index
     curved_points = unknownForces.concat(knownForces.map(e => ({ x: e.x, y: e.y, force: e.force.f, index: e.index })))
@@ -880,10 +873,9 @@
       var radius = (pen_width_base + (pen_width_base * 0.66) * Math.pow(f.force, 0.4) + (pen_width_base * 0.66) * speed)
       curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI) })
     })
-    console.log(curved_points)
     removeElement(id)
     var ftid = gid()
-    // drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid)
+    drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid)
   }
 
 
