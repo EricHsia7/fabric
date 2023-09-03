@@ -755,7 +755,8 @@
               return a.distance - b.distance;
             });
           return dd[0].distance < 10 ? dd[0] : -3;
-        })()
+        })(),
+        time_stamp: a.time_stamp
       })
     );
 
@@ -764,17 +765,17 @@
       return {
         x: d.x,
         y: d.y,
-        force:
-          curved_points[sc - 1] === null
-            ? typeof d.force === "object"
-              ? d.force.force
-              : { f: -3, d: false }
-            : typeof d.force === "object" &&
-              typeof curved_points[sc - 1] === "object"
-              ? curved_points[sc - 1].force.id === d.force.id
-                ? { f: -3, d: false }
-                : { f: d.force.force, d: true, time_stamp: d.time_stamp }
-              : { f: -3, d: false }
+        force: curved_points[sc - 1] === null
+          ? typeof d.force === "object"
+            ? d.force.force
+            : { f: -3, d: false }
+          : typeof d.force === "object" &&
+            typeof curved_points[sc - 1] === "object"
+            ? curved_points[sc - 1].force.id === d.force.id
+              ? { f: -3, d: false }
+              : { f: d.force.force, d: true, time_stamp: d.time_stamp }
+            : { f: -3, d: false },
+        time_stamp: d.time_stamp
       };
     });
 
