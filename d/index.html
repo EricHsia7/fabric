@@ -864,7 +864,7 @@
     console.log(850, curved_points)
 
     // Sort the array by index
-    curved_points = unknownForces.concat(knownForces.map(e => ({ x: e.x, y: e.y, force: e.force.f, index: e.index, time_stamp: e.time_stamp })))
+    curved_points = unknownForces.concat(knownForces.map(e => ({ x: e.x, y: e.y, force: e.force.f, index: e.index, time_stamp: e.force.time_stamp })))
     curved_points.sort((a, b) => a.index - b.index);
     curved_points.forEach((f, index) => {
       var current = curved_points[index]
