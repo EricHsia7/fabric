@@ -520,7 +520,7 @@
     p.setAttributeNS(null, "fill", current_pen_color);
     svg_canvas_p.appendChild(p);
   }
-  /*
+  
   function segmentsToPath(segments) {
     if (segmentsToPath.length < 1) {
       return ''
@@ -534,39 +534,8 @@
     }
     return pathCommand;
   }
-  */
-  function segmentsToPath(segments, precision = 0.1) {
-    if (segments.length < 1) {
-      return '';
-    }
-
-    function getQuadraticControlPoint(p1, p2, p3) {
-      const t = 0.5;
-      const x = p2.x - (1 - t) * (1 - t) * p1.x - t * t * p3.x;
-      const y = p2.y - (1 - t) * (1 - t) * p1.y - t * t * p3.y;
-      return { x, y };
-    }
-
-    let pathCommand = `M${segments[0].x},${segments[0].y}`;
-    for (let i = 1; i < segments.length - 1; i++) {
-      const p1 = segments[i - 1];
-      const p2 = segments[i];
-      const p3 = segments[i + 1];
-
-      // Calculate the control point
-      const controlPoint = getQuadraticControlPoint(p1, p2, p3);
-
-      // Use more segments to approximate the curve
-      for (let t = precision; t <= 1; t += precision) {
-        const x = (1 - t) * (1 - t) * p1.x + 2 * (1 - t) * t * controlPoint.x + t * t * p3.x;
-        const y = (1 - t) * (1 - t) * p1.y + 2 * (1 - t) * t * controlPoint.y + t * t * p3.y;
-        pathCommand += `L${x},${y}`;
-      }
-    }
-    return pathCommand;
-  }
-
-
+  
+  
   function pathToOriginalSegments(path) {
     var all_q = path.match(/Q[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,}/gm);
     var o = [];
