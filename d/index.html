@@ -730,6 +730,7 @@
     return { x, y, radian, degree }
   }
   function drawFountainPenPath(points) {
+    console.log(points)
     var pathCommand = segmentsToPath(simplifyPath(points, 3));
     var id = "temporary-path-" + gid();
     drawPath(pathCommand, id);
