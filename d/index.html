@@ -927,6 +927,7 @@
     wq = 0
     lk = false
     speed = 0
+    var current_time = new Date().getTime()
     current_path_points = {}
     current_pen_width = pen_width_base * 1
     current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
@@ -935,7 +936,7 @@
         pendown = true;
         drawPath("", `${current_path_id}_main`);
         drawPoint(x, y, 1, current_point_id);
-        penPoints.push({ x: x, y: y });
+        penPoints.push({ x: x, y: y, force: 0, angle: 0, time_stamp: current_time });
         path_main = new Path2D()
         path_a = new Path2D()
         path_b = new Path2D()
@@ -1128,7 +1129,8 @@
     if (pendown) {
       pendown = false;
       var doc = document.documentElement;
-      penPoints.push({ x: x, y: y });
+      var current_time = new Date().getTime()
+      penPoints.push({ x: x, y: y, force: 0, angle: 0, time_stamp: current_time });
       penPoints_a.push({ x: x, y: y, sx: x, sy: y });
       penPoints_b.push({ x: x, y: y, sx: x, sy: y });
       var register_id = current_path_id
