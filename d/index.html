@@ -522,7 +522,7 @@
   }
   
   function segmentsToPath(segments) {
-    if (segmentsToPath.length < 1) {
+    if (segments.length < 1) {
       return ''
     }
     var pathCommand = `M${segments[0].x},${segments[0].y}`;
