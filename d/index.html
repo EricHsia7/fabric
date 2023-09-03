@@ -744,7 +744,7 @@
     var id = "temporary-path-" + gid();
     drawPath(pathCommand, id, false);
     var sc = -1;
-    var curved_points = pathToSegments(0, id, 3).map(
+    var curved_points = pathToSegments(0, id, 1).map(
       (r) => ({
         x: r.x,
         y: r.y,
@@ -915,7 +915,7 @@
 
     removeElement(id)
     var ftid = gid()
-    drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid, true)
+    drawPath(segmentsToPath(simplifyPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), 5), ftid, true)
   }
 
 
