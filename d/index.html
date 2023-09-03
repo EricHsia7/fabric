@@ -727,7 +727,7 @@
     var y = parseFloat((centerY + Math.sin(radian) * radius).toFixed(10))
 
     var degree = radian * (180 / Math.PI)
-    return { x, y, radian, degree }
+    return { x, y, radian, degree, radius }
   }
   function drawFountainPenPath(points) {
     var start_time = points[0].time_stamp
@@ -899,7 +899,7 @@
       var radius = (pen_width_base + (pen_width_base * 0.66) * Math.pow(f.force, 0.4) + (pen_width_base * 0.66) * speed)
       console.log(prev, f, next, s, speed)
 
-      curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI),time_stamp:f.time_stamp})
+      curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI), time_stamp: f.time_stamp })
     })
     console.log(curved_points)
 
