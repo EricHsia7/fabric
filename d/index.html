@@ -734,7 +734,7 @@
     var id = "temporary-path-" + gid();
     drawPath(pathCommand, id);
     var sc = -1;
-    var curved_points = pathToSegments(document.querySelector("path#" + id), 3).map(
+    var curved_points = pathToSegments(0, id, 3).map(
       (r) => ({
         x: r.x,
         y: r.y,
