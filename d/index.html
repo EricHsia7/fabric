@@ -870,6 +870,7 @@
           angleRadians += 2 * Math.PI;
         }
       }
+
       /*
       var s = Math.sqrt(Math.pow(prev.x - current.x, 2) + Math.pow(prev.y - current.y, 2)) / (current.time_stamp - prev.time_stamp)
     */
@@ -877,6 +878,7 @@
       var radius = (pen_width_base + (pen_width_base * 0.66) * Math.pow(f.force, 0.4)/*+ (pen_width_base * 0.66) * speed*/)
       curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI) })
     })
+    console.log(curved_points)
     removeElement(id)
     var ftid = gid()
     drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid, true)
