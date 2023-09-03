@@ -520,6 +520,7 @@
     p.setAttributeNS(null, "fill", current_pen_color);
     svg_canvas_p.appendChild(p);
   }
+  /*
   function segmentsToPath(segments) {
     if (segmentsToPath.length < 1) {
       return ''
@@ -533,6 +534,30 @@
     }
     return pathCommand;
   }
+  */
+  function segmentsToPath(segments) {
+    if (segments.length < 1) {
+      return '';
+    }
+
+    var pathCommand = `M${segments[0].x},${segments[0].y}`;
+
+    for (var i = 1; i < segments.length - 1; i++) {
+      var c = segments[i];
+      var n = segments[i + 1] || c;
+
+      // Calculate control points for cubic Bezier curve
+      var cp1x = (2 * c.x + n.x) / 3;
+      var cp1y = (2 * c.y + n.y) / 3;
+      var cp2x = (c.x + 2 * n.x) / 3;
+      var cp2y = (c.y + 2 * n.y) / 3;
+
+      pathCommand += `C${cp1x},${cp1y},${cp2x},${cp2y},${n.x},${n.y}`;
+    }
+
+    return pathCommand;
+  }
+
   function pathToOriginalSegments(path) {
     var all_q = path.match(/Q[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,}/gm);
     var o = [];
