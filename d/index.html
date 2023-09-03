@@ -730,6 +730,9 @@
     return { x, y, radian, degree }
   }
   function drawFountainPenPath(points) {
+    points = points.map(g => ({
+      x: g.x, y: g.y, force: g.force, time_stamp: g.time_stamp, id: gid()
+    }))
     console.log(points)
     var pathCommand = segmentsToPath(simplifyPath(points, 3));
     var id = "temporary-path-" + gid();
@@ -880,7 +883,7 @@
     console.log(curved_points)
     removeElement(id)
     var ftid = gid()
-   // drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid)
+    // drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid)
   }
 
 
