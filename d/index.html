@@ -609,12 +609,12 @@
     return Math.sqrt(dx * dx + dy * dy)
   }
 
-  function drawPath(d, w) {
+  function drawPath(d, w, f) {
     var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
     p.setAttributeNS(null, "d", d);
     p.setAttributeNS(null, "stroke-width", pen_width_base);
-    p.setAttributeNS(null, "stroke", current_pen_color);
-    p.setAttributeNS(null, "fill", "none");
+    p.setAttributeNS(null, "stroke", f ? 'none' : current_pen_color);
+    p.setAttributeNS(null, "fill", f ? current_pen_color : 'none');
     p.setAttributeNS(null, "stroke-linecap", "round");
     p.setAttributeNS(null, "fill-rule", "nonzero");
     p.setAttributeNS(null, "id", w);
@@ -735,7 +735,7 @@
     }))
     var pathCommand = segmentsToPath(simplifyPath(points, 3));
     var id = "temporary-path-" + gid();
-    drawPath(pathCommand, id);
+    drawPath(pathCommand, id, false);
     var sc = -1;
     var curved_points = pathToSegments(0, id, 3).map(
       (r) => ({
@@ -879,7 +879,7 @@
     })
     removeElement(id)
     var ftid = gid()
-    drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid)
+    drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid, true)
   }
 
 
@@ -939,7 +939,7 @@
     if (e.targetTouches.length < 2) {
       if (!rubber_eraser) {
         pendown = true;
-        drawPath("", `${current_path_id}_main`);
+        drawPath("", `${current_path_id}_main`, false);
         drawPoint(x, y, 1, current_point_id);
         penPoints.push({ x: x, y: y, force: 0, angle: 0, time_stamp: current_time });
         path_main = new Path2D()
@@ -1149,10 +1149,12 @@
           }
         }
         if (pen_type === 1) {
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1))), `${current_path_id}_a`)
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1))), `${current_path_id}_b`)
+          /*
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1))), `${current_path_id}_a`,false)
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1))), `${current_path_id}_b`,false)
 
           updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
+        */
           //  updatePath(segmentsToPath(simplifyPath(penPoints_b, w * 1).concat(simplifyPath(penPoints_a, w * 1).reverse())), `${current_path_id}_main`, 0);
 
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
