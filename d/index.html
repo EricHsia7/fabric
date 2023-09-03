@@ -535,28 +535,37 @@
     return pathCommand;
   }
   */
-  function segmentsToPath(segments) {
+  function segmentsToPath(segments, precision = 0.1) {
     if (segments.length < 1) {
       return '';
     }
 
-    var pathCommand = `M${segments[0].x},${segments[0].y}`;
-
-    for (var i = 1; i < segments.length - 1; i++) {
-      var c = segments[i];
-      var n = segments[i + 1] || c;
-
-      // Calculate control points for cubic Bezier curve
-      var cp1x = (2 * c.x + n.x) / 3;
-      var cp1y = (2 * c.y + n.y) / 3;
-      var cp2x = (c.x + 2 * n.x) / 3;
-      var cp2y = (c.y + 2 * n.y) / 3;
-
-      pathCommand += `C${cp1x},${cp1y},${cp2x},${cp2y},${n.x},${n.y}`;
+    function getQuadraticControlPoint(p1, p2, p3) {
+      const t = 0.5;
+      const x = p2.x - (1 - t) * (1 - t) * p1.x - t * t * p3.x;
+      const y = p2.y - (1 - t) * (1 - t) * p1.y - t * t * p3.y;
+      return { x, y };
     }
 
+    let pathCommand = `M${segments[0].x},${segments[0].y}`;
+    for (let i = 1; i < segments.length - 1; i++) {
+      const p1 = segments[i - 1];
+      const p2 = segments[i];
+      const p3 = segments[i + 1];
+
+      // Calculate the control point
+      const controlPoint = getQuadraticControlPoint(p1, p2, p3);
+
+      // Use more segments to approximate the curve
+      for (let t = precision; t <= 1; t += precision) {
+        const x = (1 - t) * (1 - t) * p1.x + 2 * (1 - t) * t * controlPoint.x + t * t * p3.x;
+        const y = (1 - t) * (1 - t) * p1.y + 2 * (1 - t) * t * controlPoint.y + t * t * p3.y;
+        pathCommand += `L${x},${y}`;
+      }
+    }
     return pathCommand;
   }
+
 
   function pathToOriginalSegments(path) {
     var all_q = path.match(/Q[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,}/gm);
