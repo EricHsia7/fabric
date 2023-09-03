@@ -756,6 +756,7 @@
         })()
       })
     );
+    console.log(curved_points)
 
     curved_points = curved_points.map((d) => {
       sc += 1;
@@ -775,11 +776,13 @@
               : { f: -3, d: false }
       };
     });
+    console.log(curved_points)
 
     // Add an index to each item
     curved_points.forEach((point, index) => {
       point.index = index;
     });
+    console.log(curved_points)
 
     // Separate data into two arrays: one with known forces and one with unknown forces
     var knownForces = curved_points.filter((point) => point.force.d === true);
@@ -812,6 +815,7 @@
       }
       knownForces.splice(i, 1, currentKnownPoint);
     }
+    console.log(knownForces)
 
 
     unknownForces = unknownForces.map((e) => ({
@@ -839,6 +843,8 @@
       }()).forceFn(e.index),
       index: e.index
     }));
+    console.log(unknownForces)
+
     // Sort the array by index
     curved_points = unknownForces.concat(knownForces.map(e => ({ x: e.x, y: e.y, force: e.force.f, index: e.index })))
     curved_points.sort((a, b) => a.index - b.index);
