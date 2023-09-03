@@ -736,7 +736,7 @@
     points = points.map(g => ({
       x: g.x, y: g.y, force: g.force, time_stamp: g.time_stamp - start_time, id: gid()
     }))
-    console.log(736, points)
+   // console.log(736, points)
     var pathCommand = segmentsToPath(simplifyPath(points, 3));
     var id = "temporary-path-" + gid();
     drawPath(pathCommand, id, false);
@@ -762,7 +762,7 @@
         })()
       })
     );
-    console.log(763, curved_points)
+  //  console.log(763, curved_points)
 
     curved_points = curved_points.map((d) => {
       sc += 1;
@@ -781,13 +781,13 @@
             : { f: -3, d: false }
       };
     });
-    console.log(783, curved_points)
+   // console.log(783, curved_points)
 
     // Add an index to each item
     curved_points.forEach((point, index) => {
       point.index = index;
     });
-    console.log(789, curved_points)
+   // console.log(789, curved_points)
 
     // Separate data into two arrays: one with known forces and one with unknown forces
     var knownForces = curved_points.filter((point) => point.force.d === true);
@@ -831,7 +831,7 @@
       }
       knownForces.splice(i, 1, currentKnownPoint);
     }
-    console.log(822, knownForces)
+    //console.log(822, knownForces)
 
     unknownForces = unknownForces.map((e) => {
       var kx = (function () {
@@ -861,7 +861,7 @@
         index: e.index
       }
     });
-    console.log(850, curved_points)
+   // console.log(850, curved_points)
 
     // Sort the array by index
     curved_points = unknownForces.concat(knownForces.map(e => ({ x: e.x, y: e.y, force: e.force.f, index: e.index, time_stamp: e.force.time_stamp })))
@@ -897,7 +897,7 @@
       var s = Math.sqrt(Math.pow(prev.x - f.x, 2) + Math.pow(prev.y - f.y, 2)) / (f.time_stamp - prev.time_stamp === 0 ? 1 : f.time_stamp - prev.time_stamp)
       var speed = 1 + (3 - 1) * Math.min(s, 10) / 10
       var radius = ((pen_width_base + (pen_width_base * 0.66) * Math.pow(f.force, 0.4) + (pen_width_base * 0.66) * speed)) * 0.5
-      console.log(prev, f, next, s, speed)
+      console.log(radius)
 
       curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI), time_stamp: f.time_stamp })
     })
