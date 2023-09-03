@@ -733,7 +733,7 @@
     points = points.map(g => ({
       x: g.x, y: g.y, force: g.force, time_stamp: g.time_stamp, id: gid()
     }))
-    console.log(736,points)
+    console.log(736, points)
     var pathCommand = segmentsToPath(simplifyPath(points, 3));
     var id = "temporary-path-" + gid();
     drawPath(pathCommand, id, false);
@@ -756,11 +756,10 @@
               return a.distance - b.distance;
             });
           return dd[0].distance < 10 ? dd[0] : -3;
-        })(),
-        time_stamp: r.time_stamp
+        })()
       })
     );
-    console.log(763,curved_points)
+    console.log(763, curved_points)
 
     curved_points = curved_points.map((d) => {
       sc += 1;
@@ -776,17 +775,16 @@
             ? curved_points[sc - 1].force.id === d.force.id
               ? { f: -3, d: false }
               : { f: d.force.force, d: true, time_stamp: d.time_stamp }
-            : { f: -3, d: false },
-        time_stamp: d.time_stamp
+            : { f: -3, d: false }
       };
     });
-    console.log(783,curved_points)
+    console.log(783, curved_points)
 
     // Add an index to each item
     curved_points.forEach((point, index) => {
       point.index = index;
     });
-    console.log(789,curved_points)
+    console.log(789, curved_points)
 
     // Separate data into two arrays: one with known forces and one with unknown forces
     var knownForces = curved_points.filter((point) => point.force.d === true);
@@ -805,6 +803,12 @@
           currentKnownPoint.index,
           currentKnownPoint.force.f
         );
+        currentKnownPoint.timeFn = getFn(
+          prevKnownPoint.index,
+          prevKnownPoint.force.time_stamp,
+          currentKnownPoint.index,
+          currentKnownPoint.force.time_stamp
+        )
         currentKnownPoint.indexRange = [prevKnownPoint.index, currentKnownPoint.index]
 
       } else {
@@ -814,17 +818,20 @@
           nextKnownPoint.index,
           nextKnownPoint.force.f
         );
-
+        currentKnownPoint.timeFn = getFn(
+          currentKnownPoint.index,
+          currentKnownPoint.force.time_stamp,
+          nextKnownPoint.index,
+          nextKnownPoint.force.time_stamp
+        )
         currentKnownPoint.indexRange = [currentKnownPoint.index, nextKnownPoint.index]
       }
       knownForces.splice(i, 1, currentKnownPoint);
     }
-    console.log(822,knownForces)
+    console.log(822, knownForces)
 
-    unknownForces = unknownForces.map((e) => ({
-      x: e.x,
-      y: e.y,
-      force: (function () {
+    unknownForces = unknownForces.map((e) => {
+      var ky = (function () {
         var h = knownForces.filter((g) =>
           (e.index > g.indexRange[0] && e.index < g.indexRange[1]) ? true : false
         )
@@ -842,12 +849,16 @@
         else {
           return h[0]
         }
-
-      }()).forceFn(e.index),
-      index: e.index,
-      time_stamp: e.time_stamp
-    }));
-    console.log(850,curved_points)
+      }());
+      return {
+        x: e.x,
+        y: e.y,
+        force: kx.forceFn(e.index),
+        time_stamp: kx.timeFn(e.index),
+        index: e.index
+      }
+    });
+    console.log(850, curved_points)
 
     // Sort the array by index
     curved_points = unknownForces.concat(knownForces.map(e => ({ x: e.x, y: e.y, force: e.force.f, index: e.index, time_stamp: e.time_stamp })))
