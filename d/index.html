@@ -520,7 +520,7 @@
     p.setAttributeNS(null, "fill", current_pen_color);
     svg_canvas_p.appendChild(p);
   }
-  
+
   function segmentsToPath(segments) {
     if (segments.length < 1) {
       return ''
@@ -553,8 +553,12 @@
         return []
       }
     }
+
     var points = [];
     var totalLength = p.getTotalLength();
+    if (f === true) {
+      f = Math.min(totalLength / 100, 2)
+    }
     for (let i = 0; i < totalLength; i += f) {
       var { x, y } = p.getPointAtLength(i);
       points.push({ x: Math.ol(x), y: Math.ol(y) });
@@ -746,7 +750,7 @@
     var id = "temporary-path-" + gid();
     drawPath(pathCommand, id, false);
     var sc = -1;
-    var curved_points = pathToSegments(0, id, 1).map(
+    var curved_points = pathToSegments(0, id, true).map(
       (r) => ({
         x: r.x,
         y: r.y,
