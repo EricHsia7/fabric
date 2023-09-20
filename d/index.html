@@ -416,7 +416,6 @@
   var pen_type = 1 //0:ball_pen,1:fountain_pen,2:shapes
   var force = 0
   var wq = 0
-  var lk = false
   var speed = 0
   var canvas_id = urlparams('id') || gid('whiteboard')
   var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle')
@@ -972,7 +971,6 @@
     speed_log = []
     force = 0
     wq = 0
-    lk = false
     speed = 0
     var current_time = new Date().getTime()
     current_path_points = {}
@@ -1039,9 +1037,7 @@
             last_y.push(last_p[t].y)
           }
 
-          if (lp.sx < lp.sy) {
-            lk = true
-          }
+         
         }
         var current_time = new Date().getTime()
 
