@@ -1038,41 +1038,41 @@
             last_x.push(last_p[t].x)
             last_y.push(last_p[t].y)
           }
-          var lp = getLine(last_x, last_y)
-          wq = -1 / lp.a
 
           if (lp.sx < lp.sy) {
             lk = true
           }
         }
         var current_time = new Date().getTime()
-        var a1 = 180 + Math.atan(wq) * 180 / Math.PI
-        var a2 = a1 + 180
 
-        if (isNaN(a1)) {
-          if (lk) {
-            if (a1 < a2) {
-              a1 = 180
-              a2 = 360
-            }
-            else {
-              a1 = 360
-              a2 = 180
-            }
+        var current = penPoints[penPoints.length - 1]
+        var prev = penPoints[penPoints.length - 2] || current
+        var next = penPoints[penPoints.length] || current
+        var x1 = prev.x
+        var y1 = prev.y
+        var x2 = next.x
+        var y2 = next.y
+        var angleRadians
+        if (x2 - x1 === 0) {
+          // Handle vertical line (x-coordinates are the same)
+          if (y2 > y1) {
+            angleRadians = Math.PI / 2;  // 90 degrees or π/2 radians
+          } else if (y2 < y1) {
+            angleRadians = -Math.PI / 2; // -90 degrees or -π/2 radians
+          } else {
+            angleRadians = 0;  // Points are the same (angle is 0 radians)
           }
-          else {
-            if (a1 < a2) {
-              a1 = 90
-              a2 = 270
-            }
-            else {
-              a1 = 270
-              a2 = 90
-            }
+        } else {
+          // Non-vertical line
+          angleRadians = Math.atan2(y2 - y1, x2 - x1) + (Math.PI * 0.5);
+          // Ensure the angle is positive (between 0 and 2π)
+          if (angleRadians < 0) {
+            angleRadians += 2 * Math.PI;
           }
         }
 
-        penPoints.push({ x: x, y: y, force: force, angle: a1, time_stamp: current_time });
+
+        penPoints.push({ x: x, y: y, force: force, angle: angleRadians, time_stamp: current_time });
         if (penPoints.length > 2) {
           path_main = new Path2D()
 
@@ -1086,10 +1086,7 @@
 
             path_a.moveTo(pervious_point_a.sx, pervious_point_a.sy);
             path_b.moveTo(pervious_point_b.sx, pervious_point_b.sy);
-            if (Math.abs(pervious_point.angle - a1) > 180) {
-              a1 = pervious_point.angle
-              a2 = a1 + 180
-            }
+
           }
 
           var pervious_point = penPoints[penPoints.length - 2]
@@ -1111,18 +1108,18 @@
         var radius = current_pen_width
         radius = Math.min(Math.max(current_pen_width * 0.5 - pen_width_base * 0.5, 0), pen_width_base * 0.89)
 
-        var cx1 = (x) + radius * Math.cos(2 * Math.PI * a1 / 360)
-        var cy1 = (y) + radius * Math.sin(2 * Math.PI * a1 / 360)
-        var cx2 = (x) + radius * Math.cos(2 * Math.PI * a2 / 360)
-        var cy2 = (y) + radius * Math.sin(2 * Math.PI * a2 / 360)
+        var cx1 = (x) + radius * Math.cos(2 * Math.PI * angleRadians / 360)
+        var cy1 = (y) + radius * Math.sin(2 * Math.PI * angleRadians / 360)
+        var cx2 = (x) + radius * Math.cos(2 * Math.PI * (angleRadians + 180) / 360)
+        var cy2 = (y) + radius * Math.sin(2 * Math.PI * (angleRadians + 180) / 360)
 
         var radius_a = (radius) * dpr
         canvas_ctx.lineWidth = pen_width_base * dpr
 
-        var s_cx1 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a1 / 360)
-        var s_cy1 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a1 / 360)
-        var s_cx2 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * a2 / 360)
-        var s_cy2 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * a2 / 360)
+        var s_cx1 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * angleRadians / 360)
+        var s_cy1 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * angleRadians / 360)
+        var s_cx2 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * (angleRadians + 180) / 360)
+        var s_cy2 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * (angleRadians + 180) / 360)
 
         if (pen_type === 1) {
 
@@ -1191,17 +1188,17 @@
           }
         }
         if (pen_type === 1) {
-          /*
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1))), `${current_path_id}_a`,false)
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1))), `${current_path_id}_b`,false)
+
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1))), `${current_path_id}_a`, false)
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1))), `${current_path_id}_b`, false)
 
           updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
-        */
+
           //  updatePath(segmentsToPath(simplifyPath(penPoints_b, w * 1).concat(simplifyPath(penPoints_a, w * 1).reverse())), `${current_path_id}_main`, 0);
 
           updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
           removeElement(current_point_id);
-          drawFountainPenPath(penPoints)
+          // drawFountainPenPath(penPoints)
         }
         else {
           if (pen_type === 0) {
