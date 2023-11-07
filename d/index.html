@@ -620,9 +620,9 @@
           p.setAttribute('d', d);
         }
         if (m === 1) {
-          p.setAttributeNS(null, 'stroke-width', 0);
+          p.setAttributeNS(null, 'stroke-width', pen_width_base);
           p.setAttributeNS(null, 'fill', current_pen_color);
-          p.setAttributeNS(null, 'stroke', 'none');
+          p.setAttributeNS(null, 'stroke', current_pen_color);
         }
         if (m === 2) {
           p.setAttributeNS(null, 'bd-x1', boundary[0].x);
