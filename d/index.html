@@ -1,756 +1,736 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <title>Whiteboard</title>
-  <meta name="description" content="Whiteboard">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0" />
-  <link href="https://erichsia7.github.io/whiteboard/pwaicon3/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="defualt" />
-  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="icon" />
-  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="bookmark" />
-  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="shortcut icon" />
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" kji="light">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121417" kji="dark">
-  <link rel="manifest" href="https://erichsia7.github.io/whiteboard/manifest3.json">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --d-333333: #333333;
-      --d-f5f5f5: #f5f5f5;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --d-333333: #ffffff;
-        --d-f5f5f5: #1f1f1f;
-      }
-    }
-
-    * {
-      -webkit-appearance: none;
-      appearance: none;
-      outline: none;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    }
-
-    body {
-      background: var(--d-canvas-bg);
-    }
-
-    svg#canvas,
-    canvas#canvas_p {
-      position: fixed;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 100%;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    .tools,
-    .back {
-      position: fixed;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 13px;
-      background: rgba(26, 26, 26, 0.6);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .tools {
-      top: 15px;
-      left: 65px;
-      width: 120px;
-      height: 40px;
-    }
-
-    .back {
-      top: 15px;
-      left: 15px;
-      width: 40px;
-      height: 40px;
-    }
-
-    .f {
-      position: fixed;
-      top: 0px;
-      left: 0px;
-      width: 10px;
-      height: 2px;
-      transform-origin: top left;
-      background: #ff0000;
-    }
-
-    button {
-      -webkit-appearance: none;
-      appearance: none;
-      border: none;
-      margin: 0px;
-      padding: 0px;
-      box-sizing: border-box;
-      background: transparent;
-      display: block;
-      border-radius: 0px;
-      font-size: unset;
-      font-weight: unset;
-    }
-
-    .tools button svg {
-      width: 25px;
-      height: 25px;
-      opacity: 0.6;
-      transition: opacity 0.35s;
-    }
-
-    .back button svg {
-      width: 25px;
-      height: 25px;
-    }
-
-    .tools button[s="1"] svg {
-      opacity: 1;
-    }
-
-    .tools button,
-    .back button {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .load_box {
-      height: 58px;
-      width: 58px;
-      position: absolute;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-
-    .load {
-      border: 4px solid var(--d-f5f5f5);
-      border-right: 4px solid var(--d-333333);
-      border-bottom: 4px solid var(--d-333333);
-      border-left: 4px solid var(--d-333333);
-      height: 50px;
-      width: 50px;
-      border-radius: 50%;
-      animation: loading 0.9s infinite linear;
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-    }
-
-    .load_ball_box {
-      width: 4px;
-      height: 58px;
-      background: rgba(0, 0, 0, 0);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      animation: loading_a 0.9s infinite linear;
-    }
-
-    .load_ball {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      position: absolute;
-      background: var(--d-333333);
-      top: 0px;
-      left: 0px;
-    }
-
-    .load_ball_boxf {
-      width: 4px;
-      height: 58px;
-      background: rgba(0, 0, 0, 0);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      animation: loading_b 0.9s infinite linear;
-    }
-
-    .load_ball {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      position: absolute;
-      background: var(--d-333333);
-      top: 0px;
-      left: 0px;
-    }
-
-    .load_cover {
-      position: fixed;
-      top: 0px;
-      left: 0px;
-      width: 100%;
-      height: 100%;
-      background: var(--d-canvas-bg);
-    }
-
-    @keyframes loading {
-      from {
-        -webkit-transform: rotate(0deg);
-      }
-
-      to {
-        -webkit-transform: rotate(360deg);
-      }
-    }
-
-    @keyframes loading_a {
-      from {
-        -webkit-transform: translate(-50%, -50%) rotate(45deg);
-      }
-
-      to {
-        -webkit-transform: translate(-50%, -50%) rotate(405deg);
-      }
-    }
-
-    @keyframes loading_b {
-      from {
-        -webkit-transform: translate(-50%, -50%) rotate(-45deg);
-      }
-
-      to {
-        -webkit-transform: translate(-50%, -50%) rotate(315deg);
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <svg width="100" height="100" id="canvas">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Whiteboard</title>
+    <meta name="description" content="Whiteboard" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0" />
+    <link href="https://erichsia7.github.io/whiteboard/pwaicon3/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="defualt" />
+    <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="icon" />
+    <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="bookmark" />
+    <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="shortcut icon" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" kji="light" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121417" kji="dark" />
+    <link rel="manifest" href="https://erichsia7.github.io/whiteboard/manifest3.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet" />
     <style>
       :root {
-        --d-pen-000000-color: #355f8d;
-        --d-block-f5f5f5-color: #f0f0f0;
-        --d-canvas-bg: #ffffff;
+        --d-333333: #333333;
+        --d-f5f5f5: #f5f5f5;
       }
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --d-pen-000000-color: #ffffff;
-          --d-block-f5f5f5-color: #1b1e22;
-          --d-canvas-bg: #121417;
+          --d-333333: #ffffff;
+          --d-f5f5f5: #1f1f1f;
+        }
+      }
+
+      * {
+        -webkit-appearance: none;
+        appearance: none;
+        outline: none;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      }
+
+      body {
+        background: var(--d-canvas-bg);
+      }
+
+      svg#canvas,
+      canvas#canvas_p {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        user-select: none;
+        -webkit-user-select: none;
+      }
+
+      .tools,
+      .back {
+        position: fixed;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 13px;
+        background: rgba(26, 26, 26, 0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .tools {
+        top: 15px;
+        left: 65px;
+        width: 120px;
+        height: 40px;
+      }
+
+      .back {
+        top: 15px;
+        left: 15px;
+        width: 40px;
+        height: 40px;
+      }
+
+      .f {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 10px;
+        height: 2px;
+        transform-origin: top left;
+        background: #ff0000;
+      }
+
+      button {
+        -webkit-appearance: none;
+        appearance: none;
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        background: transparent;
+        display: block;
+        border-radius: 0px;
+        font-size: unset;
+        font-weight: unset;
+      }
+
+      .tools button svg {
+        width: 25px;
+        height: 25px;
+        opacity: 0.6;
+        transition: opacity 0.35s;
+      }
+
+      .back button svg {
+        width: 25px;
+        height: 25px;
+      }
+
+      .tools button[s="1"] svg {
+        opacity: 1;
+      }
+
+      .tools button,
+      .back button {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .load_box {
+        height: 58px;
+        width: 58px;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .load {
+        border: 4px solid var(--d-f5f5f5);
+        border-right: 4px solid var(--d-333333);
+        border-bottom: 4px solid var(--d-333333);
+        border-left: 4px solid var(--d-333333);
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        animation: loading 0.9s infinite linear;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+      }
+
+      .load_ball_box {
+        width: 4px;
+        height: 58px;
+        background: rgba(0, 0, 0, 0);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        animation: loading_a 0.9s infinite linear;
+      }
+
+      .load_ball {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        position: absolute;
+        background: var(--d-333333);
+        top: 0px;
+        left: 0px;
+      }
+
+      .load_ball_boxf {
+        width: 4px;
+        height: 58px;
+        background: rgba(0, 0, 0, 0);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        animation: loading_b 0.9s infinite linear;
+      }
+
+      .load_ball {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        position: absolute;
+        background: var(--d-333333);
+        top: 0px;
+        left: 0px;
+      }
+
+      .load_cover {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        background: var(--d-canvas-bg);
+      }
+
+      @keyframes loading {
+        from {
+          -webkit-transform: rotate(0deg);
+        }
+
+        to {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+
+      @keyframes loading_a {
+        from {
+          -webkit-transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        to {
+          -webkit-transform: translate(-50%, -50%) rotate(405deg);
+        }
+      }
+
+      @keyframes loading_b {
+        from {
+          -webkit-transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        to {
+          -webkit-transform: translate(-50%, -50%) rotate(315deg);
         }
       }
     </style>
-    <g id="bg"></g>
-    <g id="pen"></g>
-    <g id="rubber_eraser">
-      <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
-    </g>
-  </svg>
-  <canvas id="canvas_p"></canvas>
-  <div class="back">
-    <button onclick="backToPreviousPage()" s="1">
+  </head>
 
-      <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path d="M43.2655 4.50005C42.4819 4.50005 41.7291 4.80739 41.1761 5.36038C36.5721 9.9644 24.7327 21.8038 20.1286 26.4078C17.0444 29.4921 17.0444 34.5079 20.1286 37.5922C24.7327 42.1962 36.5721 54.0356 41.1761 58.6396C42.3233 59.7869 44.1769 59.7869 45.3241 58.6396C46.4714 57.4924 46.4714 55.6081 45.3241 54.4609C41.7966 50.9333 25.38 34.5167 24.3074 33.4441C23.5176 32.6543 23.5176 31.3457 24.3074 30.5559C25.38 29.4833 41.7966 13.0667 45.3241 9.53914C46.4714 8.39191 46.4714 6.50762 45.3241 5.36038C44.7678 4.80404 44.0424 4.50005 43.2655 4.50005Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
-      </svg>
+  <body>
+    <svg width="100" height="100" id="canvas">
+      <style>
+        :root {
+          --d-pen-000000-color: #355f8d;
+          --d-block-f5f5f5-color: #f0f0f0;
+          --d-canvas-bg: #ffffff;
+        }
 
-    </button>
-  </div>
-  <div class="tools">
-
-    <button onclick="setTool(0)" s="1">
-      <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path d="M30.1562 4.65625L22.875 19.8125C22.5556 20.4216 22.6695 21.1695 23.1562 21.6562L27.1875 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L36.8125 25.6875L40.8438 21.6562C41.3305 21.1695 41.4444 20.4234 41.125 19.8125L33.875 4.65625C33.7256 4.37014 33.2812 4.4904 33.2812 4.8125L33.2812 15.7188C33.3496 15.7583 33.404 15.797 33.4688 15.8438C33.5704 15.913 33.6886 16.0065 33.7812 16.0938C33.7929 16.1054 33.8008 16.1133 33.8125 16.125C33.8224 16.1349 33.8348 16.1472 33.8438 16.1562C33.9157 16.2318 33.9692 16.3154 34.0312 16.4062C34.7807 17.404 34.7194 18.8118 33.8125 19.7188C33.7783 19.7529 33.7226 19.781 33.6875 19.8125C33.6668 19.8314 33.6778 19.857 33.6562 19.875C33.6122 19.9119 33.545 19.9346 33.5 19.9688C33.446 20.0083 33.3995 20.0283 33.3438 20.0625C33.2601 20.1138 33.1819 20.1774 33.0938 20.2188C33.0389 20.2448 32.9638 20.2597 32.9062 20.2812C32.8073 20.319 32.7258 20.3498 32.625 20.375C32.5746 20.3876 32.5191 20.3973 32.4688 20.4062C32.1637 20.4629 31.8363 20.4629 31.5312 20.4062C31.4809 20.3973 31.4557 20.3867 31.4062 20.375C31.3055 20.3498 31.1909 20.319 31.0938 20.2812C31.0362 20.2597 30.9933 20.2457 30.9375 20.2188C30.8502 20.1783 30.7712 20.1138 30.6875 20.0625C30.6317 20.0283 30.554 20.0083 30.5 19.9688C30.4541 19.9355 30.4191 19.9119 30.375 19.875C30.3534 19.857 30.3323 19.8305 30.3125 19.8125C30.2756 19.781 30.2529 19.7529 30.2188 19.7188C29.3118 18.8118 29.2202 17.4031 29.9688 16.4062C30.0317 16.3145 30.1155 16.23 30.1875 16.1562C30.1974 16.1464 30.2089 16.1349 30.2188 16.125C30.2304 16.1133 30.2374 16.1045 30.25 16.0938C30.3418 16.0056 30.4287 15.9139 30.5312 15.8438C30.596 15.797 30.6816 15.7583 30.75 15.7188L30.75 4.8125C30.75 4.4904 30.3056 4.37014 30.1562 4.65625Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
-      </svg>
-
-
-    </button>
-    <button onclick="setTool(1)" class="rubber_eraser">
-      <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path d="M32.0625 4.5C30.7426 4.5 29.8645 5.12515 29.4375 6.40625L23 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L41.0312 25.6875L34.5625 6.40625C34.1161 5.12515 33.2854 4.5 32.0625 4.5Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
-      </svg>
-    </button>
-    <button onclick="setTool(2)">
-
-      <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <path d="M32.0625 4.5C30.7426 4.5 29.8645 5.12515 29.4375 6.40625L23 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L41.0312 25.6875L34.5625 6.40625C34.1161 5.12515 33.2854 4.5 32.0625 4.5ZM32 9.125C33.609 13.9599 35.6489 20.0368 37.5312 25.6875L26.5 25.6875C28.3735 20.0374 30.3978 13.9589 32 9.125Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
-      </svg>
-
-
-    </button>
-  </div>
-  <div class="load_cover">
-    <div class="load_box">
-      <div class="load">
-      </div>
-      <div class="load_ball_box">
-        <div class="load_ball"></div>
-      </div>
-      <div class="load_ball_boxf">
-        <div class="load_ball"></div>
+        @media (prefers-color-scheme: dark) {
+          :root {
+            --d-pen-000000-color: #ffffff;
+            --d-block-f5f5f5-color: #1b1e22;
+            --d-canvas-bg: #121417;
+          }
+        }
+      </style>
+      <g id="bg"></g>
+      <g id="pen"></g>
+      <g id="rubber_eraser">
+        <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
+      </g>
+    </svg>
+    <canvas id="canvas_p"></canvas>
+    <div class="back">
+      <button onclick="backToPreviousPage()" s="1">
+        <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path d="M43.2655 4.50005C42.4819 4.50005 41.7291 4.80739 41.1761 5.36038C36.5721 9.9644 24.7327 21.8038 20.1286 26.4078C17.0444 29.4921 17.0444 34.5079 20.1286 37.5922C24.7327 42.1962 36.5721 54.0356 41.1761 58.6396C42.3233 59.7869 44.1769 59.7869 45.3241 58.6396C46.4714 57.4924 46.4714 55.6081 45.3241 54.4609C41.7966 50.9333 25.38 34.5167 24.3074 33.4441C23.5176 32.6543 23.5176 31.3457 24.3074 30.5559C25.38 29.4833 41.7966 13.0667 45.3241 9.53914C46.4714 8.39191 46.4714 6.50762 45.3241 5.36038C44.7678 4.80404 44.0424 4.50005 43.2655 4.50005Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
+        </svg>
+      </button>
+    </div>
+    <div class="tools">
+      <button onclick="setTool(0)" s="1">
+        <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path d="M30.1562 4.65625L22.875 19.8125C22.5556 20.4216 22.6695 21.1695 23.1562 21.6562L27.1875 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L36.8125 25.6875L40.8438 21.6562C41.3305 21.1695 41.4444 20.4234 41.125 19.8125L33.875 4.65625C33.7256 4.37014 33.2812 4.4904 33.2812 4.8125L33.2812 15.7188C33.3496 15.7583 33.404 15.797 33.4688 15.8438C33.5704 15.913 33.6886 16.0065 33.7812 16.0938C33.7929 16.1054 33.8008 16.1133 33.8125 16.125C33.8224 16.1349 33.8348 16.1472 33.8438 16.1562C33.9157 16.2318 33.9692 16.3154 34.0312 16.4062C34.7807 17.404 34.7194 18.8118 33.8125 19.7188C33.7783 19.7529 33.7226 19.781 33.6875 19.8125C33.6668 19.8314 33.6778 19.857 33.6562 19.875C33.6122 19.9119 33.545 19.9346 33.5 19.9688C33.446 20.0083 33.3995 20.0283 33.3438 20.0625C33.2601 20.1138 33.1819 20.1774 33.0938 20.2188C33.0389 20.2448 32.9638 20.2597 32.9062 20.2812C32.8073 20.319 32.7258 20.3498 32.625 20.375C32.5746 20.3876 32.5191 20.3973 32.4688 20.4062C32.1637 20.4629 31.8363 20.4629 31.5312 20.4062C31.4809 20.3973 31.4557 20.3867 31.4062 20.375C31.3055 20.3498 31.1909 20.319 31.0938 20.2812C31.0362 20.2597 30.9933 20.2457 30.9375 20.2188C30.8502 20.1783 30.7712 20.1138 30.6875 20.0625C30.6317 20.0283 30.554 20.0083 30.5 19.9688C30.4541 19.9355 30.4191 19.9119 30.375 19.875C30.3534 19.857 30.3323 19.8305 30.3125 19.8125C30.2756 19.781 30.2529 19.7529 30.2188 19.7188C29.3118 18.8118 29.2202 17.4031 29.9688 16.4062C30.0317 16.3145 30.1155 16.23 30.1875 16.1562C30.1974 16.1464 30.2089 16.1349 30.2188 16.125C30.2304 16.1133 30.2374 16.1045 30.25 16.0938C30.3418 16.0056 30.4287 15.9139 30.5312 15.8438C30.596 15.797 30.6816 15.7583 30.75 15.7188L30.75 4.8125C30.75 4.4904 30.3056 4.37014 30.1562 4.65625Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
+        </svg>
+      </button>
+      <button onclick="setTool(1)" class="rubber_eraser">
+        <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path d="M32.0625 4.5C30.7426 4.5 29.8645 5.12515 29.4375 6.40625L23 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L41.0312 25.6875L34.5625 6.40625C34.1161 5.12515 33.2854 4.5 32.0625 4.5Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
+        </svg>
+      </button>
+      <button onclick="setTool(2)">
+        <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <path d="M32.0625 4.5C30.7426 4.5 29.8645 5.12515 29.4375 6.40625L23 25.6875L22.8438 25.6875C21.9509 25.6875 21.1578 25.992 20.4688 26.5938C19.7797 27.1955 19.3622 27.9627 19.1875 28.875L13.75 56.5938C13.5753 57.3896 13.6625 58.0836 14.0312 58.6562C14.4001 59.2289 15.0489 59.5 16 59.5C16.6794 59.5 17.2034 59.3397 17.5625 59C17.9216 58.6603 18.1648 58.1955 18.2812 57.5938L23.5625 30.5938L40.4062 30.5938L45.7188 57.5938C45.8352 58.1955 46.0472 58.6603 46.4062 59C46.7653 59.3397 47.2894 59.5 47.9688 59.5C48.9393 59.5 49.6096 59.2073 49.9688 58.625C50.3278 58.0427 50.4365 57.3702 50.2812 56.5938L44.8438 28.875C44.6691 27.9627 44.23 27.1955 43.5312 26.5938C42.8325 25.992 42.0297 25.6875 41.1562 25.6875L41.0312 25.6875L34.5625 6.40625C34.1161 5.12515 33.2854 4.5 32.0625 4.5ZM32 9.125C33.609 13.9599 35.6489 20.0368 37.5312 25.6875L26.5 25.6875C28.3735 20.0374 30.3978 13.9589 32 9.125Z" fill="#ffffff" fill-rule="nonzero" opacity="1" stroke="none" />
+        </svg>
+      </button>
+    </div>
+    <div class="load_cover">
+      <div class="load_box">
+        <div class="load"></div>
+        <div class="load_ball_box">
+          <div class="load_ball"></div>
+        </div>
+        <div class="load_ball_boxf">
+          <div class="load_ball"></div>
+        </div>
       </div>
     </div>
-  </div>
-
-</body>
-<script>
-  const x_storage = {
-    'setItem': function (k, s) {
-      return localStorage.setItem(k, s)
-    },
-    'getItem': function (k) {
-      return localStorage.getItem(k)
-    },
-    'removeItem': function (k) {
-      return localStorage.removeItem(k)
-    },
-    'hasOwnProperty': function (k) {
-      return localStorage.hasOwnProperty(k)
-    }
-  }
-  Math.ol = function (p) {
-    if (Math.abs(parseInt(p) - p) > 0) {
-      return parseFloat(parseFloat(p).toFixed(3))
-    }
-    return p
-  }
-
-
-  var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
-
-  function preventDefault(e) {
-    e.preventDefault();
-  }
-
-  function preventDefaultForScrollKeys(e) {
-    if (keys[e.keyCode]) {
-      preventDefault(e);
-      return false;
-    }
-  }
-
-  // modern Chrome requires { passive: false } when adding event
-  var supportsPassive = false;
-  try {
-    window.addEventListener(
-      "test",
-      null,
-      Object.defineProperty({}, "passive", {
-        get: function () {
-          supportsPassive = true;
-        }
-      })
-    );
-  } catch (e) { }
-
-  var wheelOpt = supportsPassive ? { passive: false } : false;
-  var wheelEvent =
-    "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
-
-  // call this to Disable
-  function disableScroll() {
-    window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
-    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-    window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
-    window.addEventListener("keydown", preventDefaultForScrollKeys, false);
-  }
-  // call this to Enable
-  function enableScroll() {
-    window.removeEventListener("DOMMouseScroll", preventDefault, false);
-    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-    window.removeEventListener("touchmove", preventDefault, wheelOpt);
-    window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
-  }
-
-  var svg_canvas = document.querySelector("svg#canvas");
-  var canvas = document.querySelector("canvas#canvas_p");
-  var canvas_ctx = canvas.getContext('2d');
-
-  var svg_canvas_p = document.querySelector("svg#canvas g#pen");
-  var svg_canvas_bg = document.querySelector("svg#canvas g#bg");
-  svg_canvas.setAttributeNS(null, "width", window.innerWidth + "px");
-  svg_canvas.setAttributeNS(null, "height", window.innerHeight + "px");
-  svg_canvas.setAttributeNS(null, "viewbox", `0,0,${window.innerWidth},${window.innerHeight}`);
-  var dpr = window.devicePixelRatio
-  canvas.setAttributeNS(null, "width", window.innerWidth * dpr + "px");
-  canvas.setAttributeNS(null, "height", window.innerHeight * dpr + "px");
-
-  var doc = document.documentElement;
-  var x = 0;
-  var y = 0;
-  var current_pen_color = "var(--d-pen-000000-color)";
-  var pen_width_base = 2
-  var current_pen_width = 2
-  var s_block_size = 45
-  var block_size = 10
-  var current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
-  var pendown = false;
-  var penPoints = [];
-  var penPoints_a = []
-  var penPoints_b = []
-  var svg_canvas_history = [];
-  var speed_log = []
-  var svg_canvas_points = {};
-  var current_path_points = {};
-  var current_path_id = gid("path");
-  var current_point_id = gid("point");
-  var current_rect_id = gid("rect")
-  var current_path_points_offset = 0
-  var rubber_eraser = false;
-  var pen_type = 1 //0:ball_pen,1:fountain_pen,2:shapes
-  var force = 0
-  var wq = 0
-  var speed = 0
-  var canvas_id = urlparams('id') || gid('whiteboard')
-  var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle')
-  var path_main, path_a, path_b
-  var offset_x = 0
-  var offset_y = 0
-  var s_block_offset_x = 0
-  var s_block_offset_y = 0
-  var move_start_x = 0
-  var move_start_y = 0
-  var current_qx = 0
-  var current_qy = 0
-  var move = false
-  var boundary_points = []
-  set_urlparams('id', canvas_id)
-
-  function urlparams(p) {
-    var getUrlString = location.href;
-    var url = new URL(getUrlString);
-    return url.searchParams.get(p)
-  }
-
-  function set_urlparams(p, k) {
-    var getUrlString = location.href;
-    var url = new URL(getUrlString);
-    url.searchParams.set(p, k)
-    history.pushState(null, null, url)
-  }
-
-  function gid(n) {
-    var genidchars =
-      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
-    var genid = "";
-    for (var i = 0; i < 32; i++) {
-      var genrandomNumber = Math.floor(Math.random() * genidchars.length);
-      genid += genidchars.substring(genrandomNumber, genrandomNumber + 1);
-    }
-    if (!(n === undefined)) {
-      n = n.replaceAll("-", "_");
-      return n + "_" + genid;
-    }
-    return "id_" + genid;
-  }
-
-  function getMid(x1, y1, x2, y2) {
-    return { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
-  }
-  function getBoundary(points) {
-    //separate x and y
-    var points_len = points.length
-    var x = []
-    var y = []
-    for (var o = 0; o < points_len; o++) {
-      x.push(points[o].x)
-      y.push(points[o].y)
-    }
-    x.sort(function (a, b) {
-      return a - b
-    })
-    y.sort(function (a, b) {
-      return a - b
-    })
-    var point_1 = { x: x[0], y: y[0] }
-    var point_2 = { x: x[x.length - 1], y: y[y.length - 1] }
-    return [point_1, point_2]
-  }
-  function calcPoints(arr) {
-    if (arr.length < 5) {
-      return arr;
-    }
-
-    return res;
-  }
-  function drawBlocks(w, h) {
-    var block = function (x, y) {
-      return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/></g>`;
+  </body>
+  <script>
+    const x_storage = {
+      setItem: function (k, s) {
+        return localStorage.setItem(k, s);
+      },
+      getItem: function (k) {
+        return localStorage.getItem(k);
+      },
+      removeItem: function (k) {
+        return localStorage.removeItem(k);
+      },
+      hasOwnProperty: function (k) {
+        return localStorage.hasOwnProperty(k);
+      }
     };
-    var j = [];
-    var wc = Math.floor(w / s_block_size) + 1;
-    var hc = Math.floor(h / s_block_size) + 1;
-    for (var m = 0; m < hc * 3; m++) {
-      for (var n = 0; n < wc * 3; n++) {
-        j.push(block(-1 * wc * s_block_size + n * s_block_size, -1 * hc * s_block_size + m * s_block_size));
+    Math.ol = function (p) {
+      if (Math.abs(parseInt(p) - p) > 0) {
+        return parseFloat(parseFloat(p).toFixed(3));
+      }
+      return p;
+    };
+
+    var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+    function preventDefault(e) {
+      e.preventDefault();
+    }
+
+    function preventDefaultForScrollKeys(e) {
+      if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
       }
     }
 
-    document.querySelector("#bg").innerHTML = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
-  }
+    // modern Chrome requires { passive: false } when adding event
+    var supportsPassive = false;
+    try {
+      window.addEventListener(
+        'test',
+        null,
+        Object.defineProperty({}, 'passive', {
+          get: function () {
+            supportsPassive = true;
+          }
+        })
+      );
+    } catch (e) {}
 
-  function getBlock(x, y) {
-    var wc = String(Math.floor(x / block_size) + 1).replaceAll('-', 'i')
-    var hc = String(Math.floor(y / block_size) + 1).replaceAll('-', 'i')
-    return [wc, hc];
-  }
-  function drawPoint(x, y, r, s) {
-    var p = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-    p.setAttributeNS(null, "id", s);
-    p.setAttributeNS(null, "cx", x);
-    p.setAttributeNS(null, "cy", y);
-    p.setAttributeNS(null, "r", r);
-    p.setAttributeNS(null, "fill", current_pen_color);
-    svg_canvas_p.appendChild(p);
-  }
+    var wheelOpt = supportsPassive ? { passive: false } : false;
+    var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
 
-  function segmentsToPath(segments) {
-    if (segments.length < 1) {
-      return ''
+    // call this to Disable
+    function disableScroll() {
+      window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
+      window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+      window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
+      window.addEventListener('keydown', preventDefaultForScrollKeys, false);
     }
-    var pathCommand = `M${segments[0].x},${segments[0].y}`;
-    for (var i = 1; i < segments.length - 1; i++) {
-      var c = segments[i];
-      var n = segments[i + 1] || c;
-
-      pathCommand += `Q${c.x},${c.y},${(c.x + n.x) / 2},${(c.y + n.y) / 2}`;
+    // call this to Enable
+    function enableScroll() {
+      window.removeEventListener('DOMMouseScroll', preventDefault, false);
+      window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+      window.removeEventListener('touchmove', preventDefault, wheelOpt);
+      window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
     }
-    return pathCommand;
-  }
 
-  function pathToOriginalSegments(path) {
-    var all_q = path.match(/Q[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,}/gm);
-    var o = [];
-    var j = all_q.length;
-    for (var w = 0; w < j; w++) {
-      var k = all_q[w].substring(1).split(",");
-      o.push({ x: Math.ol(k[0]), y: Math.ol(k[1]) });
+    var svg_canvas = document.querySelector('svg#canvas');
+    var canvas = document.querySelector('canvas#canvas_p');
+    var canvas_ctx = canvas.getContext('2d');
+
+    var svg_canvas_p = document.querySelector('svg#canvas g#pen');
+    var svg_canvas_bg = document.querySelector('svg#canvas g#bg');
+    svg_canvas.setAttributeNS(null, 'width', window.innerWidth + 'px');
+    svg_canvas.setAttributeNS(null, 'height', window.innerHeight + 'px');
+    svg_canvas.setAttributeNS(null, 'viewbox', `0,0,${window.innerWidth},${window.innerHeight}`);
+    var dpr = window.devicePixelRatio;
+    canvas.setAttributeNS(null, 'width', window.innerWidth * dpr + 'px');
+    canvas.setAttributeNS(null, 'height', window.innerHeight * dpr + 'px');
+
+    var doc = document.documentElement;
+    var x = 0;
+    var y = 0;
+    var current_pen_color = 'var(--d-pen-000000-color)';
+    var pen_width_base = 2;
+    var current_pen_width = 2;
+    var s_block_size = 45;
+    var block_size = 10;
+    var current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color');
+    var pendown = false;
+    var penPoints = [];
+    var penPoints_a = [];
+    var penPoints_b = [];
+    var svg_canvas_history = [];
+    var speed_log = [];
+    var svg_canvas_points = {};
+    var current_path_points = {};
+    var current_path_id = gid('path');
+    var current_point_id = gid('point');
+    var current_rect_id = gid('rect');
+    var current_path_points_offset = 0;
+    var rubber_eraser = false;
+    var pen_type = 1; //0:ball_pen,1:fountain_pen,2:shapes
+    var force = 0;
+    var wq = 0;
+    var speed = 0;
+    var canvas_id = urlparams('id') || gid('whiteboard');
+    var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle');
+    var path_main, path_a, path_b;
+    var offset_x = 0;
+    var offset_y = 0;
+    var s_block_offset_x = 0;
+    var s_block_offset_y = 0;
+    var move_start_x = 0;
+    var move_start_y = 0;
+    var current_qx = 0;
+    var current_qy = 0;
+    var move = false;
+    var boundary_points = [];
+    set_urlparams('id', canvas_id);
+
+    function urlparams(p) {
+      var getUrlString = location.href;
+      var url = new URL(getUrlString);
+      return url.searchParams.get(p);
     }
-    return o;
-  }
 
-  function pathToSegments(m, d, f) {
-    if (m === 0) {
-      var p = document.querySelector("#" + d);
-      if (p === null) {
-        return []
+    function set_urlparams(p, k) {
+      var getUrlString = location.href;
+      var url = new URL(getUrlString);
+      url.searchParams.set(p, k);
+      history.pushState(null, null, url);
+    }
+
+    function gid(n) {
+      var genidchars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
+      var genid = '';
+      for (var i = 0; i < 32; i++) {
+        var genrandomNumber = Math.floor(Math.random() * genidchars.length);
+        genid += genidchars.substring(genrandomNumber, genrandomNumber + 1);
       }
+      if (!(n === undefined)) {
+        n = n.replaceAll('-', '_');
+        return n + '_' + genid;
+      }
+      return 'id_' + genid;
     }
 
-    var points = [];
-    var totalLength = p.getTotalLength();
-    if (f === true) {
-      f = Math.min(totalLength / 100, 2)
+    function getMid(x1, y1, x2, y2) {
+      return { x: (x1 + x2) / 2, y: (y1 + y2) / 2 };
     }
-    for (let i = 0; i < totalLength; i += f) {
-      var { x, y } = p.getPointAtLength(i);
-      points.push({ x: Math.ol(x), y: Math.ol(y) });
+    function getBoundary(points) {
+      //separate x and y
+      var points_len = points.length;
+      var x = [];
+      var y = [];
+      for (var o = 0; o < points_len; o++) {
+        x.push(points[o].x);
+        y.push(points[o].y);
+      }
+      x.sort(function (a, b) {
+        return a - b;
+      });
+      y.sort(function (a, b) {
+        return a - b;
+      });
+      var point_1 = { x: x[0], y: y[0] };
+      var point_2 = { x: x[x.length - 1], y: y[y.length - 1] };
+      return [point_1, point_2];
     }
-    return points;
-  }
+    function calcPoints(arr) {
+      if (arr.length < 5) {
+        return arr;
+      }
 
-  function simplifyPath(points, tolerance) {
-    if (points.length < 3) {
+      return res;
+    }
+    function drawBlocks(w, h) {
+      var block = function (x, y) {
+        return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/></g>`;
+      };
+      var j = [];
+      var wc = Math.floor(w / s_block_size) + 1;
+      var hc = Math.floor(h / s_block_size) + 1;
+      for (var m = 0; m < hc * 3; m++) {
+        for (var n = 0; n < wc * 3; n++) {
+          j.push(block(-1 * wc * s_block_size + n * s_block_size, -1 * hc * s_block_size + m * s_block_size));
+        }
+      }
+
+      document.querySelector('#bg').innerHTML = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join('')}`;
+    }
+
+    function getBlock(x, y) {
+      var wc = String(Math.floor(x / block_size) + 1).replaceAll('-', 'i');
+      var hc = String(Math.floor(y / block_size) + 1).replaceAll('-', 'i');
+      return [wc, hc];
+    }
+    function drawPoint(x, y, r, s) {
+      var p = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      p.setAttributeNS(null, 'id', s);
+      p.setAttributeNS(null, 'cx', x);
+      p.setAttributeNS(null, 'cy', y);
+      p.setAttributeNS(null, 'r', r);
+      p.setAttributeNS(null, 'fill', current_pen_color);
+      svg_canvas_p.appendChild(p);
+    }
+
+    function segmentsToPath(segments) {
+      if (segments.length < 1) {
+        return '';
+      }
+      var pathCommand = `M${segments[0].x},${segments[0].y}`;
+      for (var i = 1; i < segments.length - 1; i++) {
+        var c = segments[i];
+        var n = segments[i + 1] || c;
+
+        pathCommand += `Q${c.x},${c.y},${(c.x + n.x) / 2},${(c.y + n.y) / 2}`;
+      }
+      return pathCommand;
+    }
+
+    function pathToOriginalSegments(path) {
+      var all_q = path.match(/Q[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,},[0-9\.]{1,}/gm);
+      var o = [];
+      var j = all_q.length;
+      for (var w = 0; w < j; w++) {
+        var k = all_q[w].substring(1).split(',');
+        o.push({ x: Math.ol(k[0]), y: Math.ol(k[1]) });
+      }
+      return o;
+    }
+
+    function pathToSegments(m, d, f) {
+      if (m === 0) {
+        var p = document.querySelector('#' + d);
+        if (p === null) {
+          return [];
+        }
+      }
+
+      var points = [];
+      var totalLength = p.getTotalLength();
+      if (f === true) {
+        f = Math.min(totalLength / 100, 2);
+      }
+      for (let i = 0; i < totalLength; i += f) {
+        var { x, y } = p.getPointAtLength(i);
+        points.push({ x: Math.ol(x), y: Math.ol(y) });
+      }
       return points;
     }
 
-    var dmax = 0;
-    var index = 0;
+    function simplifyPath(points, tolerance) {
+      if (points.length < 3) {
+        return points;
+      }
 
-    // Find the point with the maximum distance
-    for (var i = 1; i < points.length - 1; i++) {
-      var d = distanceToSegment(points[i], points[0], points[points.length - 1]);
-      if (d > dmax) {
-        index = i;
-        dmax = d;
+      var dmax = 0;
+      var index = 0;
+
+      // Find the point with the maximum distance
+      for (var i = 1; i < points.length - 1; i++) {
+        var d = distanceToSegment(points[i], points[0], points[points.length - 1]);
+        if (d > dmax) {
+          index = i;
+          dmax = d;
+        }
+      }
+
+      // If max distance is greater than tolerance, split the curve
+      if (dmax > tolerance) {
+        var leftPoints = points.slice(0, index + 1);
+        var rightPoints = points.slice(index);
+        var simplifiedLeft = simplifyPath(leftPoints, tolerance);
+        var simplifiedRight = simplifyPath(rightPoints, tolerance);
+        return simplifiedLeft.slice(0, simplifiedLeft.length - 1).concat(simplifiedRight);
+      } else {
+        return [points[0], points[points.length - 1]];
       }
     }
 
-    // If max distance is greater than tolerance, split the curve
-    if (dmax > tolerance) {
-      var leftPoints = points.slice(0, index + 1);
-      var rightPoints = points.slice(index);
-      var simplifiedLeft = simplifyPath(leftPoints, tolerance);
-      var simplifiedRight = simplifyPath(rightPoints, tolerance);
-      return simplifiedLeft
-        .slice(0, simplifiedLeft.length - 1)
-        .concat(simplifiedRight);
-    } else {
-      return [points[0], points[points.length - 1]];
-    }
-  }
+    function distanceToSegment(point, start, end) {
+      var dx = end.x - start.x;
+      var dy = end.y - start.y;
+      var d = dx * dx + dy * dy;
+      var t = ((point.x - start.x) * dx + (point.y - start.y) * dy) / d;
 
-  function distanceToSegment(point, start, end) {
-    var dx = end.x - start.x
-    var dy = end.y - start.y
-    var d = dx * dx + dy * dy;
-    var t = ((point.x - start.x) * dx + (point.y - start.y) * dy) / d;
-
-    if (t < 0) {
-      dx = point.x - start.x;
-      dy = point.y - start.y;
-    } else if (t > 1) {
-      dx = point.x - end.x;
-      dy = point.y - end.y;
-    } else {
-      var closestPoint = { x: start.x + t * dx, y: start.y + t * dy };
-      dx = point.x - closestPoint.x;
-      dy = point.y - closestPoint.y;
-    }
-
-    return Math.sqrt(dx * dx + dy * dy)
-  }
-
-  function drawPath(d, w, f) {
-    var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    p.setAttributeNS(null, "d", d);
-    p.setAttributeNS(null, "stroke-width", pen_width_base);
-    p.setAttributeNS(null, "stroke", f ? 'none' : current_pen_color);
-    p.setAttributeNS(null, "fill", f ? current_pen_color : 'none');
-    p.setAttributeNS(null, "stroke-linecap", "round");
-    p.setAttributeNS(null, "fill-rule", "nonzero");
-    p.setAttributeNS(null, "id", w);
-    svg_canvas_p.appendChild(p);
-  }
-
-  function updatePath(d, s, m, boundary) {
-    var p = document.querySelector("#" + s);
-    if (!(p === null)) {
-      if (!(m === 2)) {
-        p.setAttribute("d", d);
+      if (t < 0) {
+        dx = point.x - start.x;
+        dy = point.y - start.y;
+      } else if (t > 1) {
+        dx = point.x - end.x;
+        dy = point.y - end.y;
+      } else {
+        var closestPoint = { x: start.x + t * dx, y: start.y + t * dy };
+        dx = point.x - closestPoint.x;
+        dy = point.y - closestPoint.y;
       }
-      if (m === 1) {
-        p.setAttributeNS(null, "stroke-width", 0);
-        p.setAttributeNS(null, "fill", current_pen_color);
-        p.setAttributeNS(null, "stroke", "none");
-      }
-      if (m === 2) {
-        p.setAttributeNS(null, "bd-x1", boundary[0].x)
-        p.setAttributeNS(null, "bd-y1", boundary[0].y)
-        p.setAttributeNS(null, "bd-x2", boundary[1].x)
-        p.setAttributeNS(null, "bd-y2", boundary[1].y)
-      }
+
+      return Math.sqrt(dx * dx + dy * dy);
     }
 
-  }
-  function updatePoint(x, y, r, s, c) {
-    var p = document.querySelector("#" + s);
-    p.setAttributeNS(null, "cx", x);
-    p.setAttributeNS(null, "cy", y);
-    p.setAttributeNS(null, "r", r);
-    if (c === 1) {
-      p.setAttributeNS(null, "fill", "none");
-      p.setAttributeNS(null, "stroke", current_pen_color);
-      p.setAttributeNS(null, "stroke-width", pen_width_base);
+    function drawPath(d, w, f) {
+      var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      p.setAttributeNS(null, 'd', d);
+      p.setAttributeNS(null, 'stroke-width', pen_width_base);
+      p.setAttributeNS(null, 'stroke', f ? 'none' : current_pen_color);
+      p.setAttributeNS(null, 'fill', f ? current_pen_color : 'none');
+      p.setAttributeNS(null, 'stroke-linecap', 'round');
+      p.setAttributeNS(null, 'fill-rule', 'nonzero');
+      p.setAttributeNS(null, 'id', w);
+      svg_canvas_p.appendChild(p);
     }
-  }
-  function drawRect(x1, y1, x2, y2, s) {
-    var p = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-    p.setAttributeNS(null, "x", x1);
-    p.setAttributeNS(null, "y", y1);
-    p.setAttributeNS(null, "width", x2 - x1);
-    p.setAttributeNS(null, "height", y2 - y1);
-    p.setAttributeNS(null, "stroke-width", pen_width_base);
-    p.setAttributeNS(null, "stroke", current_pen_color);
-    p.setAttributeNS(null, "fill", "none");
-    p.setAttributeNS(null, "stroke-linecap", "round");
-    p.setAttributeNS(null, "fill-rule", "nonzero");
-    p.setAttributeNS(null, "id", s);
-    svg_canvas_p.appendChild(p);
-  }
-  function releaseElement(s) {
-    var p = document.querySelector("#" + s);
-    if (!(p === null)) {
-      p.removeAttribute("id");
-    }
-  }
-  function removeElement(s) {
-    var p = document.querySelector("#" + s);
-    if (!(p === null)) {
-      p.remove();
-    } else {
-      return true;
-    }
-  }
-  function removeElements(s) {
-    var s = document.querySelectorAll(s);
-    if (!(s === null)) {
-      var j = s.length;
-      for (var r = 0; r < j; r++) {
-        var p = s[r];
-        if (!(p === null)) {
-          p.remove();
+
+    function updatePath(d, s, m, boundary) {
+      var p = document.querySelector('#' + s);
+      if (!(p === null)) {
+        if (!(m === 2)) {
+          p.setAttribute('d', d);
+        }
+        if (m === 1) {
+          p.setAttributeNS(null, 'stroke-width', 0);
+          p.setAttributeNS(null, 'fill', current_pen_color);
+          p.setAttributeNS(null, 'stroke', 'none');
+        }
+        if (m === 2) {
+          p.setAttributeNS(null, 'bd-x1', boundary[0].x);
+          p.setAttributeNS(null, 'bd-y1', boundary[0].y);
+          p.setAttributeNS(null, 'bd-x2', boundary[1].x);
+          p.setAttributeNS(null, 'bd-y2', boundary[1].y);
         }
       }
     }
-  }
-  function register_element(register_id, pathSeg) {
-    if (pathSeg === null || pathSeg === undefined) {
-      return ''
+    function updatePoint(x, y, r, s, c) {
+      var p = document.querySelector('#' + s);
+      p.setAttributeNS(null, 'cx', x);
+      p.setAttributeNS(null, 'cy', y);
+      p.setAttributeNS(null, 'r', r);
+      if (c === 1) {
+        p.setAttributeNS(null, 'fill', 'none');
+        p.setAttributeNS(null, 'stroke', current_pen_color);
+        p.setAttributeNS(null, 'stroke-width', pen_width_base);
+      }
     }
-    for (var q = 0; q < pathSeg.length; q++) {
-      var op = getBlock(pathSeg[q].x, pathSeg[q].y);
-      boundary_points = getBoundary(pathSeg.concat(boundary_points))
-      if (!svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-        svg_canvas_points["w_" + op[0]] = {};
+    function drawRect(x1, y1, x2, y2, s) {
+      var p = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      p.setAttributeNS(null, 'x', x1);
+      p.setAttributeNS(null, 'y', y1);
+      p.setAttributeNS(null, 'width', x2 - x1);
+      p.setAttributeNS(null, 'height', y2 - y1);
+      p.setAttributeNS(null, 'stroke-width', pen_width_base);
+      p.setAttributeNS(null, 'stroke', current_pen_color);
+      p.setAttributeNS(null, 'fill', 'none');
+      p.setAttributeNS(null, 'stroke-linecap', 'round');
+      p.setAttributeNS(null, 'fill-rule', 'nonzero');
+      p.setAttributeNS(null, 'id', s);
+      svg_canvas_p.appendChild(p);
+    }
+    function releaseElement(s) {
+      var p = document.querySelector('#' + s);
+      if (!(p === null)) {
+        p.removeAttribute('id');
       }
-      if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-        if (!svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
-          svg_canvas_points["w_" + op[0]]["h_" + op[1]] = {};
-        }
+    }
+    function removeElement(s) {
+      var p = document.querySelector('#' + s);
+      if (!(p === null)) {
+        p.remove();
+      } else {
+        return true;
       }
-      if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-        if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
-          if (
-            !svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(
-              register_id
-            )
-          ) {
-            svg_canvas_points["w_" + op[0]]["h_" + op[1]][
-              register_id
-            ] = 1;
+    }
+    function removeElements(s) {
+      var s = document.querySelectorAll(s);
+      if (!(s === null)) {
+        var j = s.length;
+        for (var r = 0; r < j; r++) {
+          var p = s[r];
+          if (!(p === null)) {
+            p.remove();
           }
         }
       }
     }
-  }
-  function getCoordinateOnCircleBorder(centerX, centerY, radius, radian) {
-    var x = parseFloat((centerX + Math.cos(radian) * radius).toFixed(10))
-    var y = parseFloat((centerY + Math.sin(radian) * radius).toFixed(10))
+    function register_element(register_id, pathSeg) {
+      if (pathSeg === null || pathSeg === undefined) {
+        return '';
+      }
+      for (var q = 0; q < pathSeg.length; q++) {
+        var op = getBlock(pathSeg[q].x, pathSeg[q].y);
+        boundary_points = getBoundary(pathSeg.concat(boundary_points));
+        if (!svg_canvas_points.hasOwnProperty('w_' + op[0])) {
+          svg_canvas_points['w_' + op[0]] = {};
+        }
+        if (svg_canvas_points.hasOwnProperty('w_' + op[0])) {
+          if (!svg_canvas_points['w_' + op[0]].hasOwnProperty('h_' + op[1])) {
+            svg_canvas_points['w_' + op[0]]['h_' + op[1]] = {};
+          }
+        }
+        if (svg_canvas_points.hasOwnProperty('w_' + op[0])) {
+          if (svg_canvas_points['w_' + op[0]].hasOwnProperty('h_' + op[1])) {
+            if (!svg_canvas_points['w_' + op[0]]['h_' + op[1]].hasOwnProperty(register_id)) {
+              svg_canvas_points['w_' + op[0]]['h_' + op[1]][register_id] = 1;
+            }
+          }
+        }
+      }
+    }
+    function getCoordinateOnCircleBorder(centerX, centerY, radius, radian) {
+      var x = parseFloat((centerX + Math.cos(radian) * radius).toFixed(10));
+      var y = parseFloat((centerY + Math.sin(radian) * radius).toFixed(10));
 
-    var degree = radian * (180 / Math.PI)
-    return { x, y, radian, degree, radius }
-  }
-  function drawFountainPenPath(points) {
-    var start_time = points[0].time_stamp
-    var end_time = points[points.length - 1].time_stamp
+      var degree = radian * (180 / Math.PI);
+      return { x, y, radian, degree, radius };
+    }
+    function drawFountainPenPath(points) {
+      var start_time = points[0].time_stamp;
+      var end_time = points[points.length - 1].time_stamp;
 
-    points = points.map(g => ({
-      x: g.x, y: g.y, force: g.force, time_stamp: g.time_stamp - start_time, id: gid()
-    }))
-    // console.log(736, points)
-    var pathCommand = segmentsToPath(simplifyPath(points, 3));
-    var id = "temporary-path-" + gid();
-    drawPath(pathCommand, id, false);
-    var sc = -1;
-    var curved_points = pathToSegments(0, id, true).map(
-      (r) => ({
+      points = points.map((g) => ({
+        x: g.x,
+        y: g.y,
+        force: g.force,
+        time_stamp: g.time_stamp - start_time,
+        id: gid()
+      }));
+      // console.log(736, points)
+      var pathCommand = segmentsToPath(simplifyPath(points, 3));
+      var id = 'temporary-path-' + gid();
+      drawPath(pathCommand, id, false);
+      var sc = -1;
+      var curved_points = pathToSegments(0, id, true).map((r) => ({
         x: r.x,
         y: r.y,
         force: (function () {
@@ -768,754 +748,686 @@
             });
           return dd[0].distance < 10 ? dd[0] : -3;
         })()
-      })
-    );
-    //  console.log(763, curved_points)
+      }));
+      //  console.log(763, curved_points)
 
-    curved_points = curved_points.map((d) => {
-      sc += 1;
-      return {
-        x: d.x,
-        y: d.y,
-        force: curved_points[sc - 1] === null
-          ? typeof d.force === "object"
-            ? d.force.force
-            : { f: -3, d: false }
-          : typeof d.force === "object" &&
-            typeof curved_points[sc - 1] === "object"
-            ? curved_points[sc - 1].force.id === d.force.id
-              ? { f: -3, d: false }
-              : { f: d.force.force, d: true, time_stamp: d.force.time_stamp }
-            : { f: -3, d: false }
-      };
-    });
-    // console.log(783, curved_points)
+      curved_points = curved_points.map((d) => {
+        sc += 1;
+        return {
+          x: d.x,
+          y: d.y,
+          force: curved_points[sc - 1] === null ? (typeof d.force === 'object' ? d.force.force : { f: -3, d: false }) : typeof d.force === 'object' && typeof curved_points[sc - 1] === 'object' ? (curved_points[sc - 1].force.id === d.force.id ? { f: -3, d: false } : { f: d.force.force, d: true, time_stamp: d.force.time_stamp }) : { f: -3, d: false }
+        };
+      });
+      // console.log(783, curved_points)
 
-    // Add an index to each item
-    curved_points.forEach((point, index) => {
-      point.index = index;
-    });
-    // console.log(789, curved_points)
+      // Add an index to each item
+      curved_points.forEach((point, index) => {
+        point.index = index;
+      });
+      // console.log(789, curved_points)
 
-    // Separate data into two arrays: one with known forces and one with unknown forces
-    var knownForces = curved_points.filter((point) => point.force.d === true);
-    var unknownForces = curved_points.filter((point) => point.force.d === false);
+      // Separate data into two arrays: one with known forces and one with unknown forces
+      var knownForces = curved_points.filter((point) => point.force.d === true);
+      var unknownForces = curved_points.filter((point) => point.force.d === false);
 
-    // Calculate weights based on distances between known force points
+      // Calculate weights based on distances between known force points
 
-    for (let i = 0; i < knownForces.length; i++) {
-      var currentKnownPoint = knownForces[i];
-      var prevKnownPoint2 = knownForces[i - 2] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true, time_stamp: 0 } });
-      var prevKnownPoint = knownForces[i - 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true, time_stamp: 0 } });
-      var nextKnownPoint = knownForces[i + 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true, time_stamp: end_time - start_time } });
-      if (i === knownForces.length - 1) {
-        var prevSpeed = (Math.sqrt(Math.pow(prevKnownPoint2.x - prevKnownPoint.x, 2) + Math.pow(prevKnownPoint2.y - prevKnownPoint.y, 2))) / Math.max(1, prevKnownPoint.force.time_stamp - prevKnownPoint2.force.time_stamp)
-        var currentSpeed = (Math.sqrt(Math.pow(currentKnownPoint.x - prevKnownPoint.x, 2) + Math.pow(currentKnownPoint.y - prevKnownPoint.y, 2))) / Math.max(1, currentKnownPoint.force.time_stamp - prevKnownPoint.force.time_stamp)
+      for (let i = 0; i < knownForces.length; i++) {
+        var currentKnownPoint = knownForces[i];
+        var prevKnownPoint2 = knownForces[i - 2] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true, time_stamp: 0 } });
+        var prevKnownPoint = knownForces[i - 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true, time_stamp: 0 } });
+        var nextKnownPoint = knownForces[i + 1] || Object.assign(Object.assign({}, currentKnownPoint), { force: { f: 0, d: true, time_stamp: end_time - start_time } });
+        if (i === knownForces.length - 1) {
+          var prevSpeed = Math.sqrt(Math.pow(prevKnownPoint2.x - prevKnownPoint.x, 2) + Math.pow(prevKnownPoint2.y - prevKnownPoint.y, 2)) / Math.max(1, prevKnownPoint.force.time_stamp - prevKnownPoint2.force.time_stamp);
+          var currentSpeed = Math.sqrt(Math.pow(currentKnownPoint.x - prevKnownPoint.x, 2) + Math.pow(currentKnownPoint.y - prevKnownPoint.y, 2)) / Math.max(1, currentKnownPoint.force.time_stamp - prevKnownPoint.force.time_stamp);
 
-        currentKnownPoint.forceFn = getFn(
-          prevKnownPoint.index,
-          prevKnownPoint.force.f,
-          currentKnownPoint.index,
-          currentKnownPoint.force.f
-        );
-        currentKnownPoint.speedFn = getFn(
-          prevKnownPoint.index,
-          prevSpeed,
-          currentKnownPoint.index,
-          currentSpeed
-        )
-        currentKnownPoint.force.speed = currentSpeed
-        currentKnownPoint.indexRange = [prevKnownPoint.index, currentKnownPoint.index]
-      } else {
-        var currentSpeed = (Math.sqrt(Math.pow(currentKnownPoint.x - prevKnownPoint.x, 2) + Math.pow(currentKnownPoint.y - prevKnownPoint.y, 2))) / Math.max(1, currentKnownPoint.force.time_stamp - prevKnownPoint.force.time_stamp)
-        var nextSpeed = (Math.sqrt(Math.pow(nextKnownPoint.x - currentKnownPoint.x, 2) + Math.pow(nextKnownPoint.y - currentKnownPoint.y, 2))) / Math.max(1, nextKnownPoint.force.time_stamp - currentKnownPoint.force.time_stamp)
-        currentKnownPoint.forceFn = getFn(
-          currentKnownPoint.index,
-          currentKnownPoint.force.f,
-          nextKnownPoint.index,
-          nextKnownPoint.force.f
-        );
-        currentKnownPoint.speedFn = getFn(
-          currentKnownPoint.index,
-          currentSpeed,
-          nextKnownPoint.index,
-          nextSpeed
-        )
-        currentKnownPoint.force.speed = currentSpeed
-        currentKnownPoint.indexRange = [currentKnownPoint.index, nextKnownPoint.index]
-      }
-      knownForces.splice(i, 1, currentKnownPoint);
-    }
-    console.log(822, knownForces)
-
-    unknownForces = unknownForces.map((e) => {
-      var kx = (function () {
-        var h = knownForces.filter((g) =>
-          (e.index > g.indexRange[0] && e.index < g.indexRange[1]) ? true : false
-        )
-        if (h.length === 0) {
-          if (e.index < knownForces[0].indexRange[0] && e.index >= 0) {
-            return knownForces[0]
-          }
-          else {
-            if (e.index > knownForces[0].indexRange[1]) {
-              return knownForces[knownForces.length - 1]
-            }
-          }
-          return 0
-        }
-        else {
-          return h[0]
-        }
-      }());
-      return {
-        x: e.x,
-        y: e.y,
-        force: kx.forceFn(e.index),
-        speed: kx.speedFn(e.index),
-        index: e.index
-      }
-    });
-    // console.log(850, curved_points)
-
-    // Sort the array by index
-    curved_points = unknownForces.concat(knownForces.map(e => ({ x: e.x, y: e.y, force: e.force.f, index: e.index, speed: e.force.speed })))
-    curved_points.sort((a, b) => a.index - b.index);
-    curved_points.forEach((f, index) => {
-      var current = curved_points[index]
-      var prev = curved_points[index - 1] || current
-      var next = curved_points[index + 1] || current
-      var x1 = prev.x
-      var y1 = prev.y
-      var x2 = next.x
-      var y2 = next.y
-      var angleRadians
-      if (x2 - x1 === 0) {
-        // Handle vertical line (x-coordinates are the same)
-        if (y2 > y1) {
-          angleRadians = Math.PI / 2;  // 90 degrees or π/2 radians
-        } else if (y2 < y1) {
-          angleRadians = -Math.PI / 2; // -90 degrees or -π/2 radians
+          currentKnownPoint.forceFn = getFn(prevKnownPoint.index, prevKnownPoint.force.f, currentKnownPoint.index, currentKnownPoint.force.f);
+          currentKnownPoint.speedFn = getFn(prevKnownPoint.index, prevSpeed, currentKnownPoint.index, currentSpeed);
+          currentKnownPoint.force.speed = currentSpeed;
+          currentKnownPoint.indexRange = [prevKnownPoint.index, currentKnownPoint.index];
         } else {
-          angleRadians = 0;  // Points are the same (angle is 0 radians)
+          var currentSpeed = Math.sqrt(Math.pow(currentKnownPoint.x - prevKnownPoint.x, 2) + Math.pow(currentKnownPoint.y - prevKnownPoint.y, 2)) / Math.max(1, currentKnownPoint.force.time_stamp - prevKnownPoint.force.time_stamp);
+          var nextSpeed = Math.sqrt(Math.pow(nextKnownPoint.x - currentKnownPoint.x, 2) + Math.pow(nextKnownPoint.y - currentKnownPoint.y, 2)) / Math.max(1, nextKnownPoint.force.time_stamp - currentKnownPoint.force.time_stamp);
+          currentKnownPoint.forceFn = getFn(currentKnownPoint.index, currentKnownPoint.force.f, nextKnownPoint.index, nextKnownPoint.force.f);
+          currentKnownPoint.speedFn = getFn(currentKnownPoint.index, currentSpeed, nextKnownPoint.index, nextSpeed);
+          currentKnownPoint.force.speed = currentSpeed;
+          currentKnownPoint.indexRange = [currentKnownPoint.index, nextKnownPoint.index];
         }
-      } else {
-        // Non-vertical line
-        angleRadians = Math.atan2(y2 - y1, x2 - x1) + (Math.PI * 0.5);
-        // Ensure the angle is positive (between 0 and 2π)
-        if (angleRadians < 0) {
-          angleRadians += 2 * Math.PI;
-        }
+        knownForces.splice(i, 1, currentKnownPoint);
       }
+      console.log(822, knownForces);
 
-
-      // var s = Math.sqrt(Math.pow(prev.x - f.x, 2) + Math.pow(prev.y - f.y, 2)) / (f.time_stamp - prev.time_stamp === 0 ? 1 : f.time_stamp - prev.time_stamp)
-      var speed = 1 + (3 - 1) * Math.min(f.speed, 10) / 10
-      var radius = ((pen_width_base + (pen_width_base * 0.66) * Math.pow(f.force, 0.4) + (pen_width_base * 0.66) * speed)) * 0.5
-      console.log(radius)
-
-      curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI), speed: f.speed })
-    })
-    console.log(curved_points)
-
-    removeElement(id)
-    var ftid = gid()
-    drawPath(segmentsToPath(curved_points.map(g => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map(g => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid, true)
-  }
-
-
-  function openWhiteboardByID(id, callback) {
-    if (x_storage.hasOwnProperty(id)) {
-      set_urlparams('id', id)
-      canvas_id = id
-      var pen_layer_content = String(x_storage.getItem(id))
-      svg_canvas_p.innerHTML = pen_layer_content
-      var allpath = document.querySelectorAll('svg#canvas #pen path')
-      var allpoint = document.querySelectorAll('svg#canvas #pen circle')
-      var allpath_len = allpath.length
-      var allpoint_len = allpoint.length
-      var register_list = []
-      for (var o = 0; o < allpath_len; o++) {
-        var f = gid('path')
-        allpath[o].id = f
-        register_element(f, pathToSegments(0, f, 1))
-      }
-      for (var o = 0; o < allpoint_len; o++) {
-        var f = gid('point')
-        allpoint[o].id = f
-        register_element(f, pathToSegments(0, f))
-      }
-
-      svg_canvas_history.push(svg_canvas_p.innerHTML);
-      var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
-      if (last_content.length >= 1) {
-        x_storage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
-      }
-
-      callback()
-    }
-    else {
-      callback()
-    }
-  }
-
-
-
-  canvas.addEventListener("touchstart", function (e) {
-    disableScroll();
-    x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
-    y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
-    penPoints = [];
-    penPoints_a = []
-    penPoints_b = []
-    speed_log = []
-    force = 0
-    wq = 0
-    speed = 0
-    var current_time = new Date().getTime()
-    current_path_points = {}
-    current_pen_width = pen_width_base * 1
-    current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color')
-    if (e.targetTouches.length < 2) {
-      if (!rubber_eraser) {
-        pendown = true;
-        drawPath("", `${current_path_id}_main`, false);
-        drawPoint(x, y, 1, current_point_id);
-        penPoints.push({ x: x, y: y, force: 0, angle: 0, time_stamp: current_time });
-        path_main = new Path2D()
-        path_a = new Path2D()
-        path_b = new Path2D()
-        path_main.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
-        path_a.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
-        path_b.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
-      }
-      else {
-        rubber_eraser_symbol.setAttribute('transform', `translate(${x + offset_x} ${y + offset_x})`)
-        rubber_eraser_symbol.setAttribute('opacity', '1')
-      }
-
-    }
-    else {
-      move = true
-      move_start_x = x + offset_x
-      move_start_y = y + offset_y
-    }
-
-
-    current_path_points_offset = 0
-  });
-  canvas.addEventListener("touchmove", function (e) {
-    x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x
-    y = e.targetTouches[0].pageY - doc.scrollTop - offset_y
-    if (move) {
-      if (pendown) {
-        pendown = false
-      }
-      if (rubber_eraser) {
-        rubber_eraser_symbol.setAttribute('opacity', '0')
-      }
-      current_qx = x + offset_x
-      current_qy = y + offset_y
-      var canvas_offset_x = current_qx - move_start_x
-      var canvas_offset_y = current_qy - move_start_y
-      svg_canvas_p.setAttribute('transform', `translate(${offset_x + canvas_offset_x} ${offset_y + canvas_offset_y})`)
-      svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
-    }
-    else {
-      var op = getBlock(x, y);
-      if (pendown) {
-        if (e.targetTouches[0].force) {
-          force = e.targetTouches[0].force
-        }
-
-        if (penPoints.length > 3) {
-          var last_p = penPoints.slice(penPoints.length - Math.min(5, penPoints.length - 1), penPoints.length - 1)
-          var last_x = []
-          var last_y = []
-          for (var t = 0; t < last_p.length; t++) {
-            last_x.push(last_p[t].x)
-            last_y.push(last_p[t].y)
+      unknownForces = unknownForces.map((e) => {
+        var kx = (function () {
+          var h = knownForces.filter((g) => (e.index > g.indexRange[0] && e.index < g.indexRange[1] ? true : false));
+          if (h.length === 0) {
+            if (e.index < knownForces[0].indexRange[0] && e.index >= 0) {
+              return knownForces[0];
+            } else {
+              if (e.index > knownForces[0].indexRange[1]) {
+                return knownForces[knownForces.length - 1];
+              }
+            }
+            return 0;
+          } else {
+            return h[0];
           }
+        })();
+        return {
+          x: e.x,
+          y: e.y,
+          force: kx.forceFn(e.index),
+          speed: kx.speedFn(e.index),
+          index: e.index
+        };
+      });
+      // console.log(850, curved_points)
 
-         
-        }
-        var current_time = new Date().getTime()
-
-        var current = penPoints[penPoints.length - 1]
-        var prev = penPoints[penPoints.length - 2] || current
-        var next = penPoints[penPoints.length] || current
-        var x1 = prev.x
-        var y1 = prev.y
-        var x2 = next.x
-        var y2 = next.y
-        var angleRadians
+      // Sort the array by index
+      curved_points = unknownForces.concat(knownForces.map((e) => ({ x: e.x, y: e.y, force: e.force.f, index: e.index, speed: e.force.speed })));
+      curved_points.sort((a, b) => a.index - b.index);
+      curved_points.forEach((f, index) => {
+        var current = curved_points[index];
+        var prev = curved_points[index - 1] || current;
+        var next = curved_points[index + 1] || current;
+        var x1 = prev.x;
+        var y1 = prev.y;
+        var x2 = next.x;
+        var y2 = next.y;
+        var angleRadians;
         if (x2 - x1 === 0) {
           // Handle vertical line (x-coordinates are the same)
           if (y2 > y1) {
-            angleRadians = Math.PI / 2;  // 90 degrees or π/2 radians
+            angleRadians = Math.PI / 2; // 90 degrees or π/2 radians
           } else if (y2 < y1) {
             angleRadians = -Math.PI / 2; // -90 degrees or -π/2 radians
           } else {
-            angleRadians = 0;  // Points are the same (angle is 0 radians)
+            angleRadians = 0; // Points are the same (angle is 0 radians)
           }
         } else {
           // Non-vertical line
-          angleRadians = Math.atan2(y2 - y1, x2 - x1) + (Math.PI * 0.5);
+          angleRadians = Math.atan2(y2 - y1, x2 - x1) + Math.PI * 0.5;
           // Ensure the angle is positive (between 0 and 2π)
           if (angleRadians < 0) {
             angleRadians += 2 * Math.PI;
           }
         }
 
+        // var s = Math.sqrt(Math.pow(prev.x - f.x, 2) + Math.pow(prev.y - f.y, 2)) / (f.time_stamp - prev.time_stamp === 0 ? 1 : f.time_stamp - prev.time_stamp)
+        var speed = 1 + ((3 - 1) * Math.min(f.speed, 10)) / 10;
+        var radius = (pen_width_base + pen_width_base * 0.66 * Math.pow(f.force, 0.4) + pen_width_base * 0.66 * speed) * 0.5;
+        console.log(radius);
 
-        penPoints.push({ x: x, y: y, force: force, angle: angleRadians, time_stamp: current_time });
-        if (penPoints.length > 2) {
-          path_main = new Path2D()
+        curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI), speed: f.speed });
+      });
+      console.log(curved_points);
 
-          var pervious_point = penPoints[penPoints.length - 2]
-          path_main.moveTo((pervious_point.x + offset_x) * dpr, (pervious_point.y + offset_y) * dpr);
-          if (penPoints_a.length > 3) {
-            path_a = new Path2D()
-            path_b = new Path2D()
-            var pervious_point_a = penPoints_a[penPoints_a.length - 1]
-            var pervious_point_b = penPoints_b[penPoints_b.length - 1]
+      removeElement(id);
+      var ftid = gid();
+      drawPath(segmentsToPath(curved_points.map((g) => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map((g) => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid, true);
+    }
 
-            path_a.moveTo(pervious_point_a.sx, pervious_point_a.sy);
-            path_b.moveTo(pervious_point_b.sx, pervious_point_b.sy);
-
-          }
-
-          var pervious_point = penPoints[penPoints.length - 2]
-          s = Math.sqrt(Math.pow(pervious_point.x - x, 2) + Math.pow(pervious_point.y - y, 2)) / (current_time - pervious_point.time_stamp)
-          speed = 1 + (3 - 1) * Math.min(s, 10) / 10
-          speed_log.push(s)
+    function openWhiteboardByID(id, callback) {
+      if (x_storage.hasOwnProperty(id)) {
+        set_urlparams('id', id);
+        canvas_id = id;
+        var pen_layer_content = String(x_storage.getItem(id));
+        svg_canvas_p.innerHTML = pen_layer_content;
+        var allpath = document.querySelectorAll('svg#canvas #pen path');
+        var allpoint = document.querySelectorAll('svg#canvas #pen circle');
+        var allpath_len = allpath.length;
+        var allpoint_len = allpoint.length;
+        var register_list = [];
+        for (var o = 0; o < allpath_len; o++) {
+          var f = gid('path');
+          allpath[o].id = f;
+          register_element(f, pathToSegments(0, f, 1));
         }
-        var f2 = 0.5
-        if (pen_type === 1) {
-          f2 = force
+        for (var o = 0; o < allpoint_len; o++) {
+          var f = gid('point');
+          allpoint[o].id = f;
+          register_element(f, pathToSegments(0, f));
         }
-        current_pen_width = pen_width_base + (pen_width_base * 0.66) * Math.pow(f2, 0.4) + (pen_width_base * 0.66) * speed
 
-        canvas_ctx.lineCap = "round";
-        canvas_ctx.lineWidth = pen_width_base * dpr
-        canvas_ctx.strokeStyle = current_pen_color_snapshot;
-        path_main.lineTo((x + offset_x) * dpr, (y + offset_y) * dpr);
-        canvas_ctx.stroke(path_main);
-        var radius = current_pen_width
-        radius = Math.min(Math.max(current_pen_width * 0.5 - pen_width_base * 0.5, 0), pen_width_base * 0.89)
-
-        var cx1 = (x) + radius * Math.cos(2 * Math.PI * angleRadians / 360)
-        var cy1 = (y) + radius * Math.sin(2 * Math.PI * angleRadians / 360)
-        var cx2 = (x) + radius * Math.cos(2 * Math.PI * (angleRadians + 180) / 360)
-        var cy2 = (y) + radius * Math.sin(2 * Math.PI * (angleRadians + 180) / 360)
-
-        var radius_a = (radius) * dpr
-        canvas_ctx.lineWidth = pen_width_base * dpr
-
-        var s_cx1 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * angleRadians / 360)
-        var s_cy1 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * angleRadians / 360)
-        var s_cx2 = (x + offset_x) * dpr + radius_a * Math.cos(2 * Math.PI * (angleRadians + 180) / 360)
-        var s_cy2 = (y + offset_y) * dpr + radius_a * Math.sin(2 * Math.PI * (angleRadians + 180) / 360)
-
-        if (pen_type === 1) {
-
-          penPoints_a.push({ x: Math.ol(cx1), y: Math.ol(cy1), sx: (s_cx1), sy: (s_cy1), px: x, py: y })
-          penPoints_b.push({ x: Math.ol(cx2), y: Math.ol(cy2), sx: (s_cx2), sy: (s_cy2), px: x, py: y })
-          path_a.lineTo(s_cx1, s_cy1);
-          canvas_ctx.stroke(path_a);
-          canvas_ctx.closePath(path_a);
-          path_b.lineTo(s_cx2, s_cy2);
-          canvas_ctx.stroke(path_b);
-          canvas_ctx.closePath(path_b);
-
+        svg_canvas_history.push(svg_canvas_p.innerHTML);
+        var last_content = String(svg_canvas_history[svg_canvas_history.length - 1]);
+        if (last_content.length >= 1) {
+          x_storage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''));
         }
-      }
 
-      if (rubber_eraser) {
-        rubber_eraser_symbol.setAttribute('transform', `translate(${x + offset_x} ${y + offset_y})`)
-        if (svg_canvas_points.hasOwnProperty("w_" + op[0])) {
-          if (svg_canvas_points["w_" + op[0]].hasOwnProperty("h_" + op[1])) {
-            if (svg_canvas_points["w_" + op[0]]["h_" + op[1]].hasOwnProperty(current_path_id)) {
-
-            }
-            var all_id = svg_canvas_points["w_" + op[0]]["h_" + op[1]];
-
-            var all_id_len = all_id.length
-
-            for (var e in all_id) {
-              removeElement(`${e}_a`);
-              removeElement(`${e}_b`);
-              removeElement(`${e}_main`);
-              removeElement(`${e}`);
-              delete svg_canvas_points["w_" + op[0]]["h_" + op[1]][e];
-            }
-          }
-        }
+        callback();
+      } else {
+        callback();
       }
     }
-  });
-  canvas.addEventListener("touchend", function (e) {
 
-    enableScroll();
-    if (move) {
-      move = false
-      offset_x += current_qx - move_start_x
-      offset_y += current_qy - move_start_y
-      var canvas_offset_x = (current_qx - move_start_x) % s_block_size
-      var canvas_offset_y = (current_qy - move_start_y) % s_block_size
-      svg_canvas_p.setAttribute('transform', `translate(${offset_x} ${offset_y})`)
-      svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`)
-    }
-    if (pendown) {
-      pendown = false;
-      var doc = document.documentElement;
-      var current_time = new Date().getTime()
-      penPoints.push({ x: x, y: y, force: 0, angle: 0, time_stamp: current_time });
-      penPoints_a.push({ x: x, y: y, sx: x, sy: y });
-      penPoints_b.push({ x: x, y: y, sx: x, sy: y });
-      var register_id = current_path_id
-      if (penPoints.length >= 2) {
-        var w = Math.ol(penPoints.length / 50);
-        if (w < 0.5) {
-          w = 0.1;
+    canvas.addEventListener('touchstart', function (e) {
+      disableScroll();
+      x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x;
+      y = e.targetTouches[0].pageY - doc.scrollTop - offset_y;
+      penPoints = [];
+      penPoints_a = [];
+      penPoints_b = [];
+      speed_log = [];
+      force = 0;
+      wq = 0;
+      speed = 0;
+      var current_time = new Date().getTime();
+      current_path_points = {};
+      current_pen_width = pen_width_base * 1;
+      current_pen_color_snapshot = getComputedStyle(doc).getPropertyValue('--d-pen-000000-color');
+      if (e.targetTouches.length < 2) {
+        if (!rubber_eraser) {
+          pendown = true;
+          drawPath('', `${current_path_id}_main`, false);
+          drawPoint(x, y, 1, current_point_id);
+          penPoints.push({ x: x, y: y, force: 0, angle: 0, time_stamp: current_time });
+          path_main = new Path2D();
+          path_a = new Path2D();
+          path_b = new Path2D();
+          path_main.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+          path_a.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+          path_b.moveTo((x + offset_x) * dpr, (y + offset_y) * dpr);
         } else {
-          if (w > 1) {
-            w = 1;
+          rubber_eraser_symbol.setAttribute('transform', `translate(${x + offset_x} ${y + offset_x})`);
+          rubber_eraser_symbol.setAttribute('opacity', '1');
+        }
+      } else {
+        move = true;
+        move_start_x = x + offset_x;
+        move_start_y = y + offset_y;
+      }
+
+      current_path_points_offset = 0;
+    });
+    canvas.addEventListener('touchmove', function (e) {
+      x = e.targetTouches[0].pageX - doc.scrollLeft - offset_x;
+      y = e.targetTouches[0].pageY - doc.scrollTop - offset_y;
+      if (move) {
+        if (pendown) {
+          pendown = false;
+        }
+        if (rubber_eraser) {
+          rubber_eraser_symbol.setAttribute('opacity', '0');
+        }
+        current_qx = x + offset_x;
+        current_qy = y + offset_y;
+        var canvas_offset_x = current_qx - move_start_x;
+        var canvas_offset_y = current_qy - move_start_y;
+        svg_canvas_p.setAttribute('transform', `translate(${offset_x + canvas_offset_x} ${offset_y + canvas_offset_y})`);
+        svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`);
+      } else {
+        var op = getBlock(x, y);
+        if (pendown) {
+          if (e.targetTouches[0].force) {
+            force = e.targetTouches[0].force;
+          }
+
+          if (penPoints.length > 3) {
+            var last_p = penPoints.slice(penPoints.length - Math.min(5, penPoints.length - 1), penPoints.length - 1);
+            var last_x = [];
+            var last_y = [];
+            for (var t = 0; t < last_p.length; t++) {
+              last_x.push(last_p[t].x);
+              last_y.push(last_p[t].y);
+            }
+          }
+          var current_time = new Date().getTime();
+
+          var current = penPoints[penPoints.length - 1];
+          var prev = penPoints[penPoints.length - 2] || current;
+          var next = penPoints[penPoints.length] || current;
+          var x1 = prev.x;
+          var y1 = prev.y;
+          var x2 = next.x;
+          var y2 = next.y;
+          var angleRadians;
+          if (x2 - x1 === 0) {
+            // Handle vertical line (x-coordinates are the same)
+            if (y2 > y1) {
+              angleRadians = Math.PI / 2; // 90 degrees or π/2 radians
+            } else if (y2 < y1) {
+              angleRadians = -Math.PI / 2; // -90 degrees or -π/2 radians
+            } else {
+              angleRadians = 0; // Points are the same (angle is 0 radians)
+            }
+          } else {
+            // Non-vertical line
+            angleRadians = Math.atan2(y2 - y1, x2 - x1) + Math.PI * 0.5;
+            // Ensure the angle is positive (between 0 and 2π)
+            if (angleRadians < 0) {
+              angleRadians += 2 * Math.PI;
+            }
+          }
+
+          penPoints.push({ x: x, y: y, force: force, angle: angleRadians, time_stamp: current_time });
+          if (penPoints.length > 2) {
+            path_main = new Path2D();
+
+            var pervious_point = penPoints[penPoints.length - 2];
+            path_main.moveTo((pervious_point.x + offset_x) * dpr, (pervious_point.y + offset_y) * dpr);
+            if (penPoints_a.length > 3) {
+              path_a = new Path2D();
+              path_b = new Path2D();
+              var pervious_point_a = penPoints_a[penPoints_a.length - 1];
+              var pervious_point_b = penPoints_b[penPoints_b.length - 1];
+
+              path_a.moveTo(pervious_point_a.sx, pervious_point_a.sy);
+              path_b.moveTo(pervious_point_b.sx, pervious_point_b.sy);
+            }
+
+            var pervious_point = penPoints[penPoints.length - 2];
+            s = Math.sqrt(Math.pow(pervious_point.x - x, 2) + Math.pow(pervious_point.y - y, 2)) / (current_time - pervious_point.time_stamp);
+            speed = 1 + ((3 - 1) * Math.min(s, 10)) / 10;
+            speed_log.push(s);
+          }
+          var f2 = 0.5;
+          if (pen_type === 1) {
+            f2 = force;
+          }
+          current_pen_width = pen_width_base + pen_width_base * 0.66 * Math.pow(f2, 0.4) + pen_width_base * 0.66 * speed;
+
+          canvas_ctx.lineCap = 'round';
+          canvas_ctx.lineWidth = pen_width_base * dpr;
+          canvas_ctx.strokeStyle = current_pen_color_snapshot;
+          path_main.lineTo((x + offset_x) * dpr, (y + offset_y) * dpr);
+          canvas_ctx.stroke(path_main);
+          var radius = current_pen_width;
+          radius = Math.min(Math.max(current_pen_width * 0.5 - pen_width_base * 0.5, 0), pen_width_base * 0.89);
+
+          var cx1 = x + radius * Math.cos((2 * Math.PI * angleRadians) / 360);
+          var cy1 = y + radius * Math.sin((2 * Math.PI * angleRadians) / 360);
+          var cx2 = x + radius * Math.cos((2 * Math.PI * (angleRadians + 180)) / 360);
+          var cy2 = y + radius * Math.sin((2 * Math.PI * (angleRadians + 180)) / 360);
+
+          var radius_a = radius * dpr;
+          canvas_ctx.lineWidth = pen_width_base * dpr;
+
+          var s_cx1 = (x + offset_x) * dpr + radius_a * Math.cos((2 * Math.PI * angleRadians) / 360);
+          var s_cy1 = (y + offset_y) * dpr + radius_a * Math.sin((2 * Math.PI * angleRadians) / 360);
+          var s_cx2 = (x + offset_x) * dpr + radius_a * Math.cos((2 * Math.PI * (angleRadians + 180)) / 360);
+          var s_cy2 = (y + offset_y) * dpr + radius_a * Math.sin((2 * Math.PI * (angleRadians + 180)) / 360);
+
+          if (pen_type === 1) {
+            penPoints_a.push({ x: Math.ol(cx1), y: Math.ol(cy1), sx: s_cx1, sy: s_cy1, px: x, py: y });
+            penPoints_b.push({ x: Math.ol(cx2), y: Math.ol(cy2), sx: s_cx2, sy: s_cy2, px: x, py: y });
+            path_a.lineTo(s_cx1, s_cy1);
+            canvas_ctx.stroke(path_a);
+            canvas_ctx.closePath(path_a);
+            path_b.lineTo(s_cx2, s_cy2);
+            canvas_ctx.stroke(path_b);
+            canvas_ctx.closePath(path_b);
           }
         }
-        if (pen_type === 1) {
 
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1))), `${current_path_id}_a`, false)
-          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1))), `${current_path_id}_b`, false)
+        if (rubber_eraser) {
+          rubber_eraser_symbol.setAttribute('transform', `translate(${x + offset_x} ${y + offset_y})`);
+          if (svg_canvas_points.hasOwnProperty('w_' + op[0])) {
+            if (svg_canvas_points['w_' + op[0]].hasOwnProperty('h_' + op[1])) {
+              if (svg_canvas_points['w_' + op[0]]['h_' + op[1]].hasOwnProperty(current_path_id)) {
+              }
+              var all_id = svg_canvas_points['w_' + op[0]]['h_' + op[1]];
 
-          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
+              var all_id_len = all_id.length;
 
-          //  updatePath(segmentsToPath(simplifyPath(penPoints_b, w * 1).concat(simplifyPath(penPoints_a, w * 1).reverse())), `${current_path_id}_main`, 0);
-
-          updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
-          removeElement(current_point_id);
-          // drawFountainPenPath(penPoints)
-        }
-        else {
-          if (pen_type === 0) {
-            updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
-            updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints))
-            removeElement(current_point_id);
-          }
-          else {
-            if (pen_type === 2) {
-              var shape = recognizeShapes(penPoints)
-              var boundary = getBoundary(penPoints)
-              removeElement(current_path_id);
-              if (shape[0].correlation >= 0.2) {
-                if (shape[0].type === 'circle') {
-                  updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id, 1)
-                  register_id = current_point_id
-                  pathSeg = penPoints
-                }
-                if (shape[0].type === 'rect') {
-                  drawRect(boundary[0].x, boundary[0].y, boundary[1].x, boundary[1].y, current_rect_id)
-                  register_id = current_rect_id
-                  pathSeg = penPoints
-                }
+              for (var e in all_id) {
+                removeElement(`${e}_a`);
+                removeElement(`${e}_b`);
+                removeElement(`${e}_main`);
+                removeElement(`${e}`);
+                delete svg_canvas_points['w_' + op[0]]['h_' + op[1]][e];
               }
             }
           }
         }
-        // releaseElement(current_path_id)
-        var pathSeg = pathToSegments(0, `${current_path_id}_main`, 5);
-      } else {
-        var pathSeg = penPoints
-        register_id = current_point_id
-        //releaseElement(current_point_id)
       }
-
-
-      register_element(register_id, pathSeg)
-
-
-      canvas_ctx.closePath();
-      canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
-      svg_canvas_history.push(svg_canvas_p.innerHTML);
-      current_path_id = gid("path");
-      current_point_id = gid("point");
-    }
-    if (rubber_eraser) {
-      svg_canvas_history.push(svg_canvas_p.innerHTML);
-      rubber_eraser_symbol.setAttribute('opacity', '0')
-    }
-
-    var last_content = String(svg_canvas_history[svg_canvas_history.length - 1])
-    if (last_content.length >= 1) {
-      x_storage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''))
-    }
-
-  });
-
-  window.addEventListener("resize", (event) => {
-    svg_canvas.setAttributeNS(null, "width", window.innerWidth + "px");
-    svg_canvas.setAttributeNS(null, "height", window.innerHeight + "px");
-    svg_canvas.setAttributeNS(
-      null,
-      "viewbox",
-      `0,0,${window.innerWidth},${window.innerHeight}`
-    );
-    canvas.setAttributeNS(null, "width", window.innerWidth * dpr + "px");
-    canvas.setAttributeNS(null, "height", window.innerHeight * dpr + "px");
-    drawBlocks(window.innerWidth, window.innerHeight);
-  });
-
-  function standardizeCoordinates(coordinates) {
-    var xValues = coordinates.map(coord => coord.x); // Extract x-coordinates from coordinates array
-    var yValues = coordinates.map(coord => coord.y); // Extract y-coordinates from coordinates array
-
-    var xMean = xValues.reduce((sum, value) => sum + value, 0) / xValues.length; // Calculate mean of x-coordinates
-    var yMean = yValues.reduce((sum, value) => sum + value, 0) / yValues.length; // Calculate mean of y-coordinates
-
-    var xStdDev = Math.sqrt(xValues.reduce((sum, value) => sum + Math.pow(value - xMean, 2), 0) / xValues.length); // Calculate standard deviation of x-coordinates
-    var yStdDev = Math.sqrt(yValues.reduce((sum, value) => sum + Math.pow(value - yMean, 2), 0) / yValues.length); // Calculate standard deviation of y-coordinates
-    var standardizedCoordinates = coordinates.map(coord => {
-      var standardizedX = (coord.x - xMean) / xStdDev; // Standardize x-coordinate
-      var standardizedY = (coord.y - yMean) / yStdDev; // Standardize y-coordinate
-      return { x: standardizedX, y: standardizedY }; // Return standardized coordinate
     });
-    return standardizedCoordinates
-  }
+    canvas.addEventListener('touchend', function (e) {
+      enableScroll();
+      if (move) {
+        move = false;
+        offset_x += current_qx - move_start_x;
+        offset_y += current_qy - move_start_y;
+        var canvas_offset_x = (current_qx - move_start_x) % s_block_size;
+        var canvas_offset_y = (current_qy - move_start_y) % s_block_size;
+        svg_canvas_p.setAttribute('transform', `translate(${offset_x} ${offset_y})`);
+        svg_canvas_bg.setAttribute('transform', `translate(${canvas_offset_x} ${canvas_offset_y})`);
+      }
+      if (pendown) {
+        pendown = false;
+        var doc = document.documentElement;
+        var current_time = new Date().getTime();
+        penPoints.push({ x: x, y: y, force: 0, angle: 0, time_stamp: current_time });
+        penPoints_a.push({ x: x, y: y, sx: x, sy: y });
+        penPoints_b.push({ x: x, y: y, sx: x, sy: y });
+        var register_id = current_path_id;
+        if (penPoints.length >= 2) {
+          var w = Math.ol(penPoints.length / 50);
+          if (w < 0.5) {
+            w = 0.1;
+          } else {
+            if (w > 1) {
+              w = 1;
+            }
+          }
+          if (pen_type === 1) {
+            /*
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_a, w * 1))), `${current_path_id}_a`, false)
+          drawPath(segmentsToPath([penPoints[0]].concat(simplifyPath(penPoints_b, w * 1))), `${current_path_id}_b`, false)
 
-  function getCorrelation(xValues, yValues) {
-    var xMean = xValues.reduce((sum, value) => sum + value, 0) / xValues.length;
-    var yMean = yValues.reduce((sum, value) => sum + value, 0) / yValues.length;
-    var xStdDev = Math.sqrt(xValues.reduce((sum, value) => sum + Math.pow(value - xMean, 2), 0) / xValues.length);
-    var yStdDev = Math.sqrt(yValues.reduce((sum, value) => sum + Math.pow(value - yMean, 2), 0) / yValues.length);
-    var covariance = 0;
-    for (let i = 0; i < xValues.length; i++) {
-      covariance += (xValues[i] - xMean) * (yValues[i] - yMean);
+          updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
+*/
+            updatePath(segmentsToPath(simplifyPath(penPoints_b, w * 1).concat(simplifyPath(penPoints_a, w * 1).reverse())), `${current_path_id}_main`, 0);
+
+            updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints));
+            removeElement(current_point_id);
+            // drawFountainPenPath(penPoints)
+          } else {
+            if (pen_type === 0) {
+              updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
+              updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints));
+              removeElement(current_point_id);
+            } else {
+              if (pen_type === 2) {
+                var shape = recognizeShapes(penPoints);
+                var boundary = getBoundary(penPoints);
+                removeElement(current_path_id);
+                if (shape[0].correlation >= 0.2) {
+                  if (shape[0].type === 'circle') {
+                    updatePoint((boundary[0].x + boundary[1].x) / 2, (boundary[0].y + boundary[1].y) / 2, (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4, current_point_id, 1);
+                    register_id = current_point_id;
+                    pathSeg = penPoints;
+                  }
+                  if (shape[0].type === 'rect') {
+                    drawRect(boundary[0].x, boundary[0].y, boundary[1].x, boundary[1].y, current_rect_id);
+                    register_id = current_rect_id;
+                    pathSeg = penPoints;
+                  }
+                }
+              }
+            }
+          }
+          // releaseElement(current_path_id)
+          var pathSeg = pathToSegments(0, `${current_path_id}_main`, 5);
+        } else {
+          var pathSeg = penPoints;
+          register_id = current_point_id;
+          //releaseElement(current_point_id)
+        }
+
+        register_element(register_id, pathSeg);
+
+        canvas_ctx.closePath();
+        canvas_ctx.clearRect(0, 0, window.innerWidth * dpr, window.innerHeight * dpr);
+        svg_canvas_history.push(svg_canvas_p.innerHTML);
+        current_path_id = gid('path');
+        current_point_id = gid('point');
+      }
+      if (rubber_eraser) {
+        svg_canvas_history.push(svg_canvas_p.innerHTML);
+        rubber_eraser_symbol.setAttribute('opacity', '0');
+      }
+
+      var last_content = String(svg_canvas_history[svg_canvas_history.length - 1]);
+      if (last_content.length >= 1) {
+        x_storage.setItem(canvas_id, last_content.replaceAll(/id="(path|circle)_[A-Za-z0-9\_]{16,16}[_]{0,1}(main){0,1}"/gm, ''));
+      }
+    });
+
+    window.addEventListener('resize', (event) => {
+      svg_canvas.setAttributeNS(null, 'width', window.innerWidth + 'px');
+      svg_canvas.setAttributeNS(null, 'height', window.innerHeight + 'px');
+      svg_canvas.setAttributeNS(null, 'viewbox', `0,0,${window.innerWidth},${window.innerHeight}`);
+      canvas.setAttributeNS(null, 'width', window.innerWidth * dpr + 'px');
+      canvas.setAttributeNS(null, 'height', window.innerHeight * dpr + 'px');
+      drawBlocks(window.innerWidth, window.innerHeight);
+    });
+
+    function standardizeCoordinates(coordinates) {
+      var xValues = coordinates.map((coord) => coord.x); // Extract x-coordinates from coordinates array
+      var yValues = coordinates.map((coord) => coord.y); // Extract y-coordinates from coordinates array
+
+      var xMean = xValues.reduce((sum, value) => sum + value, 0) / xValues.length; // Calculate mean of x-coordinates
+      var yMean = yValues.reduce((sum, value) => sum + value, 0) / yValues.length; // Calculate mean of y-coordinates
+
+      var xStdDev = Math.sqrt(xValues.reduce((sum, value) => sum + Math.pow(value - xMean, 2), 0) / xValues.length); // Calculate standard deviation of x-coordinates
+      var yStdDev = Math.sqrt(yValues.reduce((sum, value) => sum + Math.pow(value - yMean, 2), 0) / yValues.length); // Calculate standard deviation of y-coordinates
+      var standardizedCoordinates = coordinates.map((coord) => {
+        var standardizedX = (coord.x - xMean) / xStdDev; // Standardize x-coordinate
+        var standardizedY = (coord.y - yMean) / yStdDev; // Standardize y-coordinate
+        return { x: standardizedX, y: standardizedY }; // Return standardized coordinate
+      });
+      return standardizedCoordinates;
     }
-    covariance /= xValues.length - 1;
-    var correlation = covariance / (xStdDev * yStdDev);
-    return correlation
-  }
 
-  function recognizeShapes(coordinates_o) {
-    var boundary = getBoundary(coordinates_o)
-    var coordinates = standardizeCoordinates(coordinates_o)
-    var coordinates_len = coordinates.length
-    var shape_list = [{ 'type': 'circle' }, { 'type': 'rect' }]
-    var shape_list_len = shape_list.length
-    var correlation_coefficient = []
-    for (var w = 0; w < shape_list_len; w++) {
-      if (shape_list[w].type === 'circle') {
-        var radius = (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4
-        var shape_coordinates = []
-        for (var e = 0; e < coordinates_len; e++) {
-          shape_coordinates.push({ x: radius * Math.cos(2 * Math.PI * 360 / coordinates_len * e / 360), y: radius * Math.sin(2 * Math.PI * 360 / coordinates_len * e / 360) })
+    function getCorrelation(xValues, yValues) {
+      var xMean = xValues.reduce((sum, value) => sum + value, 0) / xValues.length;
+      var yMean = yValues.reduce((sum, value) => sum + value, 0) / yValues.length;
+      var xStdDev = Math.sqrt(xValues.reduce((sum, value) => sum + Math.pow(value - xMean, 2), 0) / xValues.length);
+      var yStdDev = Math.sqrt(yValues.reduce((sum, value) => sum + Math.pow(value - yMean, 2), 0) / yValues.length);
+      var covariance = 0;
+      for (let i = 0; i < xValues.length; i++) {
+        covariance += (xValues[i] - xMean) * (yValues[i] - yMean);
+      }
+      covariance /= xValues.length - 1;
+      var correlation = covariance / (xStdDev * yStdDev);
+      return correlation;
+    }
+
+    function recognizeShapes(coordinates_o) {
+      var boundary = getBoundary(coordinates_o);
+      var coordinates = standardizeCoordinates(coordinates_o);
+      var coordinates_len = coordinates.length;
+      var shape_list = [{ type: 'circle' }, { type: 'rect' }];
+      var shape_list_len = shape_list.length;
+      var correlation_coefficient = [];
+      for (var w = 0; w < shape_list_len; w++) {
+        if (shape_list[w].type === 'circle') {
+          var radius = (Math.abs(boundary[0].x - boundary[1].x) + Math.abs(boundary[0].y - boundary[1].y)) / 4;
+          var shape_coordinates = [];
+          for (var e = 0; e < coordinates_len; e++) {
+            shape_coordinates.push({ x: radius * Math.cos((((2 * Math.PI * 360) / coordinates_len) * e) / 360), y: radius * Math.sin((((2 * Math.PI * 360) / coordinates_len) * e) / 360) });
+          }
+        }
+        if (shape_list[w].type === 'rect') {
+          var shape_coordinates = [];
+          for (var t = 0; t < 4; t++) {
+            var start;
+            var end;
+            if (t === 0) {
+              start = { x: boundary[0].x, y: boundary[0].y };
+              end = { x: boundary[1].x, y: boundary[0].y };
+            }
+            if (t === 1) {
+              start = { x: boundary[1].x, y: boundary[0].y };
+              end = { x: boundary[1].x, y: boundary[1].y };
+            }
+            if (t === 2) {
+              start = { x: boundary[1].x, y: boundary[1].y };
+              end = { x: boundary[0].x, y: boundary[1].y };
+            }
+            if (t === 3) {
+              start = { x: boundary[0].x, y: boundary[1].y };
+              end = { x: boundary[0].x, y: boundary[0].y };
+            }
+            for (var q = 0; q < Math.floor(coordinates_len / 4); q++) {
+              shape_coordinates.push({ x: start.x + (end.x - start.x) * (q / (coordinates_len / 4)), y: start.y + (end.y - start.y) * (q / (coordinates_len / 4)) });
+            }
+          }
+          var shape_coordinates_len = shape_coordinates.length;
+          for (var t = 0; t < Math.abs(coordinates_len - shape_coordinates_len); t++) {
+            if (coordinates_len - shape_coordinates_len > 0) {
+              shape_coordinates.push(shape_coordinates[shape_coordinates.length - 1]);
+            } else {
+              shape_coordinates.splice(shape_coordinates.length - 1, 1);
+            }
+          }
+        }
+        if (shape_list[w].type === 'triangle') {
+          continue;
+        }
+        shape_coordinates = standardizeCoordinates(shape_coordinates);
+        var correlation =
+          getCorrelation(
+            coordinates.map((coord) => coord.x),
+            shape_coordinates.map((coord) => coord.x)
+          ) *
+          getCorrelation(
+            coordinates.map((coord) => coord.y),
+            shape_coordinates.map((coord) => coord.y)
+          );
+
+        correlation_coefficient.push({ type: shape_list[w].type, correlation: Math.abs(correlation), penPoints: shape_coordinates });
+      }
+      correlation_coefficient.sort(function (a, b) {
+        return b.correlation - a.correlation;
+      });
+      return correlation_coefficient;
+    }
+
+    function getFn(x0, y0, x1, y1) {
+      var a = x1 - x0;
+      var b = y1 - y0;
+      var m = b / a;
+      var k = (b * x1 - a * y1) / (-1 * a);
+      return function (x) {
+        return x * m + k;
+        //Math.min(Math.max(x * m + k, Math.min(y0, y1)), Math.max(y0, y1));
+      };
+    }
+
+    function getLine(x, y) {
+      var x_avg = getAvgerage(x);
+      var y_avg = getAvgerage(y);
+      var s_xx = getSi2(x, x_avg);
+      var s_yy = getSi2(y, y_avg);
+      var s_xy = getSi3(x, y, x_avg, y_avg);
+      var sigma_x = Math.sqrt(s_xx / x.length);
+      var sigma_y = Math.sqrt(s_yy / y.length);
+      var r = s_xy / Math.sqrt(s_xx * s_yy);
+      var line_a = (r * sigma_y) / sigma_x;
+      var line_b = y_avg - line_a * x_avg;
+      return { a: line_a, b: line_b, sx: sigma_x, sy: sigma_y };
+    }
+
+    function getSum(arr) {
+      var initialValue = 0;
+      var sum = arr.reduce((accumulator, currentValue) => accumulator + currentValue, initialValue);
+      return sum;
+    }
+    function getSi2(arr1, avg1) {
+      var g = 0;
+      var sum = 0;
+      var arr_len = arr1.length;
+      for (var w = 0; w < arr_len; w++) {
+        var u = Math.pow(arr1[w] - avg1, 2);
+        sum += u;
+      }
+      return sum;
+    }
+    function getSi3(arr1, arr2, avg1, avg2) {
+      var g = 0;
+      var sum = 0;
+      var arr_len = arr1.length;
+      for (var w = 0; w < arr_len; w++) {
+        var u = (arr1[w] - avg1) * (arr2[w] - avg2);
+        sum += u;
+      }
+      return sum;
+    }
+    function getAvgerage(arr) {
+      var initialValue = 0;
+      var sum = arr.reduce((accumulator, currentValue) => accumulator + currentValue, initialValue);
+      return sum / arr.length;
+    }
+
+    function setTool(k) {
+      if (k === 0) {
+        rubber_eraser = false;
+        pen_type = 1;
+      }
+      if (k === 1) {
+        rubber_eraser = false;
+        pen_type = 0;
+      }
+
+      if (k === 2) {
+        rubber_eraser = true;
+      }
+      var elt = document.querySelectorAll('.tools button');
+      for (var e = 0; e < elt.length; e++) {
+        elt[e].setAttribute('s', '0');
+      }
+      elt[k].setAttribute('s', 1);
+    }
+
+    function downloadblob(b, name) {
+      const image = new File([b], name, { type: b.type });
+      if (navigator.canShare && navigator.canShare({ files: [image] })) {
+        navigator.share({
+          files: [image]
+        });
+      } else {
+        var u = window.URL || window.webkitURL;
+        const a = document.createElement('a');
+        document.body.appendChild(a);
+        a.download = `${name}`;
+        a.href = u.createObjectURL(b);
+        a.click();
+        a.remove();
+      }
+    }
+
+    function saveAsSvg() {
+      var serializer = new XMLSerializer();
+      var svgString = serializer.serializeToString(document.querySelector('svg#canvas'));
+      var blob = new Blob([svgString], { type: 'image/svg+xml' });
+      downloadblob(blob, gid('svg') + '.svg');
+    }
+
+    function saveAsPng() {
+      var w = document.querySelector('svg#canvas').clientWidth * Math.pow(dpr, 3);
+      var h = document.querySelector('svg#canvas').clientHeight * Math.pow(dpr, 3);
+
+      if (w * h > 4096 * 4096) {
+        if (w > h) {
+          h = h * (4096 / w);
+          w = 4096;
+        } else {
+          w = w * (4096 / h);
+          h = 4096;
         }
       }
-      if (shape_list[w].type === 'rect') {
-        var shape_coordinates = []
-        for (var t = 0; t < 4; t++) {
-          var start
-          var end
-          if (t === 0) {
-            start = { x: boundary[0].x, y: boundary[0].y }
-            end = { x: boundary[1].x, y: boundary[0].y }
-          }
-          if (t === 1) {
-            start = { x: boundary[1].x, y: boundary[0].y }
-            end = { x: boundary[1].x, y: boundary[1].y }
-          }
-          if (t === 2) {
-            start = { x: boundary[1].x, y: boundary[1].y }
-            end = { x: boundary[0].x, y: boundary[1].y }
-          }
-          if (t === 3) {
-            start = { x: boundary[0].x, y: boundary[1].y }
-            end = { x: boundary[0].x, y: boundary[0].y }
-          }
-          for (var q = 0; q < Math.floor(coordinates_len / 4); q++) {
-            shape_coordinates.push({ x: start.x + (end.x - start.x) * (q / (coordinates_len / 4)), y: start.y + (end.y - start.y) * (q / (coordinates_len / 4)) })
-          }
 
-        }
-        var shape_coordinates_len = shape_coordinates.length
-        for (var t = 0; t < Math.abs(coordinates_len - shape_coordinates_len); t++) {
-          if (coordinates_len - shape_coordinates_len > 0) {
-            shape_coordinates.push(shape_coordinates[shape_coordinates.length - 1])
-          }
-          else {
-            shape_coordinates.splice(shape_coordinates.length - 1, 1)
-          }
-        }
-      }
-      if (shape_list[w].type === 'triangle') {
-        continue
-      }
-      shape_coordinates = standardizeCoordinates(shape_coordinates)
-      var correlation = getCorrelation(coordinates.map(coord => coord.x), shape_coordinates.map(coord => coord.x)) * getCorrelation(coordinates.map(coord => coord.y), shape_coordinates.map(coord => coord.y))
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'white';
 
-      correlation_coefficient.push({ 'type': shape_list[w].type, correlation: Math.abs(correlation), penPoints: shape_coordinates })
-    }
-    correlation_coefficient.sort(function (a, b) {
-      return b.correlation - a.correlation
-    })
-    return correlation_coefficient
-  }
-
-  function getFn(x0, y0, x1, y1) {
-    var a = x1 - x0;
-    var b = y1 - y0;
-    var m = b / a;
-    var k = (b * x1 - a * y1) / (-1 * a);
-    return function (x) {
-      return x * m + k
-      //Math.min(Math.max(x * m + k, Math.min(y0, y1)), Math.max(y0, y1));
-    };
-  }
-
-  function getLine(x, y) {
-    var x_avg = getAvgerage(x)
-    var y_avg = getAvgerage(y)
-    var s_xx = getSi2(x, x_avg)
-    var s_yy = getSi2(y, y_avg)
-    var s_xy = getSi3(x, y, x_avg, y_avg)
-    var sigma_x = Math.sqrt(s_xx / x.length)
-    var sigma_y = Math.sqrt(s_yy / y.length)
-    var r = s_xy / (Math.sqrt(s_xx * s_yy))
-    var line_a = r * sigma_y / sigma_x
-    var line_b = (y_avg) - line_a * (x_avg)
-    return { a: line_a, b: line_b, sx: sigma_x, sy: sigma_y }
-  }
-
-  function getSum(arr) {
-    var initialValue = 0
-    var sum = arr.reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      initialValue
-    );
-    return sum
-  }
-  function getSi2(arr1, avg1) {
-    var g = 0
-    var sum = 0
-    var arr_len = arr1.length
-    for (var w = 0; w < arr_len; w++) {
-      var u = Math.pow(arr1[w] - avg1, 2)
-      sum += u
-    }
-    return sum
-  }
-  function getSi3(arr1, arr2, avg1, avg2) {
-    var g = 0
-    var sum = 0
-    var arr_len = arr1.length
-    for (var w = 0; w < arr_len; w++) {
-      var u = (arr1[w] - avg1) * (arr2[w] - avg2)
-      sum += u
-    }
-    return sum
-  }
-  function getAvgerage(arr) {
-    var initialValue = 0
-    var sum = arr.reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      initialValue
-    );
-    return sum / arr.length
-  }
-
-  function setTool(k) {
-
-    if (k === 0) {
-      rubber_eraser = false
-      pen_type = 1
-    }
-    if (k === 1) {
-      rubber_eraser = false
-      pen_type = 0
+      const svgString = new XMLSerializer().serializeToString(document.querySelector('svg#canvas'));
+      const img = new Image();
+      img.onload = function () {
+        ctx.drawImage(img, 0, 0, w, h);
+        canvas.toBlob(function (blob) {
+          downloadblob(blob, gid('png') + '.png');
+        }, 'image/png');
+      };
+      img.src = 'data:image/svg+xml;base64,' + btoa(svgString);
     }
 
-    if (k === 2) {
-      rubber_eraser = true
-    }
-    var elt = document.querySelectorAll('.tools button')
-    for (var e = 0; e < elt.length; e++) {
-      elt[e].setAttribute('s', '0')
-    }
-    elt[k].setAttribute('s', 1)
-
-  }
-
-  function downloadblob(b, name) {
-    const image = new File([b], name, { type: b.type })
-    if (navigator.canShare && navigator.canShare({ files: [image] })) {
-      navigator.share({
-        files: [image]
-      })
-    }
-    else {
-      var u = window.URL || window.webkitURL
-      const a = document.createElement('a');
-      document.body.appendChild(a);
-      a.download = `${name}`;
-      a.href = u.createObjectURL(b);
-      a.click()
-      a.remove()
+    function backToPreviousPage() {
+      location.replace('https://erichsia7.github.io/whiteboard/');
     }
 
-  }
-
-  function saveAsSvg() {
-    var serializer = new XMLSerializer();
-    var svgString = serializer.serializeToString(document.querySelector("svg#canvas"));
-    var blob = new Blob([svgString], { type: "image/svg+xml" });
-    downloadblob(blob, gid('svg') + '.svg')
-  }
-
-  function saveAsPng() {
-    var w = document.querySelector("svg#canvas").clientWidth * Math.pow(dpr, 3)
-    var h = document.querySelector("svg#canvas").clientHeight * Math.pow(dpr, 3)
-
-    if (w * h > 4096 * 4096) {
-      if (w > h) {
-        h = h * (4096 / w)
-        w = 4096
-      }
-      else {
-        w = w * (4096 / h)
-        h = 4096
-      }
-    }
-
-    const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "white";
-
-    const svgString = new XMLSerializer().serializeToString(document.querySelector("svg#canvas"));
-    const img = new Image();
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0, w, h);
-      canvas.toBlob(function (blob) {
-        downloadblob(blob, gid('png') + '.png')
-      }, "image/png");
-    };
-    img.src = "data:image/svg+xml;base64," + btoa(svgString);
-  }
-
-  function backToPreviousPage() {
-    location.replace('https://erichsia7.github.io/whiteboard/')
-  }
-
-  window.addEventListener("load", (event) => {
-    drawBlocks(window.innerWidth, window.innerHeight);
-    setTimeout(function () {
-      openWhiteboardByID(canvas_id, function () {
-        document.querySelector('.load_cover').style.display = 'none'
-      })
-    }, 1500);
-
-  });
-</script>
-
+    window.addEventListener('load', (event) => {
+      drawBlocks(window.innerWidth, window.innerHeight);
+      setTimeout(function () {
+        openWhiteboardByID(canvas_id, function () {
+          document.querySelector('.load_cover').style.display = 'none';
+        });
+      }, 1500);
+    });
+  </script>
 </html>
