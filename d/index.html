@@ -1118,7 +1118,8 @@
 
           updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
 */
-            updatePath(segmentsToPath(simplifyPath(penPoints_b, w * 1).concat(simplifyPath(penPoints_a, w * 1).reverse())), `${current_path_id}_main`, 0);
+            updatePath(segmentsToPath(simplifyPath(penPoints_b, w * 1).concat(simplifyPath(penPoints_a, w * 1).reverse())), `${current_path_id}_main`, 1);
+
 
             updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints));
             removeElement(current_point_id);
