@@ -542,7 +542,7 @@
       var points = [];
       var totalLength = p.getTotalLength();
       if (f === true) {
-        f = Math.min(totalLength / 100, 0.5);
+        f = Math.min(totalLength / 100, 1.5);
       }
       for (let i = 0; i < totalLength; i += f) {
         var { x, y } = p.getPointAtLength(i);
