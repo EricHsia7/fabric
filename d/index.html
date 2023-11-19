@@ -530,7 +530,7 @@
       }
       return o;
     }
-    function pathCommandToCoordinates(str) {
+    function pathCommandToCoordinates(str, precision) {
       var points = [];
       const regex = /((m|M)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(l|L)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(h|H)\s{0,1}([0-9\.\-]*)|(v|V)\s{0,1}([0-9\.\-]*)|(c|C)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)[\,\s]{1,2}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)[\,\s]{1,2}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(s|S)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)[\,\s]{1,2}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(q|Q)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)[\,\s]{1,2}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(t|T)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(Z|z))/gm;
       while ((m = regex.exec(str)) !== null) {
@@ -681,7 +681,7 @@
 
       var points = [];
       var pathCommand = p.getAttribute('d');
-      return pathCommandToCoordinates(pathCommand, 0.7);
+      return pathCommandToCoordinates(pathCommand, 0.6);
     }
 
     function simplifyPath(points, tolerance) {
