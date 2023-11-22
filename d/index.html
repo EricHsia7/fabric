@@ -1264,9 +1264,9 @@
               1
             );
 
-            //updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints));
+            updatePath('', `${current_path_id}_main`, 2, getBoundary(penPoints));
             removeElement(current_point_id);
-             drawFountainPenPath(penPoints)
+            //drawFountainPenPath(penPoints)
           } else {
             if (pen_type === 0) {
               updatePath(segmentsToPath(simplifyPath(penPoints, w)), `${current_path_id}_main`, 0);
