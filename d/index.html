@@ -496,6 +496,7 @@
       var hc = String(Math.floor(y / block_size) + 1).replaceAll('-', 'i');
       return [wc, hc];
     }
+
     function drawPoint(x, y, r, s) {
       var p = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       p.setAttributeNS(null, 'id', s);
@@ -530,6 +531,7 @@
       }
       return o;
     }
+
     function pathCommandToCoordinates(str, precision) {
       var points = [];
       const regex = /((m|M)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(l|L)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(h|H)\s{0,1}([0-9\.\-]*)|(v|V)\s{0,1}([0-9\.\-]*)|(c|C)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)[\,\s]{1,2}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)[\,\s]{1,2}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(s|S)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)[\,\s]{1,2}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(q|Q)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)[\,\s]{1,2}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(t|T)\s{0,1}([0-9\.\-]*)(\s|\,)([0-9\.\-]*)|(Z|z))/gm;
@@ -846,6 +848,9 @@
       var degree = radian * (180 / Math.PI);
       return { x, y, radian, degree, radius };
     }
+    function penWidthFn(base, force, speed) {
+      return (base + base * 0.66 * Math.pow(force, 0.4) + base * 0.66 * speed) * 1.5;
+    }
     function drawFountainPenPath(points) {
       var start_time = points[0].time_stamp;
       var end_time = points[points.length - 1].time_stamp;
@@ -988,7 +993,7 @@
 
         // var s = Math.sqrt(Math.pow(prev.x - f.x, 2) + Math.pow(prev.y - f.y, 2)) / (f.time_stamp - prev.time_stamp === 0 ? 1 : f.time_stamp - prev.time_stamp)
         var speed = 1 + ((3 - 1) * Math.min(f.speed, 10)) / 10;
-        var radius = (pen_width_base + pen_width_base * 0.66 * Math.pow(f.force, 0.4) + pen_width_base * 0.66 * speed) * 1.5;
+        var radius = (current_pen_width = penWidthFn(pen_width_base, f.force, speed));
 
         curved_points.splice(index, 1, { x: f.x, y: f.y, force: f.force, c1: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians), c2: getCoordinateOnCircleBorder(f.x, f.y, radius, angleRadians + Math.PI), speed: f.speed });
       });
@@ -1157,7 +1162,7 @@
           if (pen_type === 1) {
             f2 = force;
           }
-          current_pen_width = (pen_width_base + pen_width_base * 0.66 * Math.pow(f2, 0.4) + pen_width_base * 0.66 * speed) * 1.5;
+          current_pen_width = penWidthFn(pen_width_base, f2, speed);
 
           canvas_ctx.lineCap = 'round';
           canvas_ctx.lineWidth = pen_width_base * dpr;
