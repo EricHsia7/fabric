@@ -849,7 +849,7 @@
       return { x, y, radian, degree, radius };
     }
     function penWidthFn(base, force, speed) {
-      return (base + base * 0.66 * Math.pow(force, 0.4) + base * 0.66 * speed) * 1.2;
+      return (base + base * 0.66 * Math.pow(force, 0.4) + base * 0.66 * (1/speed)) * 1.2;
     }
     function drawFountainPenPath(points) {
       var start_time = points[0].time_stamp;
