@@ -849,7 +849,7 @@
       return { x, y, radian, degree, radius };
     }
     function penWidthFn(base, force, speed) {
-      return (base + base * 0.66 * Math.pow(force, 0.4) + base * 0.66 * (1/speed)) * 1.2;
+      return (base + base * 0.66 * Math.pow(force, 0.4) + base * 0.66 * (1 / speed)) * 1.2;
     }
     function drawFountainPenPath(points) {
       var start_time = points[0].time_stamp;
@@ -1130,7 +1130,7 @@
             }
           } else {
             // Non-vertical line
-            angleRadians = Math.atan2(y2 - y1, x2 - x1) + Math.PI * 0.5;
+            angleRadians = Math.atan2(y2 - y1, x2 - x1);
             // Ensure the angle is positive (between 0 and 2π)
             if (angleRadians < 0) {
               angleRadians += 2 * Math.PI;
@@ -1172,18 +1172,18 @@
           var radius = current_pen_width;
           radius = Math.min(Math.max(current_pen_width * 0.5 - pen_width_base * 0.5, 0), pen_width_base * 0.89);
 
-          var cx1 = x + radius * Math.cos((2 * Math.PI * angleRadians) / 360);
-          var cy1 = y + radius * Math.sin((2 * Math.PI * angleRadians) / 360);
-          var cx2 = x + radius * Math.cos((2 * Math.PI * (angleRadians + 180)) / 360);
-          var cy2 = y + radius * Math.sin((2 * Math.PI * (angleRadians + 180)) / 360);
+          var cx1 = x + radius * Math.cos(angleRadians - Math.PI * 0.5);
+          var cy1 = y + radius * Math.sin(angleRadians - Math.PI * 0.5);
+          var cx2 = x + radius * Math.cos(angleRadians + Math.PI * 0.5);
+          var cy2 = y + radius * Math.sin(angleRadians + Math.PI * 0.5);
 
           var radius_a = radius * dpr;
           canvas_ctx.lineWidth = pen_width_base * dpr;
 
-          var s_cx1 = (x + offset_x) * dpr + radius_a * Math.cos((2 * Math.PI * angleRadians) / 360);
-          var s_cy1 = (y + offset_y) * dpr + radius_a * Math.sin((2 * Math.PI * angleRadians) / 360);
-          var s_cx2 = (x + offset_x) * dpr + radius_a * Math.cos((2 * Math.PI * (angleRadians + 180)) / 360);
-          var s_cy2 = (y + offset_y) * dpr + radius_a * Math.sin((2 * Math.PI * (angleRadians + 180)) / 360);
+          var s_cx1 = (x + offset_x) * dpr + radius_a * Math.cos(angleRadians - Math.PI * 0.5);
+          var s_cy1 = (y + offset_y) * dpr + radius_a * Math.sin(angleRadians - Math.PI * 0.5);
+          var s_cx2 = (x + offset_x) * dpr + radius_a * Math.cos(angleRadians + Math.PI * 0.5);
+          var s_cy2 = (y + offset_y) * dpr + radius_a * Math.sin(angleRadians + Math.PI * 0.5);
 
           if (pen_type === 1) {
             penPoints_a.push({ x: Math.ol(cx1), y: Math.ol(cy1), sx: s_cx1, sy: s_cy1, px: x, py: y });
