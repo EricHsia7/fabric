@@ -1,5 +1,4 @@
-
-function setToolMode(m) {
+export function setToolMode(m) {
   mode = m;
   function getSelector(m) {
     return document.querySelector(`.tools_container button[m="${m}"] span`);

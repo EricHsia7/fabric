@@ -1,4 +1,4 @@
-function drawPath(ctx, pathData, color) {
+export function drawPath(ctx, pathData, color) {
   const path = new Path2D(pathData);
   ctx.lineCap = 'round';
   ctx.lineWidth = pen_width_base * scale;

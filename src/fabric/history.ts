@@ -1,4 +1,4 @@
-function log_changes(addition, deletion) {
+export function log_changes(addition, deletion) {
   if (!(addition.length === 0 && deletion.length === 0)) {
     change_history.push({
       addition: addition,
@@ -8,7 +8,7 @@ function log_changes(addition, deletion) {
   }
 }
 
-function replayHistory(mode) {
+export function replayHistory(mode) {
   if (mode === 'redo') {
     history_offset += 1;
   }

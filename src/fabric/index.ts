@@ -36,7 +36,7 @@ function registerElement(coordinates, id) {
   };
 }
 
-function saveContent() {
+export function saveContent() {
   localforage
     .setItem('fabric', String(document.querySelector('svg#vector_fabric g#pen').innerHTML))
     .then(function () {})
@@ -45,7 +45,7 @@ function saveContent() {
     });
 }
 
-function loadContent() {
+export function loadContent() {
   localforage
     .getItem('fabric')
     .then(function (value) {

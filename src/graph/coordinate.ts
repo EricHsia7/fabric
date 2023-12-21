@@ -1,4 +1,4 @@
-function getCoordinateOnCircleBorder(centerX, centerY, radius, radian) {
+export function getCoordinateOnCircleBorder(centerX, centerY, radius, radian) {
   var xe = 1;
   var ye = 1;
   var x = parseFloat((centerX + Math.cos(radian) * radius).toFixed(10));

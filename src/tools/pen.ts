@@ -1,4 +1,4 @@
-function handleTouchStart_pen(event) {
+export function handleTouchStart_pen(event) {
   disableScroll();
 
   const touch = event.touches[0];
@@ -45,8 +45,8 @@ function handleTouchStart_pen(event) {
   ctx.closePath();
 }
 
-// Function to handle touch move event
-function handleTouchMove_pen(event) {
+//export function to handle touch move event
+export function handleTouchMove_pen(event) {
   var touches = [];
   for (var t in event.touches) {
     if (event.touches.hasOwnProperty(t) && typeof event.touches[t] === 'object') {
@@ -111,8 +111,8 @@ function handleTouchMove_pen(event) {
   }
 }
 
-// Function to handle touch end event
-function handleTouchEnd_pen(event) {
+//export function to handle touch end event
+export function handleTouchEnd_pen(event) {
   enableScroll();
   var touches = [];
   for (var t in event.changedTouches) {

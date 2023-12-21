@@ -1,9 +1,8 @@
-
-function handleTouchStart_eraser(event) {
+export function handleTouchStart_eraser(event) {
   disableScroll();
   eraser_selected_element = {};
 }
-function handleTouchMove_eraser(event) {
+export function handleTouchMove_eraser(event) {
   const touch = event.touches[0];
   var current = {
     x: touch.clientX - offsetX - move_offset_x,
@@ -52,7 +51,7 @@ function handleTouchMove_eraser(event) {
     document.querySelector('svg#vector_fabric g#' + k).setAttributeNS(null, 'opacity', '0.25');
   }
 }
-function handleTouchEnd_eraser(event) {
+export function handleTouchEnd_eraser(event) {
   enableScroll();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   var hidden_element_identifier = [];

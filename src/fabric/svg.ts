@@ -1,4 +1,4 @@
-function newGroupOnSVG() {
+export function newGroupOnSVG() {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'g');
   var id = 'g-' + uuid.v4();
   p.setAttributeNS(null, 'id', id);
@@ -7,7 +7,7 @@ function newGroupOnSVG() {
   return id;
 }
 
-function drawPathOnSVG(pathData, color, container) {
+export function drawPathOnSVG(pathData, color, container) {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
   p.setAttributeNS(null, 'd', pathData);
   p.setAttributeNS(null, 'stroke-width', pen_width_base);
