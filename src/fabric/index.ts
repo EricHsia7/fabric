@@ -1,5 +1,16 @@
+import { segmentsToPath, simplifyPath } from '../graph/path.ts';
 
-function resizeFabric() {
+export let canvas = document.querySelector('#fabric');
+export let ctx = canvas.getContext('2d');
+export let svg_canvas = document.querySelector('#vector_fabric');
+export let svg_canvas_pen_layer = document.querySelector('#vector_fabric g#pen');
+export var scale = Math.log(window.devicePixelRatio) / Math.log(Math.pow(2, 0.4));
+export var w_width = window.innerWidth;
+export var w_height = window.innerHeight;
+export var width = window.innerWidth;
+export var height = window.innerHeight;
+
+export function resizeFabric() {
   w_width = window.innerWidth;
   w_height = window.innerHeight;
   width = window.innerWidth;
@@ -12,7 +23,7 @@ function resizeFabric() {
   canvas.style.background = 'none';
 }
 
-function updatePenPath() {
+export function updatePenPath() {
   drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
   drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
   drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
@@ -22,7 +33,7 @@ function updatePenPath() {
   currentPath.b = segmentsToPath(simplifyPath(touchData_b, tole).concat(touchData_b[touchData_b.length - 1]), 1);
 }
 
-function registerElement(coordinates, id) {
+export function registerElement(coordinates, id) {
   var x = coordinates.map((e) => e.x);
   var y = coordinates.map((e) => e.y);
   registration[id] = {

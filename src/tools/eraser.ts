@@ -1,3 +1,6 @@
+import { registration, log_changes } from './fabric/history.ts';
+import { eraser_selected_element, eraser_hidden_element, eraser_d, move_offset_x, move_offset_y, offsetX, offsetY } from './fabric/history.ts';
+
 export function handleTouchStart_eraser(event) {
   disableScroll();
   eraser_selected_element = {};
@@ -51,6 +54,7 @@ export function handleTouchMove_eraser(event) {
     document.querySelector('svg#vector_fabric g#' + k).setAttributeNS(null, 'opacity', '0.25');
   }
 }
+
 export function handleTouchEnd_eraser(event) {
   enableScroll();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
