@@ -1,6 +1,6 @@
-export var mode = 0;
+export const mode:number = 0;
 
-export const moving: boolean = false;
+export const mover: boolean = false;
 export const move_start_x: number = 0;
 export const move_start_y: number = 0;
 export const move_end_x: number = 0;
