@@ -1,4 +1,5 @@
 import { segmentsToPath, simplifyPath } from '../graph/path.ts';
+var localforage = require('localforage');
 
 export let canvas = document.querySelector('#fabric');
 export let ctx = canvas.getContext('2d');
