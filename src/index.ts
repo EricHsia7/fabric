@@ -115,6 +115,8 @@ window.fabric_initialize = function () {
   });
   resizeFabric();
   loadContent();
+  disableScroll();
+  checkPassive();
 };
 
 export default window.fabric_initialize;
