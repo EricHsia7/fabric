@@ -6,14 +6,12 @@ import { newGroupOnSVG, drawPathOnSVG } from './fabric/svg.ts';
 import { getCoordinateOnCircleBorder } from './graph/coordinate.ts';
 import { segmentsToPath, distanceToSegment, simplifyPath, pathCommandToCoordinates } from './graph/path.ts';
 
-import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, tocuh_point_identity, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d } from './tools/index.ts';
-import { handleTouchStart_eraser ,handleTouchMove_eraser,handleTouchEnd_eraser} from './graph/eraser.ts';
-import { handleTouchStart_pen ,handleTouchMove_pen,handleTouchEnd_pen } from './graph/pen.ts';
-import { handleTouchStart_mover ,handleTouchMove_mover,handleTouchEnd_mover } from './graph/mover.ts';
+import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, tocuh_point_identity, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './tools/index.ts';
+import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './graph/eraser.ts';
+import { handleTouchStart_pen, handleTouchMove_pen, handleTouchEnd_pen } from './graph/pen.ts';
+import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './graph/mover.ts';
 
-
-
-import './fabric/index.css'
+import './fabric/index.css';
 
 const ripple = require('@erichsia7/ripple');
 var localforage = require('localforage');
