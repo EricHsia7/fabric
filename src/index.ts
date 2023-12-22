@@ -8,6 +8,8 @@ import { segmentsToPath, distanceToSegment, simplifyPath, pathCommandToCoordinat
 
 import { moving, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, tocuh_point_identity, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d } from './tools/index.ts';
 
+import './fabric/index.css'
+
 const ripple = require('@erichsia7/ripple');
 var localforage = require('localforage');
 
