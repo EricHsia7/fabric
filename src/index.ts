@@ -1,5 +1,5 @@
 import { change_history, history_offset, registration, log_changes, replayHistory } from './fabric/history.ts';
-import { canvas, ctx, svg_canvas, svg_canvas_pen_layer, scale, width, height } from './fabric/index.ts';
+import { canvas, ctx, svg_canvas, svg_canvas_pen_layer, scale, width, height, resizeFabric, updatePenPath, registerElement, saveContent, loadContent } from './fabric/index.ts';
 import { drawPath } from './fabric/canvas.ts';
 import { newGroupOnSVG, drawPathOnSVG } from './fabric/svg.ts';
 
