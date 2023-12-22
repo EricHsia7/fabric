@@ -66,7 +66,7 @@ export function loadContent() {
       for (var i = 0; i < elements_length; i++) {
         var e = elements[i];
         var coordinates = [];
-        for (const child of e.children) {
+        for (var child of e.children) {
           coordinates = coordinates.concat(pathCommandToCoordinates(child.getAttribute('d'), 2));
         }
         registerElement(coordinates, e.getAttribute('id'));

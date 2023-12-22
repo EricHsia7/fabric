@@ -15,7 +15,7 @@ import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive } from './scr
 
 import './fabric/index.css';
 
-const ripple = require('@erichsia7/ripple');
+var ripple = require('@erichsia7/ripple');
 var localforage = require('localforage');
 
 window.fabric_initialize = function () {
@@ -79,13 +79,13 @@ window.fabric_initialize = function () {
 
   document.querySelectorAll('.tools_container button[group="1"]').forEach((button) => {
     button.addEventListener('click', function () {
-      const selectedMode = parseInt(button.getAttribute('m'));
+      var selectedMode = parseInt(button.getAttribute('m'));
       setToolMode(selectedMode);
     });
   });
   document.querySelectorAll('.tools_container button[group="0"]').forEach((button) => {
     button.addEventListener('click', function () {
-      const selectedMode = parseInt(button.getAttribute('m'));
+      var selectedMode = parseInt(button.getAttribute('m'));
       replayHistory(selectedMode);
     });
   });

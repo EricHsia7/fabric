@@ -3,7 +3,7 @@ import { disableScroll, enableScroll } from '../scroll/index.ts';
 import { svg_canvas_pen_layer } from '../fabric/index.ts';
 export function handleTouchStart_mover(event) {
   disableScroll();
-  const touch = event.touches[0];
+  var touch = event.touches[0];
   var current = {
     x: touch.clientX - offsetX,
     y: touch.clientY - offsetY
@@ -13,7 +13,7 @@ export function handleTouchStart_mover(event) {
 }
 
 export function handleTouchMove_mover(event) {
-  const touch = event.touches[0];
+  var touch = event.touches[0];
   var current = {
     x: touch.clientX - offsetX,
     y: touch.clientY - offsetY
