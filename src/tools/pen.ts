@@ -4,7 +4,7 @@ import { pathCommandToCoordinates } from '../graph/path.ts';
 import { newGroupOnSVG, drawPathOnSVG } from '../fabric/svg.ts';
 import { log_changes } from '../fabric/history.ts';
 import { registerElement, updatePenPath } from '../fabric/index.ts';
-import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, tocuh_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
+import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
 
 export function handleTouchStart_pen(event) {
   disableScroll();
@@ -13,7 +13,7 @@ export function handleTouchStart_pen(event) {
   touchData = []; // Clear previous touch data
   touchData_a = [];
   touchData_b = [];
-  tocuh_point_identifier = touch.identifier;
+  touch_point_identifier = touch.identifier;
 
   if (touch.force) {
     force_weight = 0.5;
@@ -62,7 +62,7 @@ export function handleTouchMove_pen(event) {
     }
   }
 
-  const touch = touches.filter((p) => p.identifier === tocuh_point_identifier)[0];
+  const touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
   if (touch) {
     var current = touchData[touchData.length - 1] || {
       x: touch.clientX - offsetX,
@@ -129,7 +129,7 @@ export function handleTouchEnd_pen(event) {
     }
   }
 
-  const touch = touches.filter((p) => p.identifier === tocuh_point_identifier)[0];
+  const touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
   if (touch) {
     if (touchData.length >= 2) {
       var prev = touchData[touchData.length - 1];
