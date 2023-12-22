@@ -1,6 +1,8 @@
+const { v4: uuidv4 } = require('uuid');
+
 export function newGroupOnSVG() {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-  var id = 'g-' + uuid.v4();
+  var id = 'g-' + uuidv4();
   p.setAttributeNS(null, 'id', id);
   //p.setAttributeNS(null, 'opacity', '0.5');
   svg_canvas_pen_layer.appendChild(p);
@@ -15,7 +17,7 @@ export function drawPathOnSVG(pathData, color, container) {
   p.setAttributeNS(null, 'fill', 'none');
   p.setAttributeNS(null, 'stroke-linecap', 'round');
   p.setAttributeNS(null, 'fill-rule', 'nonzero');
-  p.setAttributeNS(null, 'id', uuid.v4());
+  p.setAttributeNS(null, 'id', uuidv4());
   container = document.querySelector('#' + container) || svg_canvas_pen_layer;
   container.appendChild(p);
 }
