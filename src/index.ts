@@ -19,7 +19,6 @@ const ripple = require('@erichsia7/ripple');
 var localforage = require('localforage');
 
 window.fabric_initialize = function () {
-  
   canvas.addEventListener(
     'touchstart',
     function (event) {
@@ -77,6 +76,19 @@ window.fabric_initialize = function () {
   });
 
   ripple.addTo('.tools_container button', '#fff', 370);
+
+  document.querySelectorAll('.tools_container button[group="1"]').forEach((button) => {
+    button.addEventListener('click', function () {
+      const selectedMode = parseInt(button.getAttribute('m'));
+      setToolMode(selectedMode);
+    });
+  });
+  document.querySelectorAll('.tools_container button[group="0"]').forEach((button) => {
+    button.addEventListener('click', function () {
+      const selectedMode = parseInt(button.getAttribute('m'));
+      replayHistory(selectedMode);
+    });
+  });
   resizeFabric();
   loadContent();
 };
