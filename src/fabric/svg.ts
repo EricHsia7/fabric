@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require('uuid');
 import { svg_canvas_pen_layer } from './index.ts';
+import { pen_width_base } from '../tools/index.ta';
 
 export function newGroupOnSVG() {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'g');
