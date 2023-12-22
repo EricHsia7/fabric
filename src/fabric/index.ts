@@ -2,6 +2,7 @@ import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph
 import { drawPath } from './canvas.ts';
 import { touchData, touchData_a, touchData_b, pen_color, tole } from '../tools/index.ts';
 import { currentPath } from '../tools/index.ts';
+import { registration } from './history.ts';
 var localforage = require('localforage');
 
 export let canvas = document.querySelector('#fabric');
