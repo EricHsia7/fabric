@@ -29,11 +29,11 @@
       <canvas id="fabric"></canvas>
     </div>
     <div class="tools_container">
-      <button onclick="replayHistory('undo')"><span class="material-symbols-rounded"> undo </span></button>
-      <button onclick="replayHistory('redo')"><span class="material-symbols-rounded"> redo </span></button>
-      <button onclick="setToolMode(0)" m="0"><span class="material-symbols-rounded filled"> ink_pen </span></button>
-      <button onclick="setToolMode(1)" m="1"><span class="material-symbols-rounded"> ink_eraser </span></button>
-      <button onclick="setToolMode(2)" m="2"><span class="material-symbols-rounded"> pan_tool </span></button>
+      <button m="undo" group="0"><span class="material-symbols-rounded"> undo </span></button>
+      <button m="redo" group="0"><span class="material-symbols-rounded"> redo </span></button>
+      <button m="0" group="1"><span class="material-symbols-rounded filled"> ink_pen </span></button>
+      <button m="1" group="1"><span class="material-symbols-rounded"> ink_eraser </span></button>
+      <button m="2" group="1"><span class="material-symbols-rounded"> pan_tool </span></button>
     </div>
     <script>
       document.addEventListener('DOMContentLoaded', function () {

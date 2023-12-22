@@ -1,4 +1,4 @@
-export const mode:number = 0;
+export const mode: number = 0;
 
 export const mover: boolean = false;
 export const move_start_x: number = 0;
