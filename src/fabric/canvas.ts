@@ -1,3 +1,6 @@
+import { scale } from './index.ts';
+import { pen_width_base } from '../tools/index.ts';
+
 export function drawPath(ctx, pathData, color) {
   const path = new Path2D(pathData);
   ctx.lineCap = 'round';
