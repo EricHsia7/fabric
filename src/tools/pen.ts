@@ -1,3 +1,11 @@
+import { disableScroll, enableScroll } from '../scroll/index.ts';
+import { getCoordinateOnCircleBorder } from '../graph/coordinate.ts';
+import { pathCommandToCoordinates } from '../graph/path.ts';
+import { newGroupOnSVG ,drawPathOnSVG} from '../fabric/svg.ts';
+import { log_changes} from '../fabric/history.ts';
+import { registerElement} from '../fabric/index.ts';
+import { updatePenPath} from '../fabric/canvas.ts';
+
 export function handleTouchStart_pen(event) {
   disableScroll();
 

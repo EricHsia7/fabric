@@ -1,79 +1,12 @@
 import { change_history, history_offset, registration, log_changes, replayHistory } from './fabric/history.ts';
-var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+import { canvas, ctx, svg_canvas, svg_canvas_pen_layer, scale, width, height } from './fabric/index.ts';
+import { drawPath } from './fabric/canvas.ts';
+import { newGroupOnSVG, drawPathOnSVG } from './fabric/svg.ts';
 
+import { getCoordinateOnCircleBorder } from './graph/coordinate.ts';
+import { segmentsToPath, distanceToSegment, simplifyPath, pathCommandToCoordinates } from './graph/path.ts';
 
-resizeFabric();
-var tocuh_point_identity = 0;
-var eraser_d = 10;
-var eraser_color = '#888';
-
-function preventDefault(e) {
-  e.preventDefault();
-}
-
-function preventDefaultForScrollKeys(e) {
-  if (keys[e.keyCode]) {
-    preventDefault(e);
-    return false;
-  }
-}
-
-// modern Chrome requires { passive: false } when adding event
-var supportsPassive = false;
-try {
-  window.addEventListener(
-    'test',
-    null,
-    Object.defineProperty({}, 'passive', {
-      get: function () {
-        supportsPassive = true;
-      }
-    })
-  );
-} catch (e) {}
-
-var wheelOpt = supportsPassive ? { passive: false } : false;
-var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
-
-// call this to Disable
-function disableScroll() {
-  window.addEventListener('DOMMouseScroll', preventDefault, false); // older FF
-  window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
-  window.addEventListener('touchmove', preventDefault, wheelOpt); // mobile
-  window.addEventListener('keydown', preventDefaultForScrollKeys, false);
-}
-// call this to Enable
-function enableScroll() {
-  window.removeEventListener('DOMMouseScroll', preventDefault, false);
-  window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
-  window.removeEventListener('touchmove', preventDefault, wheelOpt);
-  window.removeEventListener('keydown', preventDefaultForScrollKeys, false);
-}
-
-function gid(n) {
-  var genidchars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ';
-  var genid = '';
-  for (var i = 0; i < 32; i++) {
-    var genrandomNumber = Math.floor(Math.random() * genidchars.length);
-    genid += genidchars.substring(genrandomNumber, genrandomNumber + 1);
-  }
-  if (!(n === undefined)) {
-    n = n.replaceAll('-', '_');
-    return n + '_' + genid;
-  }
-  return 'id_' + genid;
-}
-
-function getFn(x0, y0, x1, y1) {
-  var a = x1 - x0;
-  var b = y1 - y0;
-  var m = b / a;
-  var k = (b * x1 - a * y1) / (-1 * a);
-  return function (x) {
-    return x * m + k;
-    //Math.min(Math.max(x * m + k, Math.min(y0, y1)), Math.max(y0, y1));
-  };
-}
+import { moving, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, tocuh_point_identity, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d } from './tools/index.ts';
 
 canvas.addEventListener(
   'touchstart',
@@ -129,5 +62,5 @@ window.addEventListener('resize', function () {
   resizeFabric();
 });
 ripple.addTo('.tools_container button', '#fff', 370);
-
+resizeFabric();
 loadContent();

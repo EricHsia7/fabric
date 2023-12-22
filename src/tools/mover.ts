@@ -1,3 +1,6 @@
+import { eraser_selected_element, eraser_hidden_element, eraser_d, move_offset_x, move_offset_y, offsetX, offsetY } from './index.ts';
+import { disableScroll, enableScroll } from '../scroll/index.ts';
+
 export function handleTouchStart_moving(event) {
   disableScroll();
   const touch = event.touches[0];

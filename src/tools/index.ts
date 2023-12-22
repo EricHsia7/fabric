@@ -14,6 +14,7 @@ export const touchData: Array = [];
 export const touchData_a: Array = [];
 export const touchData_b: Array = [];
 export const start_timestamp: number = 0;
+export const tocuh_point_identity: number = 0;
 
 export const pen_width_base: number = 4;
 export const force_weight: number = 0;
@@ -24,7 +25,8 @@ export const tole: number = Math.min(Math.log(pen_width_base) / Math.log(Math.po
 export const currentPath: object = { a: '', b: '', c: '' };
 export const eraser_selected_element: object = {};
 export const eraser_hidden_element: object = {};
-export const eraser_d = 15
+export const eraser_d = 15;
+export let eraser_color = '#888888';
 
 export function setToolMode(m) {
   mode = m;

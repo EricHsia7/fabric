@@ -5,14 +5,10 @@ export let ctx = canvas.getContext('2d');
 export let svg_canvas = document.querySelector('#vector_fabric');
 export let svg_canvas_pen_layer = document.querySelector('#vector_fabric g#pen');
 export var scale = Math.log(window.devicePixelRatio) / Math.log(Math.pow(2, 0.4));
-export var w_width = window.innerWidth;
-export var w_height = window.innerHeight;
 export var width = window.innerWidth;
 export var height = window.innerHeight;
 
 export function resizeFabric() {
-  w_width = window.innerWidth;
-  w_height = window.innerHeight;
   width = window.innerWidth;
   height = window.innerHeight;
   canvas.width = width * scale;

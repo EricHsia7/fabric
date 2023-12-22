@@ -1,10 +1,12 @@
-import { registration, log_changes } from './fabric/history.ts';
-import { eraser_selected_element, eraser_hidden_element, eraser_d, move_offset_x, move_offset_y, offsetX, offsetY } from './fabric/history.ts';
+import { registration, log_changes } from '../fabric/history.ts';
+import { eraser_selected_element, eraser_hidden_element, eraser_d, move_offset_x, move_offset_y, offsetX, offsetY } from './index.ts';
+import { disableScroll, enableScroll } from '../scroll/index.ts';
 
 export function handleTouchStart_eraser(event) {
   disableScroll();
   eraser_selected_element = {};
 }
+
 export function handleTouchMove_eraser(event) {
   const touch = event.touches[0];
   var current = {
