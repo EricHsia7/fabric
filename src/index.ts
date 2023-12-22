@@ -13,11 +13,12 @@ import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } f
 
 import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive } from './scroll/index.ts';
 
+import { disableScroll, enableScroll } from './scroll/index.ts';
+
 import './fabric/index.css';
 
 var ripple = require('@erichsia7/ripple');
 var localforage = require('localforage');
-
 
 //for development
 
@@ -40,7 +41,6 @@ window.onerror = async function (message, source, lineno, colno, error) {
     });
   });
 };
-
 
 window.fabric_initialize = function () {
   canvas.addEventListener(
