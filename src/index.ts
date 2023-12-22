@@ -19,7 +19,7 @@ const ripple = require('@erichsia7/ripple');
 var localforage = require('localforage');
 
 window.fabric_initialize = function () {
-  checkPassive();
+  
   canvas.addEventListener(
     'touchstart',
     function (event) {
