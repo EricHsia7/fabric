@@ -1,24 +1,24 @@
-var path = require('path');
-var webpack = require('webpack');
-var TerserPlugin = require('terser-webpack-plugin');
-var MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-var AdvancedPreset = require('cssnano-preset-advanced');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var WorkboxPlugin = require('workbox-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const AdvancedPreset = require('cssnano-preset-advanced');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 function generateRandomString(length) {
-  var charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
   for (let i = 0; i < length; i++) {
-    var randomIndex = Math.floor(Math.random() * charset.length);
+    const randomIndex = Math.floor(Math.random() * charset.length);
     result += charset[randomIndex];
   }
   return result;
 }
 
 module.exports = (env, argv) => {
-  var isProduction = argv.mode === 'production';
+  const isProduction = argv.mode === 'production';
   return {
     plugins: [
       new MiniCssExtractPlugin({
