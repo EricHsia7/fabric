@@ -3,7 +3,7 @@ import { getCoordinateOnCircleBorder } from '../graph/coordinate.ts';
 import { pathCommandToCoordinates } from '../graph/path.ts';
 import { newGroupOnSVG, drawPathOnSVG } from '../fabric/svg.ts';
 import { log_changes } from '../fabric/history.ts';
-import { registerElement, updatePenPath } from '../fabric/index.ts';
+import { registerElement, updatePenPath, ctx } from '../fabric/index.ts';
 import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
 
 export function handleTouchStart_pen(event) {
