@@ -14,7 +14,7 @@ export const touchData: Array = [];
 export const touchData_a: Array = [];
 export const touchData_b: Array = [];
 export const start_timestamp: number = 0;
-export const tocuh_point_identifier: number = 0;
+export const touch_point_identifier: number = 0;
 
 export const pen_width_base: number = 4;
 export const force_weight: number = 0;
