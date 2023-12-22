@@ -11,12 +11,15 @@ import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser 
 import { handleTouchStart_pen, handleTouchMove_pen, handleTouchEnd_pen } from './tools/pen.ts';
 import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './tools/mover.ts';
 
+import {checkPassive} from './scoll/index.ts'
+
 import './fabric/index.css';
 
 const ripple = require('@erichsia7/ripple');
 var localforage = require('localforage');
 
 window.fabric_initialize = function () {
+  checkPassive()
   canvas.addEventListener(
     'touchstart',
     function (event) {
