@@ -9,7 +9,7 @@ export function handleTouchStart_eraser(event) {
 }
 
 export function handleTouchMove_eraser(event) {
-  const touch = event.touches[0];
+  var touch = event.touches[0];
   var current = {
     x: touch.clientX - offsetX - move_offset_x,
     y: touch.clientY - offsetY - move_offset_y

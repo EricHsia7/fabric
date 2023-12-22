@@ -9,7 +9,7 @@ import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_o
 export function handleTouchStart_pen(event) {
   disableScroll();
 
-  const touch = event.touches[0];
+  var touch = event.touches[0];
   touchData = []; // Clear previous touch data
   touchData_a = [];
   touchData_b = [];
@@ -62,7 +62,7 @@ export function handleTouchMove_pen(event) {
     }
   }
 
-  const touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
+  var touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
   if (touch) {
     var current = touchData[touchData.length - 1] || {
       x: touch.clientX - offsetX,
@@ -129,7 +129,7 @@ export function handleTouchEnd_pen(event) {
     }
   }
 
-  const touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
+  var touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
   if (touch) {
     if (touchData.length >= 2) {
       var prev = touchData[touchData.length - 1];

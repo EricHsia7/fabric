@@ -2,7 +2,7 @@ import { scale } from './index.ts';
 import { pen_width_base } from '../tools/index.ts';
 
 export function drawPath(ctx, pathData, color) {
-  const path = new Path2D(pathData);
+  var path = new Path2D(pathData);
   ctx.lineCap = 'round';
   ctx.lineWidth = pen_width_base * scale;
   ctx.strokeStyle = color; // Red color

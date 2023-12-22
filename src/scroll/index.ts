@@ -1,7 +1,7 @@
 export let keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
-export const supportsPassive = false;
-export const wheelOpt = supportsPassive ? { passive: false } : false;
-export const wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
+export var supportsPassive = false;
+export var wheelOpt = supportsPassive ? { passive: false } : false;
+export var wheelEvent = 'onwheel' in document.createElement('div') ? 'wheel' : 'mousewheel';
 
 export function preventDefault(e) {
   e.preventDefault();
