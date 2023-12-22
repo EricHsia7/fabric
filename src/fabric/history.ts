@@ -2,7 +2,7 @@ import { saveContent } from './index.ts';
 
 export var change_history: { addition: any[]; deletion: any[] }[] = [];
 export var history_offset: number = 0;
-export var registration: { [key: string]: { hidden: boolean } } = {};
+export var registration: object = {};
 
 export function log_changes(addition, deletion) {
   if (!(addition.length === 0 && deletion.length === 0)) {
