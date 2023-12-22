@@ -1,6 +1,6 @@
 {
   "name": "@erichsia7/fabric",
-  "version": "0.0.4",
+  "version": "0.0.1",
   "description": "fabric",
   "main": "dist/index.min.js",
   "private": false,
@@ -42,7 +42,9 @@
     "workbox-webpack-plugin": "^7.0.0"
   },
   "dependencies": {
-    "uuid":"^9.0.1",
-    "fontfaceobserver": "^2.3.0"
+    "uuid": "^9.0.1",
+    "fontfaceobserver": "^2.3.0",
+    "@erichsia7/ripple": "^1.1.7",
+    "localforage": "^1.10.0"
   }
 }
