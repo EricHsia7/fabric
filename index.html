@@ -1,0 +1,349 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>Fabric</title><meta name="description" content="Fabric"><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0"/><link href="https://erichsia7.github.io/fabric/pwaicon3/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="defualt"/><link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="icon"/><link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="bookmark"/><link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="shortcut icon"/><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f5f5" kji="light"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111111" kji="dark"><link rel="manifest" href="https://erichsia7.github.io/fabric/manifest3.json"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"><style id="size">:root {
+      --g-preview-width: 300px;
+      --g-preview-height: 150px;
+    }</style><style>:root {
+      --f-ffffff: #ffffff;
+      --f-f5f5f5: #f5f5f5;
+      --f-e3e3e3: #e3e3e3;
+      --f-333333: #333333;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --f-ffffff: #1f1f1f;
+        --f-f5f5f5: #111111;
+        --f-e3e3e3: #262626;
+        --f-333333: #ffffff;
+      }
+    }
+
+    * {
+      -webkit-appearance: none;
+      appearance: none;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+
+    body {
+      background: var(--f-f5f5f5);
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .fabric_list {
+      position: relative;
+      top: 0px;
+      left: 0px;
+      padding: 5px;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .fabric_item {
+      background: var(--f-ffffff);
+      width: calc(var(--g-preview-width) - 10px);
+      height: calc(var(--g-preview-height) - 10px + 90px);
+      margin: 5px;
+      border-radius: 15px;
+      float: left;
+      overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
+      position: relative;
+    }
+
+    .fabric_item a {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      display: block;
+      box-sizing: border-box;
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .fabric_item .preview {
+      width: calc(var(--g-preview-width) - 10px);
+      height: calc(var(--g-preview-height) - 10px);
+      background: var(--p-preview);
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .add {
+      position: fixed;
+      right: 15px;
+      bottom: 15px;
+      border-radius: 50%;
+      background: var(--f-ffffff);
+      width: 55px;
+      height: 55px;
+      box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.08);
+      -webkit-user-select: none;
+      user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .add svg {
+      width: 25px;
+      height: 25px;
+    }
+
+    @media screen and (min-width: 650px) {
+      .fabric_item .preview {
+        width: calc(var(--g-preview-width) / 3 - 10px);
+        height: calc(var(--g-preview-height) / 3 - 10px);
+      }
+
+      .fabric_item {
+        width: calc(var(--g-preview-width) / 3 - 10px);
+        height: calc(var(--g-preview-height) / 3 - 10px + 90px);
+      }
+    }</style><script defer="defer" src="https://erichsia7.github.io/fabric/dist/main.c9b8df383941369c533e.min.js"></script></head><body><div class="fabric_list"></div><div class="add" onclick="addFabric()"><svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.5714 64L28.5714 35.4286L0 35.4286L0 28.5714L28.5714 28.5714L28.5714 0L35.4286 0L35.4286 28.5714L64 28.5714L64 35.4286L35.4286 35.4286L35.4286 64L28.5714 64Z" fill="var(--f-333333)" fill-rule="evenodd" opacity="1" stroke="none"/></svg></div></body><script>var bg_exist = 0
+
+  var s_block_size = 45
+  var r_width = Math.max(window.innerWidth, window.innerHeight)
+  var r_height = Math.min(window.innerWidth, window.innerHeight)
+  var width = window.innerWidth
+  var height = window.innerHeight
+  Math.ol = function (p) {
+    if (Math.abs(parseInt(p) - p) > 0) {
+      return parseFloat(parseFloat(p).toFixed(3))
+    }
+    return p
+  }
+
+
+  var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+
+  function preventDefault(e) {
+    e.preventDefault();
+  }
+
+  function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+      preventDefault(e);
+      return false;
+    }
+  }
+
+  // modern Chrome requires { passive: false } when adding event
+  var supportsPassive = false;
+  try {
+    window.addEventListener(
+      "test",
+      null,
+      Object.defineProperty({}, "passive", {
+        get: function () {
+          supportsPassive = true;
+        }
+      })
+    );
+  } catch (e) { }
+
+  var wheelOpt = supportsPassive ? { passive: false } : false;
+  var wheelEvent =
+    "onwheel" in document.createElement("div") ? "wheel" : "mousewheel";
+
+  // call this to Disable
+  function disableScroll() {
+    window.addEventListener("DOMMouseScroll", preventDefault, false); // older FF
+    window.addEventListener(wheelEvent, preventDefault, wheelOpt); // modern desktop
+    window.addEventListener("touchmove", preventDefault, wheelOpt); // mobile
+    window.addEventListener("keydown", preventDefaultForScrollKeys, false);
+  }
+  // call this to Enable
+  function enableScroll() {
+    window.removeEventListener("DOMMouseScroll", preventDefault, false);
+    window.removeEventListener(wheelEvent, preventDefault, wheelOpt);
+    window.removeEventListener("touchmove", preventDefault, wheelOpt);
+    window.removeEventListener("keydown", preventDefaultForScrollKeys, false);
+  }
+  function urlparams(p) {
+    var getUrlString = location.href;
+    var url = new URL(getUrlString);
+    return url.searchParams.get(p)
+  }
+
+  function set_urlparams(p, k) {
+    var getUrlString = location.href;
+    var url = new URL(getUrlString);
+    url.searchParams.set(p, k)
+    history.pushState(null, null, url)
+  }
+
+  function gid(n) {
+    var genidchars =
+      "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQURSTUVWXYZ";
+    var genid = "";
+    for (var i = 0; i < 16; i++) {
+      var genrandomNumber = Math.floor(Math.random() * genidchars.length);
+      genid += genidchars.substring(genrandomNumber, genrandomNumber + 1);
+    }
+    if (!(n === undefined)) {
+      n = n.replaceAll("-", "_");
+      return n + "_" + genid;
+    }
+    return "id_" + genid;
+  }
+  var blocks_string = ''
+  function drawBlocks(w, h) {
+    var block = function (x, y) {
+      return `<g transform="translate(${x} ${y})"><path d="M11.25 0L11.25 45L11.25 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M33.75 0L33.75 45L33.75 0Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 11.25L45 11.25L0 11.25Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/><path d="M0 33.75L45 33.75L0 33.75Z" fill="none" opacity="1" stroke="var(--d-block-f5f5f5-color)" stroke-linecap="butt" stroke-linejoin="miter" stroke-width="0.55"/></g>`;
+    };
+    var j = [];
+    var wc = Math.floor(w / s_block_size) + 1;
+    var hc = Math.floor(h / s_block_size) + 1;
+    for (var m = 0; m < hc * 3; m++) {
+      for (var n = 0; n < wc * 3; n++) {
+        j.push(block(-1 * wc * s_block_size + n * s_block_size, -1 * hc * s_block_size + m * s_block_size));
+      }
+    }
+
+    blocks_string = `<rect x="${-1 * wc * s_block_size}" y="${-1 * hc * s_block_size}" width="${w * 3}" height="${h * 3}" fill="var(--d-canvas-bg)"/>${j.join("")}`;
+  }
+
+  function generatePreviewPicture(content, picture_container_element) {
+    if (picture_container_element.getAttribute('k') === '1') {
+      return ''
+    }
+    if (!(document.readyState === 'complete')) {
+      window.addEventListener("load", (event) => {
+        generatePreviewPicture(content, picture_container_element)
+      }, { once: true });
+    }
+    if (bg_exist === 0) {
+      drawBlocks(r_width, r_height)
+      bg_exist = 1
+    }
+
+    var dpr = window.devicePixelRatio
+    var w = r_width * dpr
+    var h = r_height * dpr
+
+    if (w * h > 800 * 800) {
+      if (w > h) {
+        h = h * (800 / w)
+        w = 800
+      }
+      else {
+        w = w * (800 / h)
+        h = 800
+      }
+    }
+    var color_set = `:root {--d-pen-000000-color: #355f8d;--d-block-f5f5f5-color: #f0f0f0;--d-canvas-bg: #ffffff;}`
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      var color_set = `:root {--d-pen-000000-color: #ffffff;--d-block-f5f5f5-color: #1b1e22;--d-canvas-bg: #121417;}`
+    }
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "white";
+
+    const svgString = `
+    <svg width="${r_width}px" height="${r_height}px" id="preview" xmlns="http://www.w3.org/2000/svg" viewbox="0,0,${r_width},${r_height}">
+      <style>
+      ${color_set}
+    </style>
+    <g id="bg">${blocks_string}</g>
+    <g id="pen">${content}</g>
+    <g id="rubber_eraser">
+      <circle cx="0" cy="0" r="5" stroke="var(--d-pen-000000-color)" stroke-width="1" fill="none" opacity="0"></circle>
+    </g>
+  </svg>
+    `
+    //new XMLSerializer().serializeToString(preview_svg);
+    const img = new Image();
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, w, h);
+      canvas.toBlob(function (b) {
+        var u = window.URL || window.webkitURL
+        var url = String(u.createObjectURL(b));
+        picture_container_element.style.setProperty('--p-preview', `url(${url})`)
+        picture_container_element.setAttribute('k', '1')
+      }, "image/png");
+    }
+    img.src = "data:image/svg+xml;base64," + btoa(svgString);
+  }
+
+  var index = 0
+  var ll = 0
+  var list_ststus = 0
+  var list = []
+  function printFabricList() {
+    var size = []
+    var t_width = r_width * 1
+    var t_height = r_height * 1
+    if (t_width > width) {
+      if (t_width > t_height) {
+        t_height *= width / t_width
+        t_width = width
+      }
+      else {
+        t_width *= height / t_height
+        t_height = height
+      }
+    }
+    size.push('--g-preview-width:' + (t_width - 10) + 'px')
+    size.push('--g-preview-height:' + (t_height - 10) + 'px')
+
+    size.push('--j-width:' + width + 'px')
+    size.push('--j-height:' + height + 'px')
+    var len = Math.round(height / ((t_height - 10) - 10 + 90))
+    if (width > 650) {
+      len *= 3
+    }
+    len += 3
+    document.querySelector('style#size').innerHTML = `:root{${size.join(';')}}`
+    list = []
+    for (var e in localStorage) {
+      if (!(typeof (localStorage.getItem(e)) === 'function')) {
+        if (String(e).indexOf('fabric_') > -1) {
+          var elt_id = gid('e')
+          var fabric_item = document.createElement('div')
+          fabric_item.id = elt_id
+          fabric_item.classList.add('fabric_item')
+          fabric_item.innerHTML = `<a href="https://erichsia7.github.io/fabric/d/?id=${e}"><div class="preview" style="--p-preview:var(--f-e3e3e3)"></div><div class="title"></div><div class="least_modification_time"></div></a>`
+          document.querySelector('.fabric_list').appendChild(fabric_item)
+          list.push({ 'e': e, 'elt': elt_id })
+          if (index <= len) {
+            generatePreviewPicture(String(localStorage.getItem(e)), document.querySelector('#' + elt_id + ' .preview'))
+            index += 1
+          }
+          ll += 1
+        }
+      }
+    }
+    index = len * 1
+  }
+  function addFabric() {
+    location.replace('https://erichsia7.github.io/fabric/d/')
+  }
+  window.addEventListener("load", (event) => {
+    printFabricList()
+  });
+  document.addEventListener("scroll", (event) => {
+    var scrolltop = document.documentElement.scrollTop
+    var scrollheight = document.documentElement.scrollHeight
+    var clientheight = document.documentElement.clientHeight
+
+    if (scrolltop > scrollheight - clientheight - clientheight * 1.5) {
+      if (index <= ll && list_ststus === 0) {
+        for (var e = index; e < Math.max(index + 5, ll); e++) {
+          if (!(list[e] === undefined)) {
+            generatePreviewPicture(String(localStorage.getItem(list[e].e)), document.querySelector('#' + list[e].elt + ' .preview'))
+          }
+        }
+        index += 5
+        list_ststus = 1;
+      } else {
+        list_ststus = 0;
+      }
+    }
+  });</script></html>
