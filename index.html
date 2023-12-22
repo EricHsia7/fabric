@@ -3,18 +3,18 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Whiteboard</title>
-  <meta name="description" content="Whiteboard">
+  <title>Fabric</title>
+  <meta name="description" content="Fabric">
   <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0" />
-  <link href="https://erichsia7.github.io/whiteboard/pwaicon3/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
+  <link href="https://erichsia7.github.io/fabric/pwaicon3/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="defualt" />
-  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="icon" />
-  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="bookmark" />
-  <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="shortcut icon" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="icon" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="bookmark" />
+  <link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="shortcut icon" />
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f5f5" kji="light">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111111" kji="dark">
-  <link rel="manifest" href="https://erichsia7.github.io/whiteboard/manifest3.json">
+  <link rel="manifest" href="https://erichsia7.github.io/fabric/manifest3.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -54,7 +54,7 @@
       padding: 0px;
     }
 
-    .whiteboard_list {
+    .fabric_list {
       position: relative;
       top: 0px;
       left: 0px;
@@ -63,7 +63,7 @@
       -webkit-user-select: none;
     }
 
-    .whiteboard_item {
+    .fabric_item {
       background: var(--f-ffffff);
       width: calc(var(--g-preview-width) - 10px);
       height: calc(var(--g-preview-height) - 10px + 90px);
@@ -76,7 +76,7 @@
       position: relative;
     }
 
-    .whiteboard_item a {
+    .fabric_item a {
       position: absolute;
       top: 0px;
       left: 0px;
@@ -88,7 +88,7 @@
       padding: 0px;
     }
 
-    .whiteboard_item .preview {
+    .fabric_item .preview {
       width: calc(var(--g-preview-width) - 10px);
       height: calc(var(--g-preview-height) - 10px);
       background: var(--p-preview);
@@ -119,12 +119,12 @@
     }
 
     @media screen and (min-width: 650px) {
-      .whiteboard_item .preview {
+      .fabric_item .preview {
         width: calc(var(--g-preview-width) / 3 - 10px);
         height: calc(var(--g-preview-height) / 3 - 10px);
       }
 
-      .whiteboard_item {
+      .fabric_item {
         width: calc(var(--g-preview-width) / 3 - 10px);
         height: calc(var(--g-preview-height) / 3 - 10px + 90px);
       }
@@ -133,8 +133,8 @@
 </head>
 
 <body>
-  <div class="whiteboard_list"></div>
-  <div class="add" onclick="addWhiteboard()">
+  <div class="fabric_list"></div>
+  <div class="add" onclick="addFabric()">
     <svg stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;" version="1.1" viewBox="0 0 64 64" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <path d="M28.5714 64L28.5714 35.4286L0 35.4286L0 28.5714L28.5714 28.5714L28.5714 0L35.4286 0L35.4286 28.5714L64 28.5714L64 35.4286L35.4286 35.4286L35.4286 64L28.5714 64Z" fill="var(--f-333333)" fill-rule="evenodd" opacity="1" stroke="none" />
     </svg>
@@ -313,7 +313,7 @@
   var ll = 0
   var list_ststus = 0
   var list = []
-  function printWhiteboardList() {
+  function printFabricList() {
     var size = []
     var t_width = r_width * 1
     var t_height = r_height * 1
@@ -341,13 +341,13 @@
     list = []
     for (var e in localStorage) {
       if (!(typeof (localStorage.getItem(e)) === 'function')) {
-        if (String(e).indexOf('whiteboard_') > -1) {
+        if (String(e).indexOf('fabric_') > -1) {
           var elt_id = gid('e')
-          var whiteboard_item = document.createElement('div')
-          whiteboard_item.id = elt_id
-          whiteboard_item.classList.add('whiteboard_item')
-          whiteboard_item.innerHTML = `<a href="https://erichsia7.github.io/whiteboard/d/?id=${e}"><div class="preview" style="--p-preview:var(--f-e3e3e3)"></div><div class="title"></div><div class="least_modification_time"></div></a>`
-          document.querySelector('.whiteboard_list').appendChild(whiteboard_item)
+          var fabric_item = document.createElement('div')
+          fabric_item.id = elt_id
+          fabric_item.classList.add('fabric_item')
+          fabric_item.innerHTML = `<a href="https://erichsia7.github.io/fabric/d/?id=${e}"><div class="preview" style="--p-preview:var(--f-e3e3e3)"></div><div class="title"></div><div class="least_modification_time"></div></a>`
+          document.querySelector('.fabric_list').appendChild(fabric_item)
           list.push({ 'e': e, 'elt': elt_id })
           if (index <= len) {
             generatePreviewPicture(String(localStorage.getItem(e)), document.querySelector('#' + elt_id + ' .preview'))
@@ -359,11 +359,11 @@
     }
     index = len * 1
   }
-  function addWhiteboard() {
-    location.replace('https://erichsia7.github.io/whiteboard/d/')
+  function addFabric() {
+    location.replace('https://erichsia7.github.io/fabric/d/')
   }
   window.addEventListener("load", (event) => {
-    printWhiteboardList()
+    printFabricList()
   });
   document.addEventListener("scroll", (event) => {
     var scrolltop = document.documentElement.scrollTop

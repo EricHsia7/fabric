@@ -2,18 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Whiteboard</title>
-    <meta name="description" content="Whiteboard" />
+    <title>Fabric</title>
+    <meta name="description" content="Fabric" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=0" />
-    <link href="https://erichsia7.github.io/whiteboard/pwaicon3/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
+    <link href="https://erichsia7.github.io/fabric/pwaicon3/512x512.png" sizes="512x512" rel="apple-touch-icon-precomposed" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="defualt" />
-    <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="icon" />
-    <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="bookmark" />
-    <link type="image/x-icon" href="https://erichsia7.github.io/whiteboard/pwaicon3/256x256_corner_radius.ico" rel="shortcut icon" />
+    <link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="icon" />
+    <link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="bookmark" />
+    <link type="image/x-icon" href="https://erichsia7.github.io/fabric/pwaicon3/256x256_corner_radius.ico" rel="shortcut icon" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" kji="light" />
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121417" kji="dark" />
-    <link rel="manifest" href="https://erichsia7.github.io/whiteboard/manifest3.json" />
+    <link rel="manifest" href="https://erichsia7.github.io/fabric/manifest3.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet" />
@@ -404,7 +404,7 @@
     var force = 0;
     var wq = 0;
     var speed = 0;
-    var canvas_id = urlparams('id') || gid('whiteboard');
+    var canvas_id = urlparams('id') || gid('fabric');
     var rubber_eraser_symbol = document.querySelector('#rubber_eraser circle');
     var path_main, path_a, path_b;
     var offset_x = 0;
@@ -1004,7 +1004,7 @@
       drawPath(segmentsToPath(curved_points.map((g) => ({ x: g.c1.x, y: g.c1.y })).concat(curved_points.map((g) => ({ x: g.c2.x, y: g.c2.y })).reverse())), ftid, true);
     }
 
-   export function openWhiteboardByID(id, callback) {
+   export function openFabricByID(id, callback) {
       if (x_storage.hasOwnProperty(id)) {
         set_urlparams('id', id);
         canvas_id = id;
@@ -1562,13 +1562,13 @@
     }
 
    export function backToPreviousPage() {
-      location.replace('https://erichsia7.github.io/whiteboard/');
+      location.replace('https://erichsia7.github.io/fabric/');
     }
 
     window.addEventListener('load', (event) => {
       drawBlocks(window.innerWidth, window.innerHeight);
       setTimeout(function () {
-        openWhiteboardByID(canvas_id,export function () {
+        openFabricByID(canvas_id,export function () {
           document.querySelector('.load_cover').style.display = 'none';
         });
       }, 1500);
