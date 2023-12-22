@@ -89,8 +89,8 @@ window.fabric_initialize = function () {
         handleTouchEnd_mover(event);
         mover = false;
       }
-      //console.log(String(document.querySelector('svg#vector_fabric g#pen').innerHTML).length * 2/1024 + 'kb')
       saveContent();
+      console.log(registration)
     },
     false
   );
