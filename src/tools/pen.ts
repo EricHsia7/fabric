@@ -5,6 +5,8 @@ import { newGroupOnSVG ,drawPathOnSVG} from '../fabric/svg.ts';
 import { log_changes} from '../fabric/history.ts';
 import { registerElement} from '../fabric/index.ts';
 import { updatePenPath} from '../fabric/canvas.ts';
+import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, tocuh_point_identity, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
+
 
 export function handleTouchStart_pen(event) {
   disableScroll();
