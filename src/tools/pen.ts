@@ -53,7 +53,7 @@ export function handleTouchStart_pen(event) {
 
   try {
     console.log(fabric_color_list);
-    console.log(fabric_color_list[pen_color_id]);
+    //console.log(fabric_color_list[pen_color_id]);
     //console.log(fabric_color_list[pen_color_id].obj);
    // console.log(fabric_color_list[pen_color_id].obj.toHEX());
   } catch (e) {
