@@ -135,5 +135,6 @@ window.fabric_initialize = function () {
 
 window.FabricColor = FabricColor;
 window.loadFabricColors = loadFabricColors;
+window.fabric_color_list = fabric_color_list;
 
 export default window.fabric_initialize;
