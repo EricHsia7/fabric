@@ -9,7 +9,7 @@ import { fabric_color_list, FabricColor } from './color.ts';
 
 export function handleTouchStart_pen(event) {
   var touch = event.touches[0];
-  touchData = []; // Clear previous touch data
+  touchData = [];
   touchData_a = [];
   touchData_b = [];
   touch_point_identifier = touch.identifier;
