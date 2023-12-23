@@ -93,7 +93,6 @@ window.fabric_initialize = function () {
         }
       }
       saveContent();
-      console.log(registration);
     },
     false
   );
