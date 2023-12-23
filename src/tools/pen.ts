@@ -112,6 +112,9 @@ export function handleTouchMove_pen(event) {
       y: c2.y
     });
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
+    drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
+    drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
     updatePenPath();
   }
 }
@@ -149,6 +152,9 @@ export function handleTouchEnd_pen(event) {
       touchData_a = touchData_a.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
       touchData_b = touchData_b.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
 
+      drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
       updatePenPath();
       var group = newGroupOnSVG();
 
