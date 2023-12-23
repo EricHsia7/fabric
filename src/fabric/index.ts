@@ -2,7 +2,6 @@ import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph
 import { drawPath } from './canvas.ts';
 import { touchData, touchData_a, touchData_b, pen_color, tole } from '../tools/index.ts';
 import { currentPath } from '../tools/index.ts';
-import { registration } from './history.ts';
 var localforage = require('localforage');
 
 export let canvas = document.querySelector('#fabric');
@@ -12,6 +11,7 @@ export let svg_canvas_pen_layer = document.querySelector('#vector_fabric g#pen')
 export var scale = Math.log(window.devicePixelRatio) / Math.log(Math.pow(2, 0.4));
 export var width = window.innerWidth;
 export var height = window.innerHeight;
+export var registration: object = {};
 
 export function resizeFabric() {
   width = window.innerWidth;
