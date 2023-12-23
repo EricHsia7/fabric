@@ -125,7 +125,6 @@ window.fabric_initialize = function () {
   );
   resizeFabric();
   loadContent();
-  disableScroll();
   checkPassive();
 };
 window.enableScroll = enableScroll;
