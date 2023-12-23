@@ -1,7 +1,7 @@
 import { canvas, ctx, svg_canvas, svg_canvas_pen_layer, scale, width, height, resizeFabric, updatePenPath, registerElement, saveContent, loadContent } from './fabric/index.ts';
 import { drawPath } from './fabric/canvas.ts';
 import { newGroupOnSVG, drawPathOnSVG } from './fabric/svg.ts';
-import { replayHistory } from './fabric/history.ts';
+import { change_history, history_offset, registration, log_changes, replayHistory } from './fabric/history.ts';
 
 import { getCoordinateOnCircleBorder } from './graph/coordinate.ts';
 import { segmentsToPath, distanceToSegment, simplifyPath, pathCommandToCoordinates } from './graph/path.ts';
