@@ -24,11 +24,11 @@ export function drawPathOnSVG(pathData, color, container) {
   container.appendChild(p);
 }
 
-export function drawCircleOnSVG(x, y, color, container) {
+export function drawCircleOnSVG(x, y, r, color, container) {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   p.setAttributeNS(null, 'cx', x);
   p.setAttributeNS(null, 'cy', y);
-  p.setAttributeNS(null, 'r', pen_width_base);
+  p.setAttributeNS(null, 'r', r);
   p.setAttributeNS(null, 'stroke', 'none');
   p.setAttributeNS(null, 'fill', color);
   p.setAttributeNS(null, 'stroke-linecap', 'round');
