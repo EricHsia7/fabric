@@ -68,7 +68,12 @@ export function loadContent() {
         var e = elements[i];
         var coordinates = [];
         for (var child of e.children) {
-          coordinates = coordinates.concat(pathCommandToCoordinates(child.getAttribute('d'), 2));
+          if (child.tagName.toLowerCase() === 'path') {
+            coordinates = coordinates.concat(pathCommandToCoordinates(child.getAttribute('d'), 2));
+          }
+          if (child.tagName.toLowerCase() === 'circle') {
+            coordinates = coordinates.concat([{ x: child.getAttribute('cx'), y: child.getAttribute('cy') }]);
+          }
         }
         registerElement(coordinates, e.getAttribute('id'));
       }
