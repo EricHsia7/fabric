@@ -1,5 +1,5 @@
 import { eraser_selected_element, eraser_hidden_element, eraser_d, move_offset_x, move_offset_y, offsetX, offsetY } from './index.ts';
-import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
+import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from '../scroll/index.ts';
 import { svg_canvas_pen_layer } from '../fabric/index.ts';
 export function handleTouchStart_mover(event) {
   disableScroll();
