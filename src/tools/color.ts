@@ -52,10 +52,6 @@ export function setFabricColorTime(id: string, time: number) {
   }
 }
 
-export function setPenColor(id: string) {
-  pen_color_id = `${id}`;
-}
-
 export function loadFabricColors() {
   localforage
     .keys()
@@ -97,16 +93,15 @@ export function updateFabricColorStyleTag() {
   document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {${dark.join('')}}`;
 }
 
-function colorToHex(color: any): string {
+export function colorToHex(color: any): string {
+  function componentToHex(c: number): string {
+    var hex = c.toString(16);
+    return String(hex.length == 1 ? '0' + hex : hex).toUpperCase();
+  }
   return `#${componentToHex(color.r)}${componentToHex(color.g)}${componentToHex(color.b)}`;
 }
 
-function componentToHex(c: number): string {
-  var hex = c.toString(16);
-  return String(hex.length == 1 ? '0' + hex : hex).toUpperCase();
-}
-
-function colorToCSS(color: any, scheme: string): string {
+export function colorToCSS(color: any, scheme: string): string {
   const selectedColor = color[scheme];
   const hex = colorToHex(selectedColor);
   return `--${color.id}: ${hex};`;
