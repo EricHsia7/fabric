@@ -8,6 +8,7 @@ import { drawPath } from '../fabric/canvas.ts';
 import { fabric_color_list, FabricColor } from './color.ts';
 
 export function handleTouchStart_pen(event) {
+  console.log(fabric_color_list)
   var touch = event.touches[0];
   touchData = []; // Clear previous touch data
   touchData_a = [];
