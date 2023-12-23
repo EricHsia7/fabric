@@ -25,10 +25,6 @@ export function resizeFabric() {
 }
 
 export function updatePenPath() {
-  drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
-  drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
-  drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
-
   currentPath.c = segmentsToPath(touchData, 1);
   currentPath.a = segmentsToPath(simplifyPath(touchData_a, tole).concat(touchData_a[touchData_a.length - 1]), 1);
   currentPath.b = segmentsToPath(simplifyPath(touchData_b, tole).concat(touchData_b[touchData_b.length - 1]), 1);
