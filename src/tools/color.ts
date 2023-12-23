@@ -1,3 +1,5 @@
+import { pen_color } from './index.ts';
+
 var { v4: uuidv4 } = require('uuid');
 export var fabric_color_list = {};
 var localforage = require('localforage');
@@ -11,6 +13,7 @@ export class FabricColor {
       this.light = { type: 'rgb', r: r, g: g, b: b };
       this.dark = { type: 'rgb', r: r, g: g, b: b };
       this.id = uuidv4();
+      this.time = new Date().getTime();
       this.type = 'FabricColor';
     }
   }
@@ -22,20 +25,25 @@ export class FabricColor {
     function rgbToHex(r, g, b) {
       return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
     }
+    var color_scheme = 'light';
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      color_scheme = 'dark';
+    }
     return {
+      type: 'hex',
       light: { type: 'hex', hex: rgbToHex(this.light.r, this.light.g, this.light.b) },
       dark: { type: 'hex', hex: rgbToHex(this.dark.r, this.dark.g, this.dark.b) },
+      current: { type: 'hex', hex: rgbToHex(this[color_scheme].r, this[color_scheme].g, this[color_scheme].b) },
       id: this.id
     };
   }
-  toCSSVariable() {
+  toCSS() {
     var hex = this.toHEX();
     return {
       type: 'css',
-      css: {
-        light: { declaration: `--fc-${this.id}: ${hex.light.hex};`, application: `var(--fc-${this.id})` },
-        dark: { declaration: `--fc-${this.id}: ${hex.dark.hex};`, application: `var(--fc-${this.id})` }
-      },
+      light: { declaration: `--fc-${this.id}: ${hex.light.hex};` },
+      dark: { declaration: `--fc-${this.id}: ${hex.dark.hex};` },
+      application: `var(--fc-${this.id})`,
       id: this.id
     };
   }
@@ -45,12 +53,14 @@ export class FabricColor {
       type: this.type,
       id: this.id,
       light: this.light,
-      dark: this.dark
+      dark: this.dark,
+      time: this.time
     };
-    fabric_color_list[key] = obj;
     if (lf) {
       localforage.setItem(key, JSON.stringify(obj));
     }
+    obj.obj = this;
+    fabric_color_list[key] = obj;
   }
   setColor(r1, g1, b1, r2, g2, b2) {
     this.light = { type: 'rgb', r: r1, g: g1, b: b1 };
@@ -59,6 +69,20 @@ export class FabricColor {
   setID(id) {
     this.id = id;
   }
+  setTime(time) {
+    this.time = time;
+  }
+}
+
+export function initializeFabricColors() {
+  function constructColor(r1, g1, b1, r2, g2, b2) {
+    var fc = new FabricColor(r1, g2, b2);
+    fc.setColor(r1, g2, b2, r2, g2, b2);
+    fc.setID('default-black-white');
+    fc.setTime(0);
+    fc.save(false);
+  }
+  constructColor(0, 0, 0, 255, 255, 255);
 }
 
 export function loadFabricColors() {
@@ -72,9 +96,36 @@ export function loadFabricColors() {
           var fc = new FabricColor(0, 0, 0);
           fc.setColor(obj.light.r, obj.light.g, obj.light.b, obj.dark.r, obj.dark.g, obj.dark.b);
           fc.setID(obj.id);
+          fc.setTime(obj.time);
           fc.save(false);
         });
       });
     })
     .catch(function (err) {});
+}
+
+export function listFabricColors(): [] {
+  var list = [];
+  for (var g in fabric_color_list) {
+    list.push(fabric_color_list[g]);
+  }
+  list.sort(function (a, b) {
+    return a.time - b.time;
+  });
+  return list;
+}
+
+export function setPenColor(id) {
+  pen_color = fabric_color_list[`fc-${id}`];
+}
+
+export function updateFabricColorStyleTag() {
+  var list = listFabricColors();
+  var light = [];
+  var dark = [];
+  list.forEach((g) => {
+    light.push(g.obj.toCSS().light.declaration);
+    dark.push(g.obj.toCSS().dark.declaration);
+  });
+  document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {${dark.join('')}}`;
 }
