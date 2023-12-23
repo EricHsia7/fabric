@@ -112,11 +112,12 @@ export function handleTouchMove_pen(event) {
       x: c2.x,
       y: c2.y
     });
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
-    drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
-    drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
-
+    if (touchData.length >= 2) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
+    }
     updatePenPath();
   }
 }
