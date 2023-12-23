@@ -13,6 +13,8 @@ import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } f
 
 import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
 
+import { FabricColor, loadFabricColors } from './tools/color.ts';
+
 import './fabric/index.css';
 
 var ripple = require('@erichsia7/ripple');
@@ -127,5 +129,8 @@ window.fabric_initialize = function () {
   loadContent();
   checkPassive();
 };
+
+window.FabricColor = FabricColor;
+window.loadFabricColors = loadFabricColors;
 
 export default window.fabric_initialize;
