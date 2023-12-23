@@ -164,9 +164,9 @@ export function handleTouchEnd_pen(event) {
       updatePenPath();
       var group = newGroupOnSVG();
 
-      drawPathOnSVG(currentPath.a, pen_color.toCSS.application, group);
-      drawPathOnSVG(currentPath.b, pen_color.toCSS.application, group);
-      drawPathOnSVG(currentPath.c, pen_color.toCSS.application, group);
+      drawPathOnSVG(currentPath.a, pen_color, group);
+      drawPathOnSVG(currentPath.b, pen_color, group);
+      drawPathOnSVG(currentPath.c, pen_color, group);
 
       var ca = pathCommandToCoordinates(currentPath.a, 3);
       var cb = pathCommandToCoordinates(currentPath.b, 3);
