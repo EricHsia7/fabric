@@ -1,4 +1,4 @@
-import { disableScroll, enableScroll } from '../scroll/index.ts';
+import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from '../scroll/index.ts';
 import { getCoordinateOnCircleBorder } from '../graph/coordinate.ts';
 import { pathCommandToCoordinates } from '../graph/path.ts';
 import { newGroupOnSVG, drawPathOnSVG } from '../fabric/svg.ts';
