@@ -1,4 +1,4 @@
-import { pen_color } from './index.ts';
+import { pen_color, pen_color_id } from './index.ts';
 
 var { v4: uuidv4 } = require('uuid');
 export var fabric_color_list = {};
@@ -120,7 +120,7 @@ export function listFabricColors(): [] {
 }
 
 export function setPenColor(id) {
-  pen_color = fabric_color_list[`fc-${id}`];
+  pen_color_id = `fc-${id}`;
 }
 
 export function updateFabricColorStyleTag() {
