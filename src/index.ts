@@ -128,7 +128,7 @@ window.fabric_initialize = function () {
   resizeFabric();
   loadContent();
   initializeFabricColors();
-  setPenColor('default-black-white');
+  //setPenColor('default-black-white');
   updateFabricColorStyleTag();
   checkPassive();
 };
