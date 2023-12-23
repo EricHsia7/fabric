@@ -27,11 +27,9 @@ export class FabricColor {
     }
     var color_scheme = 'light';
     var mf = function () {
-      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? true : false;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     };
-    if (mf()) {
-      color_scheme = 'dark';
-    }
+    color_scheme = mf();
     return {
       type: 'hex',
       light: { type: 'hex', hex: rgbToHex(this.light.r, this.light.g, this.light.b) },
