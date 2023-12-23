@@ -116,6 +116,13 @@ window.fabric_initialize = function () {
       replayHistory(selectedMode);
     });
   });
+  document.addEventListener(
+    'dblclick',
+    function (event) {
+      event.preventDefault();
+    },
+    false
+  );
   resizeFabric();
   loadContent();
   disableScroll();
