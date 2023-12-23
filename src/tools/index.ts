@@ -1,5 +1,3 @@
-import { fabric_color_list, FabricColor } from './color.ts';
-
 export var mode: number = 0;
 
 export var mover: boolean = false;
