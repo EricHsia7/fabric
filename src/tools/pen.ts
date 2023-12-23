@@ -45,7 +45,7 @@ export function handleTouchStart_pen(event) {
 
   // Draw a circle
   ctx.arc(current.x * scale, current.y * scale, pen_width_base * 0.5 * scale, 0, 2 * Math.PI);
-  ctx.fillStyle = pen_color.obj.toHEX().current.hex;
+  ctx.fillStyle = pen_color.toHEX.current.hex;
   // Fill the circle with color
   ctx.fill();
   // Finish drawing
@@ -115,9 +115,9 @@ export function handleTouchMove_pen(event) {
     });
     if (touchData.length >= 2) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPath(ctx, segmentsToPath(touchData, scale), pen_color.obj.toHEX().current.hex);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color.obj.toHEX().current.hex);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color.obj.toHEX().current.hex);
+      drawPath(ctx, segmentsToPath(touchData, scale), pen_color.toHEX.current.hex);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color.toHEX.current.hex);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color.toHEX.current.hex);
     }
     updatePenPath();
   }
@@ -157,16 +157,16 @@ export function handleTouchEnd_pen(event) {
       touchData_b = touchData_b.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPath(ctx, segmentsToPath(touchData, scale), pen_color.obj.toHEX().current.hex);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color.obj.toHEX().current.hex);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color.obj.toHEX().current.hex);
+      drawPath(ctx, segmentsToPath(touchData, scale), pen_color.toHEX.current.hex);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color.toHEX.current.hex);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color.toHEX.current.hex);
 
       updatePenPath();
       var group = newGroupOnSVG();
 
-      drawPathOnSVG(currentPath.a, pen_color.obj.toCSS().application, group);
-      drawPathOnSVG(currentPath.b, pen_color.obj.toCSS().application, group);
-      drawPathOnSVG(currentPath.c, pen_color.obj.toCSS().application, group);
+      drawPathOnSVG(currentPath.a, pen_color.toCSS.application, group);
+      drawPathOnSVG(currentPath.b, pen_color.toCSS.application, group);
+      drawPathOnSVG(currentPath.c, pen_color.toCSS.application, group);
 
       var ca = pathCommandToCoordinates(currentPath.a, 3);
       var cb = pathCommandToCoordinates(currentPath.b, 3);

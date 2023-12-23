@@ -26,7 +26,10 @@ export class FabricColor {
       return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
     }
     var color_scheme = 'light';
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    var mf = function () {
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? true : false;
+    };
+    if (mf()) {
       color_scheme = 'dark';
     }
     return {
@@ -34,6 +37,7 @@ export class FabricColor {
       light: { type: 'hex', hex: rgbToHex(this.light.r, this.light.g, this.light.b) },
       dark: { type: 'hex', hex: rgbToHex(this.dark.r, this.dark.g, this.dark.b) },
       current: { type: 'hex', hex: rgbToHex(this[color_scheme].r, this[color_scheme].g, this[color_scheme].b) },
+      color_scheme: mf,
       id: this.id
     };
   }
@@ -60,6 +64,8 @@ export class FabricColor {
       localforage.setItem(key, JSON.stringify(obj));
     }
     obj.obj = this;
+    obj.toHEX = this.toHEX();
+    obj.toCSS = this.toCSS();
     fabric_color_list[key] = obj;
   }
   setColor(r1, g1, b1, r2, g2, b2) {
@@ -75,14 +81,14 @@ export class FabricColor {
 }
 
 export function initializeFabricColors() {
-  function constructColor(r1, g1, b1, r2, g2, b2) {
-    var fc = new FabricColor(r1, g2, b2);
-    fc.setColor(r1, g2, b2, r2, g2, b2);
-    fc.setID('default-black-white');
-    fc.setTime(0);
+  function constructColor(r1, g1, b1, r2, g2, b2, id, time) {
+    var fc = new FabricColor(r1, g1, b1);
+    fc.setColor(r1, g1, b1, r2, g2, b2);
+    fc.setID(id);
+    fc.setTime(time);
     fc.save(false);
   }
-  constructColor(0, 0, 0, 255, 255, 255);
+  constructColor(0, 0, 0, 255, 255, 255, 'default-black-white', 0);
 }
 
 export function loadFabricColors() {
