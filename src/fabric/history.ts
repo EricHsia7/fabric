@@ -1,5 +1,4 @@
-import { saveContent } from './index.ts';
-import { registration } from './index.ts';
+import { saveContent, registration } from './index.ts';
 
 export var change_history: { addition: any[]; deletion: any[] }[] = [];
 export var history_offset: number = 0;

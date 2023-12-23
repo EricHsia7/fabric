@@ -23,3 +23,17 @@ export function drawPathOnSVG(pathData, color, container) {
   container = document.querySelector('#' + container) || svg_canvas_pen_layer;
   container.appendChild(p);
 }
+
+export function drawCircleOnSVG(x, y, color, container) {
+  var p = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  p.setAttributeNS(null, 'cx', x);
+  p.setAttributeNS(null, 'cy', y);
+  p.setAttributeNS(null, 'r', pen_width_base);
+  p.setAttributeNS(null, 'stroke', 'none');
+  p.setAttributeNS(null, 'fill', color);
+  p.setAttributeNS(null, 'stroke-linecap', 'round');
+  p.setAttributeNS(null, 'fill-rule', 'nonzero');
+  p.setAttributeNS(null, 'id', uuidv4());
+  container = document.querySelector('#' + container) || svg_canvas_pen_layer;
+  container.appendChild(p);
+}
