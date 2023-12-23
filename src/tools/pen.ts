@@ -165,7 +165,7 @@ export function handleTouchEnd_pen(event) {
     } else {
       var point = touchData[touchData.length - 1];
       var group = newGroupOnSVG();
-      drawCircleOnSVG(point.x, point.y, pen_color, group);
+      drawCircleOnSVG(point.x, point.y, pen_width_base * 0.5, pen_color, group);
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
