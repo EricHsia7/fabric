@@ -1,10 +1,8 @@
 import { registration, log_changes } from '../fabric/history.ts';
 import { canvas, ctx, scale } from '../fabric/index.ts';
-import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from '../scroll/index.ts';
 import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
 
 export function handleTouchStart_eraser(event) {
-  disableScroll();
   eraser_selected_element = {};
 }
 
@@ -59,7 +57,6 @@ export function handleTouchMove_eraser(event) {
 }
 
 export function handleTouchEnd_eraser(event) {
-  enableScroll();
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   var hidden_element_identifier = [];
   for (var k in eraser_selected_element) {

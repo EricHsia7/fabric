@@ -1,4 +1,3 @@
-import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from '../scroll/index.ts';
 import { getCoordinateOnCircleBorder } from '../graph/coordinate.ts';
 import { pathCommandToCoordinates } from '../graph/path.ts';
 import { newGroupOnSVG, drawPathOnSVG } from '../fabric/svg.ts';
@@ -7,8 +6,6 @@ import { registerElement, updatePenPath,canvas, ctx, scale } from '../fabric/ind
 import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
 
 export function handleTouchStart_pen(event) {
-  disableScroll();
-
   var touch = event.touches[0];
   touchData = []; // Clear previous touch data
   touchData_a = [];
@@ -121,7 +118,6 @@ export function handleTouchMove_pen(event) {
 
 //export function to handle touch end event
 export function handleTouchEnd_pen(event) {
-  enableScroll();
   var touches = [];
   for (var t in event.changedTouches) {
     if (event.changedTouches.hasOwnProperty(t) && typeof event.changedTouches[t] === 'object') {
