@@ -21,7 +21,8 @@ export var touch_point_identifier: number = 0;
 export var pen_width_base: number = 4;
 export var force_weight: number = 0;
 export var speed_weight: number = -0.7;
-export var pen_color: any = '#000000';
+export var pen_color: string = '#000000';
+export var pen_color_id: string = 'fc-default-black-white';
 export var tole: number = Math.min(Math.log(pen_width_base) / Math.log(Math.pow(10, 0.88)), 0.7);
 
 export var currentPath: object = { a: '', b: '', c: '' };
