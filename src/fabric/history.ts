@@ -52,6 +52,5 @@ export function replayHistory(m) {
   if (m === 'undo') {
     history_offset -= 1;
   }
-  console.log(history_offset, change_history, registration);
   saveContent();
 }
