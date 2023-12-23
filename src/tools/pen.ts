@@ -1,5 +1,5 @@
 import { getCoordinateOnCircleBorder } from '../graph/coordinate.ts';
-import { pathCommandToCoordinates } from '../graph/path.ts';
+import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph/path.ts';
 import { newGroupOnSVG, drawPathOnSVG, drawCircleOnSVG } from '../fabric/svg.ts';
 import { log_changes } from '../fabric/history.ts';
 import { registerElement, updatePenPath, canvas, ctx, scale } from '../fabric/index.ts';
@@ -116,8 +116,8 @@ export function handleTouchMove_pen(event) {
     drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
     drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
     drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
-   
-   updatePenPath();
+
+    updatePenPath();
   }
 }
 
