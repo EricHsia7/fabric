@@ -11,9 +11,7 @@ import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser 
 import { handleTouchStart_pen, handleTouchMove_pen, handleTouchEnd_pen } from './tools/pen.ts';
 import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './tools/mover.ts';
 
-import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive } from './scroll/index.ts';
-
-import { disableScroll, enableScroll } from './scroll/index.ts';
+import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
 
 import './fabric/index.css';
 
@@ -90,7 +88,7 @@ window.fabric_initialize = function () {
         mover = false;
       }
       saveContent();
-      console.log(registration)
+      console.log(registration);
     },
     false
   );
@@ -115,8 +113,12 @@ window.fabric_initialize = function () {
   });
   resizeFabric();
   loadContent();
-  disableScroll();
-  checkPassive();
+  try {
+    disableScroll();
+    checkPassive();
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export default window.fabric_initialize;
