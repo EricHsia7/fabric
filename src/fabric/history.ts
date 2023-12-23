@@ -14,13 +14,13 @@ export function log_changes(addition, deletion) {
   }
 }
 
-export function replayHistory(mode) {
-  if (mode === 'redo') {
+export function replayHistory(m) {
+  if (m === 'redo') {
     history_offset += 1;
   }
   var index = change_history.length - 1 + history_offset;
   if (index > change_history.length - 1 || index < 0) {
-    if (mode === 'redo') {
+    if (m === 'redo') {
       history_offset -= 1;
     }
     return '';
@@ -34,7 +34,6 @@ export function replayHistory(mode) {
   var displayed_element_identifier = [];
   for (var i = 0; i < prev_addition_len; i++) {
     var k = prev_addition[i];
-
     var target = document.querySelector('svg#vector_fabric g#' + k);
     document.querySelector('svg#vector_fabric g#hidden_pen').appendChild(target);
     target.removeAttributeNS(null, 'opacity');
@@ -50,8 +49,9 @@ export function replayHistory(mode) {
     registration[k].hidden = false;
   }
   change_history.splice(index, 1, { addition: displayed_element_identifier, deletion: hidden_element_identifier });
-  if (mode === 'undo') {
+  if (m === 'undo') {
     history_offset -= 1;
   }
+  console.log(history_offset, change_history, registration);
   saveContent();
 }
