@@ -112,7 +112,7 @@ window.fabric_initialize = function () {
   });
   document.querySelectorAll('.tools_container button[group="0"]').forEach((button) => {
     button.addEventListener('click', function () {
-      var selectedMode = parseInt(button.getAttribute('m'));
+      var selectedMode = String(button.getAttribute('m'));
       replayHistory(selectedMode);
     });
   });
