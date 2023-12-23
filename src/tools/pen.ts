@@ -2,7 +2,7 @@ import { getCoordinateOnCircleBorder } from '../graph/coordinate.ts';
 import { pathCommandToCoordinates } from '../graph/path.ts';
 import { newGroupOnSVG, drawPathOnSVG } from '../fabric/svg.ts';
 import { log_changes } from '../fabric/history.ts';
-import { registerElement, updatePenPath,canvas, ctx, scale } from '../fabric/index.ts';
+import { registerElement, updatePenPath, canvas, ctx, scale } from '../fabric/index.ts';
 import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
 
 export function handleTouchStart_pen(event) {
@@ -116,7 +116,6 @@ export function handleTouchMove_pen(event) {
   }
 }
 
-//export function to handle touch end event
 export function handleTouchEnd_pen(event) {
   var touches = [];
   for (var t in event.changedTouches) {
@@ -147,35 +146,23 @@ export function handleTouchEnd_pen(event) {
       });
 
       touchData = touchData.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
-
       touchData_a = touchData_a.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
-
       touchData_b = touchData_b.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
 
-      /*
-    touchData_a.push({
-      x: prev.x,
-      y: prev.y
-    });
-    touchData_b.push({
-      x: prev.x,
-      y: prev.y
-    });
-    */
+      updatePenPath();
+      var group = newGroupOnSVG();
+
+      drawPathOnSVG(currentPath.a, pen_color, group);
+      drawPathOnSVG(currentPath.b, pen_color, group);
+      drawPathOnSVG(currentPath.c, pen_color, group);
+
+      var ca = pathCommandToCoordinates(currentPath.a, 3);
+      var cb = pathCommandToCoordinates(currentPath.b, 3);
+      var cc = pathCommandToCoordinates(currentPath.c, 3);
+
+      registerElement(ca.concat(cb).concat(cc), group);
+      log_changes([group], []);
     }
-    updatePenPath();
-    var group = newGroupOnSVG();
-
-    drawPathOnSVG(currentPath.a, pen_color, group);
-    drawPathOnSVG(currentPath.b, pen_color, group);
-    drawPathOnSVG(currentPath.c, pen_color, group);
-
-    var ca = pathCommandToCoordinates(currentPath.a, 3);
-    var cb = pathCommandToCoordinates(currentPath.b, 3);
-    var cc = pathCommandToCoordinates(currentPath.c, 3);
-
-    registerElement(ca.concat(cb).concat(cc), group);
-    log_changes([group], []);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 }
