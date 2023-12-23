@@ -50,7 +50,10 @@ export function handleTouchStart_pen(event) {
   ctx.fill();
   // Finish drawing
   ctx.closePath();
-  console.log(fabric_color_list,fabric_color_list[pen_color_id],fabric_color_list[pen_color_id].obj,fabric_color_list[pen_color_id].obj.toHEX());
+  console.log(fabric_color_list);
+  console.log(fabric_color_list[pen_color_id]);
+  console.log(fabric_color_list[pen_color_id].obj);
+  console.log(fabric_color_list[pen_color_id].obj.toHEX());
 }
 
 //export function to handle touch move event
