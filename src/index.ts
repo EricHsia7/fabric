@@ -1,4 +1,3 @@
-import { change_history, history_offset, registration, log_changes, replayHistory } from './fabric/history.ts';
 import { canvas, ctx, svg_canvas, svg_canvas_pen_layer, scale, width, height, resizeFabric, updatePenPath, registerElement, saveContent, loadContent } from './fabric/index.ts';
 import { drawPath } from './fabric/canvas.ts';
 import { newGroupOnSVG, drawPathOnSVG } from './fabric/svg.ts';
@@ -44,15 +43,18 @@ window.fabric_initialize = function () {
   canvas.addEventListener(
     'touchstart',
     function (event) {
-      if (mode === 0) {
-        handleTouchStart_pen(event);
-      }
-      if (mode === 1) {
-        handleTouchStart_eraser(event);
-      }
-      if (mode === 2) {
-        mover = true;
-        handleTouchStart_mover(event);
+      if (0 <= mode <= 2) {
+        disableScroll();
+        if (mode === 0) {
+          handleTouchStart_pen(event);
+        }
+        if (mode === 1) {
+          handleTouchStart_eraser(event);
+        }
+        if (mode === 2) {
+          mover = true;
+          handleTouchStart_mover(event);
+        }
       }
     },
     false
@@ -77,15 +79,18 @@ window.fabric_initialize = function () {
   canvas.addEventListener(
     'touchend',
     function (event) {
-      if (mode === 0) {
-        handleTouchEnd_pen(event);
-      }
-      if (mode === 1) {
-        handleTouchEnd_eraser(event);
-      }
-      if (mode === 2 && mover) {
-        handleTouchEnd_mover(event);
-        mover = false;
+      if (0 <= mode <= 2) {
+        enableScroll();
+        if (mode === 0) {
+          handleTouchEnd_pen(event);
+        }
+        if (mode === 1) {
+          handleTouchEnd_eraser(event);
+        }
+        if (mode === 2 && mover) {
+          handleTouchEnd_mover(event);
+          mover = false;
+        }
       }
       saveContent();
       console.log(registration);
