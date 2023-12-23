@@ -113,12 +113,9 @@ window.fabric_initialize = function () {
   });
   resizeFabric();
   loadContent();
-  try {
-    disableScroll();
-    checkPassive();
-  } catch (e) {
-    console.log(e);
-  }
+  disableScroll();
+  checkPassive();
 };
-
+window.enableScroll = enableScroll;
+window.disableScroll = disableScroll;
 export default window.fabric_initialize;
