@@ -4,37 +4,38 @@ var { v4: uuidv4 } = require('uuid');
 export var fabric_color_list: Record<string, any> = {};
 var localforage = require('localforage');
 
-export function createFabricColor(r: number, g: number, b: number) {
-  if (typeof r === 'number' && typeof g === 'number' && typeof b === 'number') {
-    r = Math.max(Math.min(255, Math.floor(r)), 0);
-    g = Math.max(Math.min(255, Math.floor(g)), 0);
-    b = Math.max(Math.min(255, Math.floor(b)), 0);
-    var id = 'fc-' + uuidv4();
-    var time = new Date().getTime();
+export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number, time: number, id: string) {
+  function c(n) {
+    return Math.max(Math.min(255, Math.floor(n)), 0);
+  }
+  if (typeof r1 === 'number' && typeof g1 === 'number' && typeof b1 === 'number' && typeof r2 === 'number' && typeof g2 === 'number' && typeof b2 === 'number') {
+    r1 = c(r1);
+    g1 = c(g1);
+    b1 = c(b1);
+    r2 = c(r2);
+    g2 = c(g2);
+    b2 = c(b2);
+    id = id || 'fc-' + uuidv4();
+    var time = time || new Date().getTime();
     var colorObj = {
       id: id,
-      light: { type: 'rgb', r: r, g: g, b: b },
-      dark: { type: 'rgb', r: r, g: g, b: b },
+      light: { type: 'rgb', r: r1, g: g1, b: b1 },
+      dark: { type: 'rgb', r: r2, g: g2, b: b2 },
       time: time,
       type: 'FabricColor'
     };
-    fabric_color_list[id] = colorObj;
-    return id;
-  }
-}
-
-export function updateFabricColor(id: string, r1: number, g1: number, b1: number, r2: number, g2: number, b2: number) {
-  if (fabric_color_list[id]) {
-    fabric_color_list[id].light = { type: 'rgb', r: r1, g: g1, b: b1 };
-    fabric_color_list[id].dark = { type: 'rgb', r: r2, g: g2, b: b2 };
+    localforage.setItem(id, JSON.stringify(colorObj));
+    return colorObj;
   }
 }
 
 export function deleteFabricColor(id: string) {
-  if (fabric_color_list[id]) {
+  localforage.keys();
+  if (fabric_color_list.hasOwnProperty(id)) {
     delete fabric_color_list[id];
   }
 }
+
 export function initializeFabricColors() {
   function constructColor(r1, g1, b1, r2, g2, b2, id, time) {
     var fc = new FabricColor(r1, g1, b1);
@@ -46,36 +47,21 @@ export function initializeFabricColors() {
   constructColor(0, 0, 0, 255, 255, 255, 'default-black-white', 0);
 }
 
-export function setFabricColorTime(id: string, time: number) {
-  if (fabric_color_list[id]) {
-    fabric_color_list[id].time = time;
+export async function listFabricColors(): Promise<any[]> {
+  try {
+    const keys = await localforage.keys();
+    var list: any[] = [];
+    keys = keys.filter((k) => String(k).indexOf('fc-') > -1);
+    for (const key of keys) {
+      var value = await localforage.getItem(key);
+      list.push(JSON.parse(String(value)));
+    }
+    list.sort((a, b) => a.time - b.time);
+    return list;
+  } catch (err) {
+    console.log(err);
+    return [];
   }
-}
-
-export function loadFabricColors() {
-  localforage
-    .keys()
-    .then(function (keys) {
-      keys = keys.filter((k) => (String(k).indexOf('fc-') > -1 ? true : false));
-      keys.forEach((element) => {
-        localforage.getItem(element).then(function (value) {
-          var obj = JSON.parse(String(value));
-          fabric_color_list[obj.id] = obj;
-        });
-      });
-    })
-    .catch(function (err) {});
-}
-
-export function listFabricColors(): any[] {
-  var list = [];
-  for (var key in fabric_color_list) {
-    list.push(fabric_color_list[key]);
-  }
-  list.sort(function (a, b) {
-    return a.time - b.time;
-  });
-  return list;
 }
 
 export function setPenColor(id) {
