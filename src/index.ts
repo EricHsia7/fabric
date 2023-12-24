@@ -13,7 +13,7 @@ import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } f
 
 import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
 
-import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, setPenColor, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
+import { fabric_color_list, createFabricColor, updateFabricColor, deleteFabricColor, initializeFabricColors, setFabricColorTime, setPenColor, loadFabricColors, listFabricColors, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
 
 import './fabric/index.css';
 
@@ -127,11 +127,7 @@ window.fabric_initialize = function () {
   );
   resizeFabric();
   loadContent();
-  //setPenColor('default-black-white');
   checkPassive();
 };
-
-window.setFabricColor = setFabricColor;
-window.listFabricColors = listFabricColors;
 
 export default window.fabric_initialize;
