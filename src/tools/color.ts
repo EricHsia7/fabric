@@ -73,11 +73,29 @@ export function colorToHex(color: any): string {
     var hex = c.toString(16);
     return String(hex.length == 1 ? '0' + hex : hex).toUpperCase();
   }
-  return `#${componentToHex(color.r)}${componentToHex(color.g)}${componentToHex(color.b)}`;
+  return {
+    light: { type: 'hex', hex: `#${componentToHex(color.light.r)}${componentToHex(color.light.g)}${componentToHex(color.light.b)}` },
+    dark: { type: 'hex', hex: `#${componentToHex(color.dark.r)}${componentToHex(color.dark.g)}${componentToHex(color.dark.b)}` }
+  };
 }
 
-export function colorToCSS(color: any, scheme: string): string {
-  const selectedColor = color[scheme];
-  const hex = colorToHex(selectedColor);
-  return `--${color.id}: ${hex};`;
+export function colorToCSS(color: any): string {
+  var hex = colorToHex(color);
+  return {
+    declaration: {
+      light: `--${color.id}: ${hex.light.hex};`,
+      dark: `--${color.id}: ${hex.dark.hex};`
+    },
+    application: `var(--${color.id})`
+  };
+}
+
+export function openColorPlate() {
+  listFabricColors().then(function (list) {
+    var html = [];
+    list.forEach((colorObj) => {
+      var hex = colorToHex(colorObj);
+      html.push(`<div class="fabric_color"><div class="fabric_color_light" style="--plate-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--plate-color:${hex.dark.hex}"></div></div>`);
+    });
+  });
 }

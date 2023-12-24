@@ -40,15 +40,23 @@ input[type="file"] {
   width: 250px;
   background: #333;
   border-radius: 15px;
-  display: grid;
-  grid-column-gap: 0px;
-  grid-template-columns: repeat(5, 1fr);
   overflow: hidden;
   -webkit-mask-image: -webkit-radial-gradient(white, black);
   mask-image: -webkit-radial-gradient(white, black);
 }
 
-.tools_container button {
+.tools_container .tools_button {
+  display: grid;
+  grid-column-gap: 0px;
+  grid-template-columns: repeat(5, 1fr);
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 250px;
+  height: 50px;
+}
+
+.tools_container .tools_button button {
   -webkit-appearance: none;
   appearance: none;
   background: rgba(0, 0, 0, 0);
