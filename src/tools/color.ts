@@ -34,14 +34,7 @@ export function deleteFabricColor(id: string) {
 }
 
 export function initializeFabricColors() {
-  function constructColor(r1, g1, b1, r2, g2, b2, id, time) {
-    var fc = new FabricColor(r1, g1, b1);
-    fc.setColor(r1, g1, b1, r2, g2, b2);
-    fc.setID(id);
-    fc.setTime(time);
-    fc.save(false);
-  }
-  constructColor(0, 0, 0, 255, 255, 255, 'default-black-white', 0);
+  setFabricColor(0, 0, 0, 255, 255, 255, 0, 'fc-default-black-white');
 }
 
 export async function listFabricColors(): Promise<any[]> {

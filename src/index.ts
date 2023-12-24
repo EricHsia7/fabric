@@ -127,8 +127,9 @@ window.fabric_initialize = function () {
   );
   resizeFabric();
   loadContent();
-  //setPenColor('default-black-white');
   checkPassive();
+  initializeFabricColors();
+  //setPenColor('default-black-white');
 };
 
 window.setFabricColor = setFabricColor;
