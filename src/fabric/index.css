@@ -67,6 +67,9 @@ input[type="file"] {
   -webkit-user-select: none;
   outline: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
 }
 
 .tools_container button span.material-symbols-rounded {
