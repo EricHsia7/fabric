@@ -30,10 +30,7 @@ export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g
 }
 
 export function deleteFabricColor(id: string) {
-  localforage.keys();
-  if (fabric_color_list.hasOwnProperty(id)) {
-    delete fabric_color_list[id];
-  }
+  localforage.removeItem(id);
 }
 
 export function initializeFabricColors() {
@@ -49,7 +46,7 @@ export function initializeFabricColors() {
 
 export async function listFabricColors(): Promise<any[]> {
   try {
-    const keys = await localforage.keys();
+    var keys = await localforage.keys();
     var list: any[] = [];
     keys = keys.filter((k) => String(k).indexOf('fc-') > -1);
     for (const key of keys) {
