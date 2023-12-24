@@ -18,9 +18,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <style id="fabric_color">
-
-    </style>
+    <style id="fabric_color"></style>
   </head>
 
   <body>
@@ -32,12 +30,15 @@
       <canvas id="fabric"></canvas>
     </div>
     <div class="tools_container">
-      <button m="undo" group="0"><span class="material-symbols-rounded"> undo </span></button>
-      <button m="redo" group="0"><span class="material-symbols-rounded"> redo </span></button>
-      <button m="0" group="1"><span class="material-symbols-rounded filled"> ink_pen </span></button>
-      <button m="1" group="1"><span class="material-symbols-rounded"> ink_eraser </span></button>
-      <button m="2" group="1"><span class="material-symbols-rounded"> pan_tool </span></button>
+      <div class="tools_button">
+        <button m="undo" group="0"><span class="material-symbols-rounded"> undo </span></button>
+        <button m="redo" group="0"><span class="material-symbols-rounded"> redo </span></button>
+        <button m="0" group="1"><span class="material-symbols-rounded filled"> ink_pen </span></button>
+        <button m="1" group="1"><span class="material-symbols-rounded"> ink_eraser </span></button>
+        <button m="2" group="1"><span class="material-symbols-rounded"> pan_tool </span></button>
+      </div>
     </div>
+
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         try {
