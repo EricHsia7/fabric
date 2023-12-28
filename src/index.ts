@@ -124,7 +124,11 @@ window.fabric_initialize = function () {
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
-  
+
+  document.querySelector('.fabric_color_plate_close button').addEventListener('click', function () {
+    openColorPlate();
+  });
+
   document.addEventListener(
     'dblclick',
     function (event) {
