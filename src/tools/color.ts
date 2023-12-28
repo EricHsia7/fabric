@@ -90,12 +90,3 @@ export function colorToCSS(color: any): string {
   };
 }
 
-export function openColorPlate() {
-  listFabricColors().then(function (list) {
-    var html = [];
-    list.forEach((colorObj) => {
-      var hex = colorToHex(colorObj);
-      html.push(`<div class="fabric_color"><div class="fabric_color_light" style="--plate-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--plate-color:${hex.dark.hex}"></div></div>`);
-    });
-  });
-}
