@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - v2
+      - v2-fabric-color-plate
 jobs:
   build:
     runs-on: ubuntu-latest
