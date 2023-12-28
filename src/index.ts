@@ -15,6 +15,8 @@ import { keys, supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScrol
 
 import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, setPenColor, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
 
+import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
+
 import './fabric/index.css';
 
 var ripple = require('@erichsia7/ripple');
@@ -118,6 +120,11 @@ window.fabric_initialize = function () {
       replayHistory(selectedMode);
     });
   });
+
+  document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
+    openColorPlate();
+  });
+  
   document.addEventListener(
     'dblclick',
     function (event) {

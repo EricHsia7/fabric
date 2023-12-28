@@ -1,4 +1,4 @@
-function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
+export function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
   if (m === 0) {
     var opacity = 0;
     var scale = 0.66;
@@ -12,7 +12,7 @@ function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
   return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${scale});opacity:${opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${direction};}`;
 }
 
-function fc_s1(index, m, selector, quantity, df) {
+export function fc_s1(index, m, selector, quantity, df) {
   if (m === 1) {
     var opacity = 0;
     var scale = 0.66;
@@ -26,7 +26,7 @@ function fc_s1(index, m, selector, quantity, df) {
   return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${scale});opacity: ${opacity};}`;
 }
 
-function openColorPlate() {
+export function openColorPlate() {
   var quantity = 6;
   var time = 180;
   var delay = 45;
@@ -72,7 +72,7 @@ function openColorPlate() {
   );
 }
 
-function closeColorPlate() {
+export function closeColorPlate() {
   var quantity = 6;
   var time = 180;
   var delay = 45;
