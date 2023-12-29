@@ -50,7 +50,6 @@ export function loadColorPlate() {
 }
 
 export function openColorPlate() {
-  try {
     var quantity = 6;
     var time = 180;
     var delay = 45;
@@ -96,9 +95,6 @@ export function openColorPlate() {
       },
       { once: true }
     );
-  } catch (e) {
-    console.log(e);
-  }
 }
 
 export function closeColorPlate() {
