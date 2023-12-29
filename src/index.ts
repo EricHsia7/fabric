@@ -132,7 +132,7 @@ window.fabric_initialize = function () {
   resizeFabric();
   loadContent();
   checkPassive();
-  /*
+  
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
@@ -140,7 +140,7 @@ window.fabric_initialize = function () {
   document.querySelector('.fabric_color_plate_close button').addEventListener('click', function () {
     closeColorPlate();
   });
-  */
+  
 };
 
 export default window.fabric_initialize;

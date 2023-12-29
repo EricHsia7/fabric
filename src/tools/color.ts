@@ -14,7 +14,7 @@ export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g
     g2 = c(g2);
     b2 = c(b2);
     id = id || 'fc-' + uuidv4();
-    var time = time || new Date().getTime();
+    time = time || new Date().getTime();
     var colorObj = {
       id: id,
       light: { type: 'rgb', r: r1, g: g1, b: b1 },
