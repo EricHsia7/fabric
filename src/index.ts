@@ -142,6 +142,5 @@ window.fabric_initialize = function () {
   });
   */
 };
-window.openColorPlate = openColorPlate;
-window.closeColorPlate = closeColorPlate;
+
 export default window.fabric_initialize;
