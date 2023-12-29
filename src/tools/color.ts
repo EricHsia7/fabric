@@ -1,6 +1,6 @@
 import { pen_color_id } from './index.ts';
 import { localforage } from '../index.ts';
-import { v4 as uuidv4 } from '../index.ts';
+import { uuidv4 } from '../index.ts';
 
 export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number, time: number, id: string) {
   function c(n) {
