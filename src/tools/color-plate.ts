@@ -93,6 +93,7 @@ export function openColorPlate() {
     },
     { once: true }
   );
+  loadColorPlate();
 }
 
 export function closeColorPlate() {
