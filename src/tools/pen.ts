@@ -7,7 +7,6 @@ import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_o
 import { drawPath } from '../fabric/canvas.ts';
 
 export function handleTouchStart_pen(event) {
-  try {
     var touch = event.touches[0];
     touchData = [];
     touchData_a = [];
@@ -50,9 +49,6 @@ export function handleTouchStart_pen(event) {
     ctx.fill();
     // Finish drawing
     ctx.closePath();
-  } catch (e) {
-    console.log(e);
-  }
 }
 
 //export function to handle touch move event
