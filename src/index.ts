@@ -20,7 +20,6 @@ import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
 import './fabric/index.css';
 
 var ripple = require('@erichsia7/ripple');
-var localforage = require('localforage');
 
 //for development
 
