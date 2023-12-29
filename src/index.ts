@@ -126,7 +126,7 @@ window.fabric_initialize = function () {
   });
 
   document.querySelector('.fabric_color_plate_close button').addEventListener('click', function () {
-    openColorPlate();
+    closeColorPlate();
   });
 
   document.addEventListener(

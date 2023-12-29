@@ -63,14 +63,15 @@ export function setPenColor(id) {
 }
 
 export function updateFabricColorStyleTag() {
-  var list = listFabricColors();
-  var light = [];
-  var dark = [];
-  list.forEach((color) => {
-    light.push(colorToCSS(color, 'light'));
-    dark.push(colorToCSS(color, 'dark'));
+  listFabricColors().then(function (list) {
+    var light = [];
+    var dark = [];
+    list.forEach((color) => {
+      light.push(colorToCSS(color, 'light'));
+      dark.push(colorToCSS(color, 'dark'));
+    });
+    document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {${dark.join('')}}`;
   });
-  document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {${dark.join('')}}`;
 }
 
 export function colorToHex(color: any): string {
