@@ -76,7 +76,7 @@ export function closeColorPlate() {
   var quantity = 6;
   var time = 180;
   var delay = 45;
-
+  
   var css = [];
   for (var i = quantity; i > 0; i--) {
     css.push(fc_animation(i, time, delay, 0, 'tools_button', (delay * quantity + time) / 2, quantity, ''));
@@ -87,9 +87,7 @@ export function closeColorPlate() {
     css.push(fc_animation(i, time, delay, 1, 'fabric_color_plate', 0, quantity, '.fabric_color'));
   }
   document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
-
   document.querySelector('#fabric-color-plate-animation').innerHTML += fc_animation(1, time, delay, 1, 'fabric_color_plate_close', 0, 1, '');
-
   document.querySelectorAll('.tools_button button')[0].addEventListener(
     'animationend',
     function () {
