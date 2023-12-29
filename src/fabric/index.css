@@ -144,13 +144,19 @@ input[type="file"] {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 12px;
+  width: 24px;
   height: 24px;
   background: var(--fc-color);
 }
 
 .fabric_color_c .fabric_color_dark {
-  left: 12px
+  opacity: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .fabric_color_c .fabric_color_dark {
+    opacity: 1;
+  }
 }
 
 @keyframes scale {
