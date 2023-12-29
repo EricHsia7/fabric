@@ -46,7 +46,7 @@ export async function listFabricColors(): Promise<any[]> {
     var keys = await localforage.keys();
     var list: any[] = [];
     keys = keys.filter((k) => String(k).indexOf('fc-') > -1);
-    for (const key of keys) {
+    for (var key of keys) {
       var value = await localforage.getItem(key);
       list.push(JSON.parse(String(value)));
     }
