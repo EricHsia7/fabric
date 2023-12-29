@@ -21,6 +21,7 @@ import './fabric/index.css';
 
 var ripple = require('@erichsia7/ripple');
 export var localforage = require('localforage');
+export var { v4: uuidv4 } = require('uuid');
 
 //for development
 
