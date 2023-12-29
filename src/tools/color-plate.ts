@@ -41,7 +41,7 @@ export function loadColorPlate() {
   document.querySelector('.fabric_color_plate').innerHTML = html.join('');
 
   listFabricColors().then(function (list) {
-    var html = [];
+    html = [];
     list.forEach(function (item) {
       html.push(getHTML(item));
     });
@@ -53,7 +53,7 @@ export function openColorPlate() {
   var quantity = 6;
   var time = 180;
   var delay = 45;
-  
+
   loadColorPlate();
 
   var css = [];
