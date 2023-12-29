@@ -7,48 +7,52 @@ import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_o
 import { drawPath } from '../fabric/canvas.ts';
 
 export function handleTouchStart_pen(event) {
-  var touch = event.touches[0];
-  touchData = []; // Clear previous touch data
-  touchData_a = [];
-  touchData_b = [];
-  touch_point_identifier = touch.identifier;
+  try {
+    var touch = event.touches[0];
+    touchData = []; // Clear previous touch data
+    touchData_a = [];
+    touchData_b = [];
+    touch_point_identifier = touch.identifier;
 
-  if (touch.force) {
-    force_weight = 0.5;
-    speed_weight = -0.2;
-  } else {
-    force_weight = 0.1;
-    speed_weight = 0.2;
+    if (touch.force) {
+      force_weight = 0.5;
+      speed_weight = -0.2;
+    } else {
+      force_weight = 0.1;
+      speed_weight = 0.2;
+    }
+    //ctx.clearRect(0, 0, window.innerWidth * scale, window.innerHeight * scale);
+
+    touchData.push({
+      x: touch.clientX - offsetX,
+      y: touch.clientY - offsetY,
+      force: touch.force || 0, // Get force (if available, otherwise default to 0)
+      time_stamp: new Date().getTime(),
+      angle: 0
+      // Get timestamp
+    });
+
+    touchData_a.push({
+      x: touch.clientX - offsetX,
+      y: touch.clientY - offsetY
+    });
+    touchData_b.push({
+      x: touch.clientX - offsetX,
+      y: touch.clientY - offsetY
+    });
+    var current = touchData[touchData.length - 1];
+    ctx.beginPath();
+
+    // Draw a circle
+    ctx.arc(current.x * scale, current.y * scale, pen_width_base * 0.5 * scale, 0, 2 * Math.PI);
+    ctx.fillStyle = pen_color;
+    // Fill the circle with color
+    ctx.fill();
+    // Finish drawing
+    ctx.closePath();
+  } catch (e) {
+    console.log(e);
   }
-  //ctx.clearRect(0, 0, window.innerWidth * scale, window.innerHeight * scale);
-
-  touchData.push({
-    x: touch.clientX - offsetX,
-    y: touch.clientY - offsetY,
-    force: touch.force || 0, // Get force (if available, otherwise default to 0)
-    time_stamp: new Date().getTime(),
-    angle: 0
-    // Get timestamp
-  });
-
-  touchData_a.push({
-    x: touch.clientX - offsetX,
-    y: touch.clientY - offsetY
-  });
-  touchData_b.push({
-    x: touch.clientX - offsetX,
-    y: touch.clientY - offsetY
-  });
-  var current = touchData[touchData.length - 1];
-  ctx.beginPath();
-
-  // Draw a circle
-  ctx.arc(current.x * scale, current.y * scale, pen_width_base * 0.5 * scale, 0, 2 * Math.PI);
-  ctx.fillStyle = pen_color;
-  // Fill the circle with color
-  ctx.fill();
-  // Finish drawing
-  ctx.closePath();
 }
 
 //export function to handle touch move event
