@@ -3,30 +3,30 @@ var { v4: uuidv4 } = require('uuid');
 
 export function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
   if (m === 0) {
-    var opacity = 0;
-    var scale = 0.66;
-    var direction = 'normal';
+    var fc_opacity = 0;
+    var fc_scale = 0.66;
+    var fc_direction = 'normal';
   }
   if (m === 1) {
-    var opacity = 1;
-    var scale = 1;
-    var direction = 'reverse';
+    var fc_opacity = 1;
+    var fc_scale = 1;
+    var fc_direction = 'reverse';
   }
-  return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${scale});opacity:${opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${direction};}`;
+  return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${fc_scale});opacity:${fc_opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${fc_direction};}`;
 }
 
 export function fc_s1(index, m, selector, quantity, df) {
   if (m === 1) {
-    var opacity = 0;
-    var scale = 0.66;
-    var direction = 'normal';
+    var fc_opacity = 0;
+    var fc_scale = 0.66;
+    var fc_direction = 'normal';
   }
   if (m === 0) {
-    var opacity = 1;
-    var scale = 1;
-    var direction = 'reverse';
+    var fc_opacity = 1;
+    var fc_scale = 1;
+    var fc_direction = 'reverse';
   }
-  return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${scale});opacity: ${opacity};}`;
+  return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${fc_scale});opacity: ${fc_opacity};}`;
 }
 
 export function loadColorPlate() {
