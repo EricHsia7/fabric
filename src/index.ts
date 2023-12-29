@@ -15,7 +15,7 @@ import { supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, ena
 
 import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, setPenColor, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
 
-import { openColorPlate, closeColorPlate, loadColorPlate } from './tools/color-plate.ts';
+import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
 
 import './fabric/index.css';
 
