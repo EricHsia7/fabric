@@ -53,6 +53,8 @@ export function openColorPlate() {
   var quantity = 6;
   var time = 180;
   var delay = 45;
+  
+  loadColorPlate();
 
   var css = [];
   for (var i = quantity; i > 0; i--) {
@@ -93,7 +95,6 @@ export function openColorPlate() {
     },
     { once: true }
   );
-  loadColorPlate();
 }
 
 export function closeColorPlate() {
