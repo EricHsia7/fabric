@@ -9,7 +9,7 @@ import { drawPath } from '../fabric/canvas.ts';
 export function handleTouchStart_pen(event) {
   try {
     var touch = event.touches[0];
-    touchData = []; // Clear previous touch data
+    touchData = [];
     touchData_a = [];
     touchData_b = [];
     touch_point_identifier = touch.identifier;
