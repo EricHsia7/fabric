@@ -7,7 +7,7 @@ export function preventDefault(e) {
 }
 
 export function preventDefaultForScrollKeys(e) {
-  let scroll_prevention_keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
+  var scroll_prevention_keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
   if (scroll_prevention_keys[e.keyCode]) {
     preventDefault(e);
     return false;

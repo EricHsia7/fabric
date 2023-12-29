@@ -27,7 +27,7 @@ export var currentPath: object = { a: '', b: '', c: '' };
 export var eraser_selected_element: object = {};
 export var eraser_hidden_element: object = {};
 export var eraser_d = 15;
-export let eraser_color = '#888888';
+export var eraser_color = '#888888';
 
 export function setToolMode(m) {
   mode = m;
