@@ -39,7 +39,7 @@ export function loadColorPlate() {
     html.push(getHTML({ id: 'skeleton-screen-' + uuidv4(), light: { type: 'rgb', r: 242, g: 242, b: 242 }, dark: { type: 'rgb', r: 46, g: 46, b: 46 } }));
   }
   document.querySelector('.fabric_color_plate').innerHTML = html.join('');
-
+  /*
   listFabricColors().then(function (list) {
     html = [];
     list.forEach(function (item) {
@@ -47,6 +47,7 @@ export function loadColorPlate() {
     });
     document.querySelector('.fabric_color_plate').innerHTML = html.join('');
   });
+  */
 }
 
 export function openColorPlate() {
@@ -54,7 +55,7 @@ export function openColorPlate() {
   var time = 180;
   var delay = 45;
 
- // loadColorPlate();
+  loadColorPlate();
 
   var css = [];
   for (var i = quantity; i > 0; i--) {
