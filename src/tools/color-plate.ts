@@ -1,3 +1,6 @@
+import { listFabricColors, colorToHex } from './color.ts';
+var { v4: uuidv4 } = require('uuid');
+
 export function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
   if (m === 0) {
     var opacity = 0;
@@ -24,6 +27,26 @@ export function fc_s1(index, m, selector, quantity, df) {
     var direction = 'reverse';
   }
   return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${scale});opacity: ${opacity};}`;
+}
+
+export function loadColorPlate() {
+  function getHTML(colorObj) {
+    var hex = colorToHex(colorObj);
+    return `<button id="${colorObj.id}"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
+  }
+  var html = [];
+  for (var i = 0; i < 7; i++) {
+    html.push(getHTML({ id: 'skeleton-screen-' + uuidv4(), light: { type: 'rgb', r: 242, g: 242, b: 242 }, dark: { type: 'rgb', r: 46, g: 46, b: 46 } }));
+  }
+  document.querySelector('.fabric_color_plate').innerHTML = html.join('');
+
+  listFabricColors().then(function (list) {
+    var html = [];
+    list.forEach(function (item) {
+      html.push(getHTML(item));
+    });
+    document.querySelector('.fabric_color_plate').innerHTML = html.join('');
+  });
 }
 
 export function openColorPlate() {
@@ -76,7 +99,7 @@ export function closeColorPlate() {
   var quantity = 6;
   var time = 180;
   var delay = 45;
-  
+
   var css = [];
   for (var i = quantity; i > 0; i--) {
     css.push(fc_animation(i, time, delay, 0, 'tools_button', (delay * quantity + time) / 2, quantity, ''));
