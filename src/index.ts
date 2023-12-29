@@ -106,7 +106,7 @@ window.fabric_initialize = function () {
     resizeFabric();
   });
 
-  ripple.addTo('.tools_container button', '#fff', 370);
+  ripple.addTo('.tools_container button', '#000', 370);
 
   document.querySelectorAll('.tools_container button[group="1"]').forEach((button) => {
     button.addEventListener('click', function () {
