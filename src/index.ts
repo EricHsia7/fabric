@@ -120,15 +120,16 @@ window.fabric_initialize = function () {
       replayHistory(selectedMode);
     });
   });
+  /*
 
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
-  /*
+  */
   document.querySelector('.fabric_color_plate_close button').addEventListener('click', function () {
     closeColorPlate();
   });
-  */
+
   document.addEventListener(
     'dblclick',
     function (event) {
