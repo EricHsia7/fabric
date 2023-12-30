@@ -1,11 +1,12 @@
 :root {
-  --k-fcfcfc: #fcfcfc
+  --k-fcfcfc: #fcfcfc;
+  --k-f5f5f5: #f5f5f5;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --k-fcfcfc: #fcfcfc;
-    --k-f5f5f5: #f5f5f5;
+    --k-fcfcfc: #030303;
+    --k-f5f5f5: #0a0a0a;
   }
 }
 
