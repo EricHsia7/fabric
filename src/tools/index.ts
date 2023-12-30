@@ -10,9 +10,9 @@ export var move_offset_y: number = 0;
 export var offsetX: number = 0;
 export var offsetY: number = 0;
 
-export var touchData: Array = [];
-export var touchData_a: Array = [];
-export var touchData_b: Array = [];
+export var touchData: [] = [];
+export var touchData_a: [] = [];
+export var touchData_b: [] = [];
 export var start_timestamp: number = 0;
 export var touch_point_identifier: number = 0;
 
@@ -30,7 +30,7 @@ export var eraser_d = 15;
 export var eraser_color = '#888888';
 
 export function setToolMode(m) {
-  mode = m;
+  mode = m * 1;
   function getSelector(m) {
     return document.querySelector(`.tools_container button[m="${m}"] span`);
   }

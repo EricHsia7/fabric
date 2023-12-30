@@ -1,6 +1,5 @@
 import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph/path.ts';
-import { touchData, touchData_a, touchData_b, pen_color, tole } from '../tools/index.ts';
-import { currentPath } from '../tools/index.ts';
+import { touchData, touchData_a, touchData_b, pen_color, tole, currentPath } from '../tools/index.ts';
 import { localforage } from '../index.ts';
 
 export let canvas = document.querySelector('#fabric');

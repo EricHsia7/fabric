@@ -146,6 +146,7 @@ export function handleTouchEnd_pen(event) {
         x: touch.clientX - offsetX,
         y: touch.clientY - offsetY
       });
+      
       touchData_b.push({
         x: touch.clientX - offsetX,
         y: touch.clientY - offsetY
