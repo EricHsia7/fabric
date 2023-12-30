@@ -10,11 +10,11 @@ export var move_offset_y: number = 0;
 export var offsetX: number = 0;
 export var offsetY: number = 0;
 
-export let touchData: Array<any> = [];
-export let touchData_a: Array<any> = [];
-export let touchData_b: Array<any> = [];
-export let start_timestamp: number = 0;
-export let touch_point_identifier: number = 0;
+export var touchData: Array<any> = [];
+export var touchData_a: Array<any> = [];
+export var touchData_b: Array<any> = [];
+export var start_timestamp: number = 0;
+export var touch_point_identifier: number = 0;
 
 export var pen_width_base: number = 4;
 export var force_weight: number = 0;
