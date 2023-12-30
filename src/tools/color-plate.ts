@@ -19,12 +19,10 @@ function fc_s1(m, selector) {
   if (m === 1) {
     var fc_opacity = 0;
     var fc_scale = 0.66;
-    var fc_direction = 'normal';
   }
   if (m === 0) {
     var fc_opacity = 1;
     var fc_scale = 1;
-    var fc_direction = 'reverse';
   }
   return `.tools_container .${selector} button {transform:scale(${fc_scale});opacity: ${fc_opacity};}`;
 }
