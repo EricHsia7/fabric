@@ -51,7 +51,7 @@ export function handleTouchMove_eraser(event) {
   ctx.arc((current.x + offsetX + move_offset_x) * scale, (current.y + offsetY + move_offset_y) * scale, (eraser_d + 5) * scale, 0, 2 * Math.PI);
   ctx.stroke();
 
-  eraser_selected_element = Object.assign(eraser_selected_element, searchGroup(current.x, current.y));
+  eraser_selected_element = Object.assign(_.cloneDeep(eraser_selected_element), searchGroup(current.x, current.y));
   for (var k in eraser_selected_element) {
     document.querySelector('svg#vector_fabric g#' + k).setAttributeNS(null, 'opacity', '0.25');
   }
