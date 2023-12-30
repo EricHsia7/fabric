@@ -5,7 +5,7 @@ import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } f
 import { supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
 import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, setPenColor, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
 import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
-import { resizeFabric, loadContent } from './fabric/index.ts';
+import { canvas, resizeFabric, loadContent } from './fabric/index.ts';
 import { saveContent, replayHistory } from './fabric/history.ts';
 
 import './fabric/index.css';
