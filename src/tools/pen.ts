@@ -18,9 +18,6 @@ function isReadOnly(obj) {
 
 export function handleTouchStart_pen(event) {
   var touch = event.touches[0];
-  touchData = [];
-  touchData_a = [];
-  touchData_b = [];
   touch_point_identifier = touch.identifier;
 
   if (touch.force) {
@@ -191,4 +188,7 @@ export function handleTouchEnd_pen(event) {
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
+  touchData = [];
+  touchData_a = [];
+  touchData_b = [];
 }
