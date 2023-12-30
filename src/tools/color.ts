@@ -1,6 +1,5 @@
 import { pen_color_id } from './index.ts';
-import { localforage } from '../index.ts';
-import { uuidv4 } from '../index.ts';
+import { localforage, uuidv4 } from '../index.ts';
 
 export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number, time: number, id: string) {
   function c(n) {
@@ -50,7 +49,9 @@ export async function listFabricColors(): Promise<any[]> {
       list.push(JSON.parse(String(value)));
     }
     list.sort((a, b) => a.time - b.time);
-    return list;
+    return list.filter(function (i) {
+      return true;
+    });
   } catch (err) {
     console.log(err);
     return [];
@@ -65,10 +66,14 @@ export function updateFabricColorStyleTag() {
   listFabricColors().then(function (list) {
     var light = [];
     var dark = [];
-    list.forEach((color) => {
-      light.push(colorToCSS(color, 'light'));
-      dark.push(colorToCSS(color, 'dark'));
-    });
+    list
+      .filter(function (i) {
+        return true;
+      })
+      .forEach((color) => {
+        light.push(colorToCSS(color, 'light'));
+        dark.push(colorToCSS(color, 'dark'));
+      });
     document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {${dark.join('')}}`;
   });
 }
