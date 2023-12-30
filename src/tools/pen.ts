@@ -19,11 +19,11 @@ function isReadOnly(obj) {
 export function handleTouchStart_pen(event) {
   var touch = event.touches[0];
   /*
-  var touchData = [];
-  var touchData_a = [];
- var touchData_b = [];
+   touchData = [];
+   touchData_a = [];
+   touchData_b = [];
+  touch_point_identifier = touch.identifier *1;
   */
-  touch_point_identifier = touch.identifier;
 
   if (touch.force) {
     force_weight = 0.5;
