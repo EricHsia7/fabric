@@ -124,6 +124,7 @@ window.fabric_initialize = function () {
   loadContent();
   checkPassive();
 
+  
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
