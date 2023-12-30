@@ -7,7 +7,7 @@ import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser 
 import { handleTouchStart_pen, handleTouchMove_pen, handleTouchEnd_pen } from './tools/pen.ts';
 import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './tools/mover.ts';
 import { supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
-import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, setPenColor, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
+import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
 import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
 import { canvas, resizeFabric, loadContent, saveContent } from './fabric/index.ts';
 import { replayHistory } from './fabric/history.ts';
@@ -123,16 +123,14 @@ window.fabric_initialize = function () {
   resizeFabric();
   loadContent();
   checkPassive();
-  /*
+
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
-  
+
   document.querySelector('.fabric_color_plate_close button').addEventListener('click', function () {
     closeColorPlate();
   });
-  */
-  
 };
 
 export default window.fabric_initialize;
