@@ -18,20 +18,10 @@ function isReadOnly(obj) {
 
 export function handleTouchStart_pen(event) {
   var touch = event.touches[0];
-  console.log('touch', touch);
-  try {
-    touchData = [];
-    console.log('touchData', touchData);
-  } catch (e) {
-    console.log('touchData error', e);
-    console.log('type', typeof touchData, touchData);
-  }
+  touchData = [];
   touchData_a = [];
-  console.log('touchData_a', touchData_a);
   touchData_b = [];
-  console.log('touchData_b', touchData_b);
   touch_point_identifier = touch.identifier;
-  console.log('touch_point_identifier', touch_point_identifier);
 
   if (touch.force) {
     force_weight = 0.5;
@@ -51,29 +41,22 @@ export function handleTouchStart_pen(event) {
     // Get timestamp
   });
 
-  console.log('touchData pushed');
   touchData_a.push({
     x: touch.clientX - offsetX,
     y: touch.clientY - offsetY
   });
-  console.log('touchData_a pushed');
   touchData_b.push({
     x: touch.clientX - offsetX,
     y: touch.clientY - offsetY
   });
-  console.log('touchData_b pushed');
   var current = touchData[touchData.length - 1];
-  console.log('current', current);
   ctx.beginPath();
 
   // Draw a circle
   ctx.arc(current.x * scale, current.y * scale, pen_width_base * 0.5 * scale, 0, 2 * Math.PI);
   ctx.fillStyle = pen_color;
-  // Fill the circle with color
   ctx.fill();
-  // Finish drawing
   ctx.closePath();
-  console.log('drew a circle');
 }
 
 //export function to handle touch move event
