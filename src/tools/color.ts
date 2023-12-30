@@ -1,4 +1,3 @@
-import { pen_color_id } from './index.ts';
 import { localforage, uuidv4 } from '../index.ts';
 
 export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number, time: number, id: string) {
@@ -56,10 +55,6 @@ export async function listFabricColors(): Promise<any[]> {
     console.log(err);
     return [];
   }
-}
-
-export function setPenColor(id) {
-  pen_color_id = `fc-${id}`;
 }
 
 export function updateFabricColorStyleTag() {
