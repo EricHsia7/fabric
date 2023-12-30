@@ -1,6 +1,6 @@
 import { uuidv4 } from '../index.ts';
 import { svg_canvas_pen_layer } from './index.ts';
-import { pen_width_base } from '../tools/index.ts';
+import { tools_variables } from '../tools/index.ts';
 
 export function newGroupOnSVG() {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -14,7 +14,7 @@ export function newGroupOnSVG() {
 export function drawPathOnSVG(pathData, color, container) {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
   p.setAttributeNS(null, 'd', pathData);
-  p.setAttributeNS(null, 'stroke-width', pen_width_base);
+  p.setAttributeNS(null, 'stroke-width', tools_variables.pen_width_base);
   p.setAttributeNS(null, 'stroke', color);
   p.setAttributeNS(null, 'fill', 'none');
   p.setAttributeNS(null, 'stroke-linecap', 'round');
