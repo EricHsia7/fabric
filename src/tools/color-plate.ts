@@ -1,7 +1,7 @@
 import { listFabricColors, colorToHex } from './color.ts';
 import { uuidv4 } from '../index.ts';
 
-export function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
+function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
   if (m === 0) {
     var fc_opacity = 0;
     var fc_scale = 0.66;
@@ -15,7 +15,7 @@ export function fc_animation(index, time, delay, m, selector, initial, quantity,
   return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${fc_scale});opacity:${fc_opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${fc_direction};}`;
 }
 
-export function fc_s1(index, m, selector, quantity, df) {
+function fc_s1(index, m, selector, quantity, df) {
   if (m === 1) {
     var fc_opacity = 0;
     var fc_scale = 0.66;
@@ -29,7 +29,7 @@ export function fc_s1(index, m, selector, quantity, df) {
   return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${fc_scale});opacity: ${fc_opacity};}`;
 }
 
-export function loadColorPlate() {
+function loadColorPlate() {
   function getHTML(colorObj) {
     var hex = colorToHex(colorObj);
     return `<button id="${colorObj.id}"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
@@ -39,7 +39,7 @@ export function loadColorPlate() {
     html.push(getHTML({ id: 'skeleton-screen-' + uuidv4(), light: { type: 'rgb', r: 242, g: 242, b: 242 }, dark: { type: 'rgb', r: 46, g: 46, b: 46 } }));
   }
   document.querySelector('.fabric_color_plate').innerHTML = html.join('');
-
+/*
   listFabricColors().then(function (list) {
     html = [];
     list.forEach(function (item) {
@@ -47,6 +47,7 @@ export function loadColorPlate() {
     });
     document.querySelector('.fabric_color_plate').innerHTML = html.join('');
   });
+  */
 }
 
 export function openColorPlate() {
