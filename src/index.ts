@@ -2,10 +2,10 @@ var ripple = require('@erichsia7/ripple');
 export var localforage = require('localforage');
 export var { v4: uuidv4 } = require('uuid');
 
-import { mode, mover, setToolMode } from './tools/index.ts';
+import { tools_variables, setToolMode } from './tools/index.ts';
 import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './tools/eraser.ts';
 import { handleTouchStart_pen, handleTouchMove_pen, handleTouchEnd_pen } from './tools/pen.ts';
-import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './tools/mover.ts';
+import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './toolstools_variables.mover.ts';
 import { supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
 import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
 import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
@@ -40,16 +40,16 @@ window.fabric_initialize = function () {
   canvas.addEventListener(
     'touchstart',
     function (event) {
-      if (0 <= mode <= 2) {
+      if (0 <= tools_variables.mode <= 2) {
         disableScroll();
-        if (mode === 0) {
+        if (tools_variables.mode === 0) {
           handleTouchStart_pen(event);
         }
-        if (mode === 1) {
+        if (tools_variables.mode === 1) {
           handleTouchStart_eraser(event);
         }
-        if (mode === 2) {
-          mover = true;
+        if (tools_variables.mode === 2) {
+          tools_variables.mover = true;
           handleTouchStart_mover(event);
         }
       }
@@ -60,13 +60,13 @@ window.fabric_initialize = function () {
   canvas.addEventListener(
     'touchmove',
     function (event) {
-      if (mode === 0) {
+      if (tools_variables.mode === 0) {
         handleTouchMove_pen(event);
       }
-      if (mode === 1) {
+      if (tools_variables.mode === 1) {
         handleTouchMove_eraser(event);
       }
-      if (mode === 2 && mover) {
+      if (tools_variables.mode === 2 && tools_variables.mover) {
         handleTouchMove_mover(event);
       }
     },
@@ -76,17 +76,17 @@ window.fabric_initialize = function () {
   canvas.addEventListener(
     'touchend',
     function (event) {
-      if (0 <= mode <= 2) {
+      if (0 <= tools_variables.mode <= 2) {
         enableScroll();
-        if (mode === 0) {
+        if (tools_variables.mode === 0) {
           handleTouchEnd_pen(event);
         }
-        if (mode === 1) {
+        if (tools_variables.mode === 1) {
           handleTouchEnd_eraser(event);
         }
-        if (mode === 2 && mover) {
+        if (tools_variables.mode === 2 && tools_variables.mover) {
           handleTouchEnd_mover(event);
-          mover = false;
+          tools_variables.mover = false;
         }
       }
       saveContent();
