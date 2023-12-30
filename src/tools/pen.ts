@@ -3,7 +3,7 @@ import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph
 import { newGroupOnSVG, drawPathOnSVG, drawCircleOnSVG } from '../fabric/svg.ts';
 import { log_changes } from '../fabric/history.ts';
 import { registerElement, updatePenPath, canvas, ctx, scale } from '../fabric/index.ts';
-import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
+import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData_x, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
 import { drawPath } from '../fabric/canvas.ts';
 
 function isReadOnly(obj) {
@@ -18,9 +18,9 @@ function isReadOnly(obj) {
 
 export function handleTouchStart_pen(event) {
   var touch = event.touches[0];
-  touchData = [];
-  touchData_a = [];
-  touchData_b = [];
+  touchData_x.main = [];
+  touchData_x.a = [];
+  touchData_x.b = [];
   touch_point_identifier = touch.identifier * 1;
 
   if (touch.force) {
@@ -32,7 +32,7 @@ export function handleTouchStart_pen(event) {
   }
   //ctx.clearRect(0, 0, window.innerWidth * scale, window.innerHeight * scale);
 
-  touchData.push({
+  touchData_x.main.push({
     x: touch.clientX - offsetX,
     y: touch.clientY - offsetY,
     force: touch.force || 0, // Get force (if available, otherwise default to 0)
@@ -41,15 +41,15 @@ export function handleTouchStart_pen(event) {
     // Get timestamp
   });
 
-  touchData_a.push({
+  touchData_x.a.push({
     x: touch.clientX - offsetX,
     y: touch.clientY - offsetY
   });
-  touchData_b.push({
+  touchData_x.b.push({
     x: touch.clientX - offsetX,
     y: touch.clientY - offsetY
   });
-  var current = touchData[touchData.length - 1];
+  var current = touchData_x.main[touchData_x.main.length - 1];
   ctx.beginPath();
 
   // Draw a circle
@@ -70,14 +70,14 @@ export function handleTouchMove_pen(event) {
 
   var touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
   if (touch) {
-    var current = touchData[touchData.length - 1] || {
+    var current = touchData_x.main[touchData_x.main.length - 1] || {
       x: touch.clientX - offsetX,
       y: touch.clientY - offsetY,
       force: touch.force || 0, // Get force (if available, otherwise default to 0)
       time_stamp: new Date().getTime(),
       angle: 0
     };
-    var prev = touchData[touchData.length - 2] || current;
+    var prev = touchData_x.main[touchData_x.main.length - 2] || current;
     var x1 = prev.x;
     var y1 = prev.y;
     var x2 = current.x;
@@ -99,7 +99,7 @@ export function handleTouchMove_pen(event) {
       angleRadians = Math.atan2(y2 - y1, x2 - x1);
     }
 
-    touchData.push({
+    touchData_x.main.push({
       x: touch.clientX - offsetX,
       y: touch.clientY - offsetY,
       force: touch.force || 0, // Get force (if available, otherwise default to 0)
@@ -112,19 +112,19 @@ export function handleTouchMove_pen(event) {
     var c1 = getCoordinateOnCircleBorder(touch.clientX - offsetX, touch.clientY - offsetY, radius, angleRadians - Math.PI / 2);
     var c2 = getCoordinateOnCircleBorder(touch.clientX - offsetX, touch.clientY - offsetY, radius, angleRadians + Math.PI / 2);
 
-    touchData_a.push({
+    touchData_x.a.push({
       x: c1.x,
       y: c1.y
     });
-    touchData_b.push({
+    touchData_x.b.push({
       x: c2.x,
       y: c2.y
     });
-    if (touchData.length >= 2) {
+    if (touchData_x.main.length >= 2) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
+      drawPath(ctx, segmentsToPath(touchData_x.main, scale), pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_x.a, tole), scale), pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_x.b, tole), scale), pen_color);
     }
     updatePenPath();
   }
@@ -140,34 +140,34 @@ export function handleTouchEnd_pen(event) {
 
   var touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
   if (touch) {
-    if (touchData.length >= 2) {
-      var prev = touchData[touchData.length - 1];
-      touchData.push({
+    if (touchData_x.main.length >= 2) {
+      var prev = touchData_x.main[touchData_x.main.length - 1];
+      touchData_x.main.push({
         x: touch.clientX - offsetX,
         y: touch.clientY - offsetY,
         force: touch.force || 0, // Get force (if available, otherwise default to 0)
         time_stamp: new Date().getTime(),
-        angle: touchData[touchData.length - 1].angle
+        angle: touchData_x.main[touchData_x.main.length - 1].angle
       });
 
-      touchData_a.push({
+      touchData_x.a.push({
         x: touch.clientX - offsetX,
         y: touch.clientY - offsetY
       });
 
-      touchData_b.push({
+      touchData_x.b.push({
         x: touch.clientX - offsetX,
         y: touch.clientY - offsetY
       });
 
-      touchData = touchData.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
-      touchData_a = touchData_a.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
-      touchData_b = touchData_b.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
+      touchData_x.main = touchData_x.main.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
+      touchData_x.a = touchData_x.a.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
+      touchData_x.b = touchData_x.b.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
+      drawPath(ctx, segmentsToPath(touchData_x.main, scale), pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_x.a, tole), scale), pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(touchData_x.b, tole), scale), pen_color);
 
       updatePenPath();
       var group = newGroupOnSVG();
@@ -183,7 +183,7 @@ export function handleTouchEnd_pen(event) {
       registerElement(ca.concat(cb).concat(cc), group);
       log_changes([group], []);
     } else {
-      var point = touchData[touchData.length - 1];
+      var point = touchData_x.main[touchData_x.main.length - 1];
       var group = newGroupOnSVG();
       drawCircleOnSVG(point.x, point.y, pen_width_base * 0.5, pen_color, group);
       registerElement([point], group);
