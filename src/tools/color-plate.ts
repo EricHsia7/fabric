@@ -84,17 +84,8 @@ export function openColorPlate() {
   document.querySelectorAll('.fabric_color_plate button')[0].addEventListener(
     'animationend',
     function () {
-      css = [];
-      for (var i = quantity; i > 0; i--) {
-        css.push(fc_s1(1, 'tools_button'));
-      }
-      document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
-
-      css = [];
-      for (var i = quantity; i > 0; i--) {
-        css.push(fc_s1(0, 'fabric_color_plate'));
-      }
-      document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
+      document.querySelector('#fabric-color-plate-animation').innerHTML = fc_s1(1, 'tools_button');
+      document.querySelector('#fabric-color-plate-animation').innerHTML += fc_s1(0, 'fabric_color_plate');
       loadColorPlate();
     },
     { once: true }
