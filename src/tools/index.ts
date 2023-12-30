@@ -10,9 +10,9 @@ export var move_offset_y: number = 0;
 export var offsetX: number = 0;
 export var offsetY: number = 0;
 
-export let touchData: Array<any>;
-export let touchData_a: Array<any>;
-export let touchData_b: Array<any>;
+export let touchData: Array<any> = [];
+export let touchData_a: Array<any> = [];
+export let touchData_b: Array<any> = [];
 export let start_timestamp: number = 0;
 export let touch_point_identifier: number = 0;
 
