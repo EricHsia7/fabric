@@ -40,22 +40,22 @@ function generateColorPlateSkeletonScreen() {
     html.push(fc_getHTML({ id: 'skeleton-screen-' + uuidv4(), light: { type: 'rgb', r: 242, g: 242, b: 242 }, dark: { type: 'rgb', r: 46, g: 46, b: 46 } }));
   }
   document.querySelector('.fabric_color_plate').innerHTML = html.join('');
- 
- 
 }
+
 function loadColorPlate() {
-listFabricColors().then(function (list) {
-  var html = [];
-   list.forEach(function (item) {
-     html.push(fc_getHTML(item));
-   });
-   document.querySelector('.fabric_color_plate').innerHTML = html.join('');
- });
+  listFabricColors().then(function (list) {
+    var html = [];
+    list.forEach(function (item) {
+      html.push(fc_getHTML(item));
+    });
+    document.querySelector('.fabric_color_plate').innerHTML = html.join('');
+  });
 }
+
 export function openColorPlate() {
-  var quantity = 6;
-  var time = 180;
-  var delay = 45;
+  const quantity = 6;
+  const time = 180;
+  const delay = 45;
 
   generateColorPlateSkeletonScreen();
 
@@ -95,16 +95,16 @@ export function openColorPlate() {
         css.push(fc_s1(i, 0, 'fabric_color_plate', quantity, '.fabric_color'));
       }
       document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
-loadColorPlate();
+      loadColorPlate();
     },
     { once: true }
   );
 }
 
 export function closeColorPlate() {
-  var quantity = 6;
-  var time = 180;
-  var delay = 45;
+  const quantity = 6;
+  const time = 180;
+  const delay = 45;
 
   var css = [];
   for (var i = quantity; i > 0; i--) {

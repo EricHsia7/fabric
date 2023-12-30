@@ -1,3 +1,14 @@
+:root {
+  --k-fcfcfc: #fcfcfc
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --k-fcfcfc: #fcfcfc;
+    --k-f5f5f5: #f5f5f5;
+  }
+}
+
 body {
   padding: 0px;
   margin: 0px;
