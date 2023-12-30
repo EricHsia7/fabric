@@ -1,6 +1,7 @@
 var ripple = require('@erichsia7/ripple');
 export var localforage = require('localforage');
 export var { v4: uuidv4 } = require('uuid');
+export var _ = { cloneDeep: require('lodash/cloneDeep') };
 
 import { mode, mover, setToolMode } from './tools/index.ts';
 import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './tools/eraser.ts';
@@ -124,7 +125,6 @@ window.fabric_initialize = function () {
   loadContent();
   checkPassive();
 
-  
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
