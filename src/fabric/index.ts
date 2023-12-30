@@ -1,5 +1,5 @@
 import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph/path.ts';
-import { touchData, touchData_a, touchData_b, pen_color, tole, currentPath } from '../tools/index.ts';
+import { tools_variables } from '../tools/index.ts';
 import { localforage } from '../index.ts';
 
 export let canvas = document.querySelector('#fabric');
@@ -23,9 +23,9 @@ export function resizeFabric() {
 }
 
 export function updatePenPath() {
-  currentPath.c = segmentsToPath(touchData, 1);
-  currentPath.a = segmentsToPath(simplifyPath(touchData_a, tole).concat(touchData_a[touchData_a.length - 1]), 1);
-  currentPath.b = segmentsToPath(simplifyPath(touchData_b, tole).concat(touchData_b[touchData_b.length - 1]), 1);
+  tools_variables.currentPath.c = segmentsToPath(tools_variables.touchData_x.main, 1);
+  tools_variables.currentPath.a = segmentsToPath(simplifyPath(tools_variables.touchData_x.a, tools_variables.tole).concat(tools_variables.touchData_x.a[tools_variables.touchData_x.a.length - 1]), 1);
+  tools_variables.currentPath.b = segmentsToPath(simplifyPath(tools_variables.touchData_x.b, tools_variables.tole).concat(tools_variables.touchData_x.b[tools_variables.touchData_x.b.length - 1]), 1);
 }
 
 export function registerElement(coordinates, id) {
