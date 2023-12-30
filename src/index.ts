@@ -125,7 +125,8 @@ window.fabric_initialize = function () {
   checkPassive();
   initializeFabricColors();
   listFabricColors();
-
+  updateFabricColorStyleTag();
+  
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
