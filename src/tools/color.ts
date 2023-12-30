@@ -30,12 +30,12 @@ export function deleteFabricColor(id: string) {
 }
 
 export function initializeFabricColors() {
-  setFabricColor(51, 51, 51, 255, 255, 255, -5, 'fc-default-black-white');
-  setFabricColor(255, 54, 54, 255, 79, 79, -4, 'fc-default-red');
-  setFabricColor(255, 212, 18, 255, 220, 64, -3, 'fc-default-yellow');
-  setFabricColor(24, 163, 105, 47, 189, 130, -2, 'fc-default-green');
-  setFabricColor(26, 139, 237, 42, 150, 245, -1, 'fc-default-blue');
-  setFabricColor(99, 79, 232, 108, 91, 222, 0, 'fc-default-purple');
+  setFabricColor(51, 51, 51, 255, 255, 255, -6, 'fc-default-black-white');
+  setFabricColor(255, 54, 54, 255, 79, 79, -5, 'fc-default-red');
+  setFabricColor(255, 212, 18, 255, 220, 64, -4, 'fc-default-yellow');
+  setFabricColor(24, 163, 105, 47, 189, 130, -3, 'fc-default-green');
+  setFabricColor(26, 139, 237, 42, 150, 245, -2, 'fc-default-blue');
+  setFabricColor(99, 79, 232, 108, 91, 222, -1, 'fc-default-purple');
 }
 
 export async function listFabricColors(): Promise<any[]> {
