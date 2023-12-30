@@ -1,13 +1,12 @@
-import { mode, mover } from './tools/index.ts';
+import { mode, mover, setToolMode } from './tools/index.ts';
 import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './tools/eraser.ts';
 import { handleTouchStart_pen, handleTouchMove_pen, handleTouchEnd_pen } from './tools/pen.ts';
 import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './tools/mover.ts';
-
 import { supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
-
 import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, setPenColor, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
-
 import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
+import { resizeFabric, loadContent } from './fabric/index.ts';
+import { saveContent, replayHistory } from './fabric/history.ts';
 
 import './fabric/index.css';
 
