@@ -29,27 +29,29 @@ function fc_s1(index, m, selector, quantity, df) {
   return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${fc_scale});opacity: ${fc_opacity};}`;
 }
 
-function loadColorPlate() {
-  function getHTML(colorObj) {
-    var hex = colorToHex(colorObj);
-    return `<button id="${colorObj.id}"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
-  }
-  var html = [];
-  for (var i = 0; i < 7; i++) {
-    html.push(getHTML({ id: 'skeleton-screen-' + uuidv4(), light: { type: 'rgb', r: 242, g: 242, b: 242 }, dark: { type: 'rgb', r: 46, g: 46, b: 46 } }));
-  }
-  document.querySelector('.fabric_color_plate').innerHTML = html.join('');
-
-  listFabricColors().then(function (list) {
-    html = [];
-    list.forEach(function (item) {
-      html.push(getHTML(item));
-    });
-    document.querySelector('.fabric_color_plate').innerHTML = html.join('');
-  });
-  
+function fc_getHTML(colorObj) {
+  var hex = colorToHex(colorObj);
+  return `<button id="${colorObj.id}"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
 }
 
+function generateColorPlateSkeletonScreen() {
+  var html = [];
+  for (var i = 0; i < 7; i++) {
+    html.push(fc_getHTML({ id: 'skeleton-screen-' + uuidv4(), light: { type: 'rgb', r: 242, g: 242, b: 242 }, dark: { type: 'rgb', r: 46, g: 46, b: 46 } }));
+  }
+  document.querySelector('.fabric_color_plate').innerHTML = html.join('');
+ 
+ 
+}
+function loadColorPlate() {
+listFabricColors().then(function (list) {
+  var html = [];
+   list.forEach(function (item) {
+     html.push(fc_getHTML(item));
+   });
+   document.querySelector('.fabric_color_plate').innerHTML = html.join('');
+ });
+}
 export function openColorPlate() {
   var quantity = 6;
   var time = 180;
