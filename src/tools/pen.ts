@@ -6,16 +6,6 @@ import { registerElement, updatePenPath, canvas, ctx, scale } from '../fabric/in
 import { tools_variables, setToolMode } from './index.ts';
 import { drawPath } from '../fabric/canvas.ts';
 
-function isReadOnly(obj) {
-  for (const prop in obj) {
-    const propDescriptor = Object.getOwnPropertyDescriptor(obj, prop);
-    if (propDescriptor && !propDescriptor.writable) {
-      return true; // If any property is not writable, the object is read-only
-    }
-  }
-  return false; // None of the properties are read-only
-}
-
 export function handleTouchStart_pen(event) {
   var touch = event.touches[0];
   tools_variables.touchData_x.main = [];
