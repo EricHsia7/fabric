@@ -6,49 +6,60 @@ import { registerElement, updatePenPath, canvas, ctx, scale } from '../fabric/in
 import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
 import { drawPath } from '../fabric/canvas.ts';
 
-export function handleTouchStart_pen(event) {
-    var touch = event.touches[0];
-    touchData = [];
-    touchData_a = [];
-    touchData_b = [];
-    touch_point_identifier = touch.identifier;
-
-    if (touch.force) {
-      force_weight = 0.5;
-      speed_weight = -0.2;
-    } else {
-      force_weight = 0.1;
-      speed_weight = 0.2;
+function isReadOnly(obj) {
+  for (const prop in obj) {
+    const propDescriptor = Object.getOwnPropertyDescriptor(obj, prop);
+    if (propDescriptor && !propDescriptor.writable) {
+      return true; // If any property is not writable, the object is read-only
     }
-    //ctx.clearRect(0, 0, window.innerWidth * scale, window.innerHeight * scale);
+  }
+  return false; // None of the properties are read-only
+}
 
-    touchData.push({
-      x: touch.clientX - offsetX,
-      y: touch.clientY - offsetY,
-      force: touch.force || 0, // Get force (if available, otherwise default to 0)
-      time_stamp: new Date().getTime(),
-      angle: 0
-      // Get timestamp
-    });
+export function handleTouchStart_pen(event) {
+  console.log('touchData readonly:' + isReadOnly(touchData));
+  var touch = event.touches[0];
+  touchData = [];
+  touchData_a = [];
+  touchData_b = [];
+  touch_point_identifier = touch.identifier;
 
-    touchData_a.push({
-      x: touch.clientX - offsetX,
-      y: touch.clientY - offsetY
-    });
-    touchData_b.push({
-      x: touch.clientX - offsetX,
-      y: touch.clientY - offsetY
-    });
-    var current = touchData[touchData.length - 1];
-    ctx.beginPath();
+  if (touch.force) {
+    force_weight = 0.5;
+    speed_weight = -0.2;
+  } else {
+    force_weight = 0.1;
+    speed_weight = 0.2;
+  }
+  //ctx.clearRect(0, 0, window.innerWidth * scale, window.innerHeight * scale);
 
-    // Draw a circle
-    ctx.arc(current.x * scale, current.y * scale, pen_width_base * 0.5 * scale, 0, 2 * Math.PI);
-    ctx.fillStyle = pen_color;
-    // Fill the circle with color
-    ctx.fill();
-    // Finish drawing
-    ctx.closePath();
+  touchData.push({
+    x: touch.clientX - offsetX,
+    y: touch.clientY - offsetY,
+    force: touch.force || 0, // Get force (if available, otherwise default to 0)
+    time_stamp: new Date().getTime(),
+    angle: 0
+    // Get timestamp
+  });
+
+  touchData_a.push({
+    x: touch.clientX - offsetX,
+    y: touch.clientY - offsetY
+  });
+  touchData_b.push({
+    x: touch.clientX - offsetX,
+    y: touch.clientY - offsetY
+  });
+  var current = touchData[touchData.length - 1];
+  ctx.beginPath();
+
+  // Draw a circle
+  ctx.arc(current.x * scale, current.y * scale, pen_width_base * 0.5 * scale, 0, 2 * Math.PI);
+  ctx.fillStyle = pen_color;
+  // Fill the circle with color
+  ctx.fill();
+  // Finish drawing
+  ctx.closePath();
 }
 
 //export function to handle touch move event
@@ -146,7 +157,7 @@ export function handleTouchEnd_pen(event) {
         x: touch.clientX - offsetX,
         y: touch.clientY - offsetY
       });
-      
+
       touchData_b.push({
         x: touch.clientX - offsetX,
         y: touch.clientY - offsetY
