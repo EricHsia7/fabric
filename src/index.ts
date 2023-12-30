@@ -123,7 +123,8 @@ window.fabric_initialize = function () {
   resizeFabric();
   loadContent();
   checkPassive();
-
+  initializeFabricColors();
+  
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
