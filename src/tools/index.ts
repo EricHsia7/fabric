@@ -22,7 +22,8 @@ export var tools_variables = {
   eraser_selected_element: {},
   eraser_hidden_element: {},
   eraser_d: 15,
-  eraser_color: '#888888'
+  eraser_color: '#888888',
+  fabric_colors_cache: []
 };
 
 export function setToolMode(m) {

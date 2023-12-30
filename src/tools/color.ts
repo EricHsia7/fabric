@@ -1,4 +1,5 @@
 import { localforage, uuidv4 } from '../index.ts';
+import { tools_variables } from './index.ts';
 
 export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number, time: number, id: string) {
   function c(n) {
@@ -48,9 +49,8 @@ export async function listFabricColors(): Promise<any[]> {
       list.push(JSON.parse(String(value)));
     }
     list.sort((a, b) => a.time - b.time);
-    return list.filter(function (i) {
-      return true;
-    });
+    tools_variables.fabric_colors_cache = list;
+    return list;
   } catch (err) {
     console.log(err);
     return [];
