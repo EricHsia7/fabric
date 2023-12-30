@@ -19,8 +19,12 @@ function isReadOnly(obj) {
 export function handleTouchStart_pen(event) {
   var touch = event.touches[0];
   console.log('touch', touch);
-  touchData = [];
-  console.log('touchData', touchData);
+  try {
+    touchData = [];
+    console.log('touchData', touchData);
+  } catch (e) {
+    console.log('touchData error',e);
+  }
   touchData_a = [];
   console.log('touchData_a', touchData_a);
   touchData_b = [];
@@ -68,7 +72,7 @@ export function handleTouchStart_pen(event) {
   ctx.fill();
   // Finish drawing
   ctx.closePath();
-  console.log('drew a circle')
+  console.log('drew a circle');
 }
 
 //export function to handle touch move event
