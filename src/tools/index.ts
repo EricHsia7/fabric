@@ -36,3 +36,13 @@ export function setToolMode(m) {
   }
   getSelector(m).classList.add('filled');
 }
+
+export function getColorScheme() {
+  const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+  const isDarkMode = darkModeQuery.matches;
+  if (isDarkMode) {
+    return 'dark';
+  } else {
+    return 'light';
+  }
+}

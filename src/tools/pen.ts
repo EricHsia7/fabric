@@ -3,10 +3,12 @@ import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph
 import { newGroupOnSVG, drawPathOnSVG, drawCircleOnSVG } from '../fabric/svg.ts';
 import { log_changes } from '../fabric/history.ts';
 import { registerElement, updatePenPath, canvas, ctx, scale } from '../fabric/index.ts';
-import { tools_variables, setToolMode } from './index.ts';
+import { tools_variables, setToolMode, getColorScheme } from './index.ts';
 import { drawPath } from '../fabric/canvas.ts';
 
 export function handleTouchStart_pen(event) {
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0] || 'fc-default-black-white';
+  tools_variables.pen_color = colorToHex(colorObj)[getColorScheme()].hex;
   var touch = event.touches[0];
   tools_variables.touchData_x.main = [];
   tools_variables.touchData_x.a = [];
@@ -121,6 +123,7 @@ export function handleTouchMove_pen(event) {
 }
 
 export function handleTouchEnd_pen(event) {
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0] || 'fc-default-black-white';
   var touches = [];
   for (var t in event.changedTouches) {
     if (event.changedTouches.hasOwnProperty(t) && typeof event.changedTouches[t] === 'object') {
@@ -162,9 +165,10 @@ export function handleTouchEnd_pen(event) {
       updatePenPath();
       var group = newGroupOnSVG();
 
-      drawPathOnSVG(tools_variables.currentPath.a, tools_variables.pen_color, group);
-      drawPathOnSVG(tools_variables.currentPath.b, tools_variables.pen_color, group);
-      drawPathOnSVG(tools_variables.currentPath.c, tools_variables.pen_color, group);
+      var application_css = colorToCSS(colorObj).application;
+      drawPathOnSVG(tools_variables.currentPath.a, application_css, group);
+      drawPathOnSVG(tools_variables.currentPath.b, application_css, group);
+      drawPathOnSVG(tools_variables.currentPath.c, application_css, group);
 
       var ca = pathCommandToCoordinates(tools_variables.currentPath.a, 3);
       var cb = pathCommandToCoordinates(tools_variables.currentPath.b, 3);
