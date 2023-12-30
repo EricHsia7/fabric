@@ -18,17 +18,17 @@ function isReadOnly(obj) {
 
 export function handleTouchStart_pen(event) {
   var touch = event.touches[0];
-  var touchData = [];
-  var touchData_a = [];
-  var touchData_b = [];
-  var touch_point_identifier = touch.identifier * 1;
+  touchData = [];
+  touchData_a = [];
+  touchData_b = [];
+  touch_point_identifier = touch.identifier * 1;
 
   if (touch.force) {
-    var force_weight = 0.5;
-    var speed_weight = -0.2;
+    force_weight = 0.5;
+    speed_weight = -0.2;
   } else {
-    var force_weight = 0.1;
-    var speed_weight = 0.2;
+    force_weight = 0.1;
+    speed_weight = 0.2;
   }
   //ctx.clearRect(0, 0, window.innerWidth * scale, window.innerHeight * scale);
 
