@@ -1,7 +1,6 @@
 import { log_changes } from '../fabric/history.ts';
 import { canvas, ctx, scale, registration } from '../fabric/index.ts';
 import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
-import { _ } from '../index.ts';
 
 export function handleTouchStart_eraser(event) {
   eraser_selected_element = {};
@@ -51,7 +50,7 @@ export function handleTouchMove_eraser(event) {
   ctx.arc((current.x + offsetX + move_offset_x) * scale, (current.y + offsetY + move_offset_y) * scale, (eraser_d + 5) * scale, 0, 2 * Math.PI);
   ctx.stroke();
 
-  eraser_selected_element = Object.assign(_.cloneDeep(eraser_selected_element), searchGroup(current.x, current.y));
+  eraser_selected_element = Object.assign(eraser_selected_element, searchGroup(current.x, current.y));
   for (var k in eraser_selected_element) {
     document.querySelector('svg#vector_fabric g#' + k).setAttributeNS(null, 'opacity', '0.25');
   }
