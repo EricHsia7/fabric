@@ -23,7 +23,8 @@ export function handleTouchStart_pen(event) {
     touchData = [];
     console.log('touchData', touchData);
   } catch (e) {
-    console.log('touchData error',e);
+    console.log('touchData error', e);
+    console.log('type', typeof touchData, touchData);
   }
   touchData_a = [];
   console.log('touchData_a', touchData_a);
