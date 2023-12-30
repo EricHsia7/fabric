@@ -5,7 +5,7 @@ export var { v4: uuidv4 } = require('uuid');
 import { tools_variables, setToolMode } from './tools/index.ts';
 import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './tools/eraser.ts';
 import { handleTouchStart_pen, handleTouchMove_pen, handleTouchEnd_pen } from './tools/pen.ts';
-import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './toolstools_variables.mover.ts';
+import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './tools/mover.ts';
 import { supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
 import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
 import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
