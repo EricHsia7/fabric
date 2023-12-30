@@ -1,19 +1,21 @@
 :root {
   --k-fcfcfc: #fcfcfc;
   --k-f5f5f5: #f5f5f5;
+  --k-000000: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --k-fcfcfc: #030303;
     --k-f5f5f5: #0a0a0a;
+    --k-000000: #ffffff;
   }
 }
 
 body {
   padding: 0px;
   margin: 0px;
-  background: #fcfcfc
+  background: var(--k-fcfcfc)
 }
 
 canvas#fabric,
@@ -50,7 +52,7 @@ input[type="file"] {
   transform: translateX(-50%);
   height: 50px;
   width: 300px;
-  background: #f5f5f5;
+  background: var(--k-f5f5f5);
   border-radius: 15px;
   overflow: hidden;
   -webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -94,7 +96,7 @@ input[type="file"] {
   background: rgba(0, 0, 0, 0);
   border: none;
   border-radius: 0px;
-  color: #000;
+  color: var(--k-000000);
   user-select: none;
   -webkit-user-select: none;
   outline: none;

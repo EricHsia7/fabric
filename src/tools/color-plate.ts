@@ -15,7 +15,7 @@ function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
   return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${fc_scale});opacity:${fc_opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${fc_direction};}`;
 }
 
-function fc_s1(index, m, selector, quantity, df) {
+function fc_s1(m, selector) {
   if (m === 1) {
     var fc_opacity = 0;
     var fc_scale = 0.66;
@@ -26,7 +26,7 @@ function fc_s1(index, m, selector, quantity, df) {
     var fc_scale = 1;
     var fc_direction = 'reverse';
   }
-  return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${fc_scale});opacity: ${fc_opacity};}`;
+  return `.tools_container .${selector} button {transform:scale(${fc_scale});opacity: ${fc_opacity};}`;
 }
 
 function fc_getHTML(colorObj) {
@@ -86,13 +86,13 @@ export function openColorPlate() {
     function () {
       css = [];
       for (var i = quantity; i > 0; i--) {
-        css.push(fc_s1(i, 1, 'tools_button', quantity, ''));
+        css.push(fc_s1(1, 'tools_button'));
       }
       document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
 
       css = [];
       for (var i = quantity; i > 0; i--) {
-        css.push(fc_s1(i, 0, 'fabric_color_plate', quantity, '.fabric_color'));
+        css.push(fc_s1(0, 'fabric_color_plate'));
       }
       document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
       loadColorPlate();
