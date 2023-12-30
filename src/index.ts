@@ -2,7 +2,7 @@ var ripple = require('@erichsia7/ripple');
 export var localforage = require('localforage');
 export var { v4: uuidv4 } = require('uuid');
 
-import { mode, mover, setToolMode } from './tools/index.ts';
+import { touchData, mode, mover, setToolMode } from './tools/index.ts';
 import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './tools/eraser.ts';
 import { handleTouchStart_pen, handleTouchMove_pen, handleTouchEnd_pen } from './tools/pen.ts';
 import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } from './tools/mover.ts';
@@ -123,7 +123,7 @@ window.fabric_initialize = function () {
   resizeFabric();
   loadContent();
   checkPassive();
-  
+
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
