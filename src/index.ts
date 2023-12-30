@@ -126,3 +126,6 @@ window.fabric_initialize = function () {
 };
 
 export default window.fabric_initialize;
+
+window.openColorPlate = openColorPlate;
+window.closeColorPlate = closeColorPlate;
