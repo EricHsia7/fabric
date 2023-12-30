@@ -57,7 +57,7 @@ export function openColorPlate() {
   var time = 180;
   var delay = 45;
 
-  loadColorPlate();
+  generateColorPlateSkeletonScreen();
 
   var css = [];
   for (var i = quantity; i > 0; i--) {
@@ -95,6 +95,7 @@ export function openColorPlate() {
         css.push(fc_s1(i, 0, 'fabric_color_plate', quantity, '.fabric_color'));
       }
       document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
+loadColorPlate();
     },
     { once: true }
   );
