@@ -98,7 +98,7 @@ window.fabric_initialize = function () {
     resizeFabric();
   });
 
-  ripple.addTo('.tools_container button', '#000', 370);
+  ripple.addTo('.tools_container button', 'var(--k-000000)', 370);
 
   document.querySelectorAll('.tools_container button[group="1"]').forEach((button) => {
     button.addEventListener('click', function () {
@@ -124,7 +124,7 @@ window.fabric_initialize = function () {
   loadContent();
   checkPassive();
   initializeFabricColors();
-  
+
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
   });
