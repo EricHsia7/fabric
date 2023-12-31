@@ -61,7 +61,8 @@ export function openColorPlate() {
       css.push(fc_animation(i, time, delay, 1, 'tools_button', 0, quantity, 0, true));
       css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate', (delay * quantity + time) / 2, quantity, index_offset, true));
     }
-    document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('') + fc_animation(1, time, delay, 0, 'fabric_color_plate_close', 0, 1, 0, false);
+    css.push(fc_animation(6, time, delay, 0, 'fabric_color_plate_close', 0, quantity, 0, false));
+    document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
     document.querySelectorAll('.fabric_color_plate button')[index_offset].addEventListener(
       'animationend',
       function () {
@@ -83,7 +84,8 @@ export function closeColorPlate() {
     css.push(fc_animation(i, time, delay, 0, 'tools_button', (delay * quantity + time) / 2, quantity, 0, true));
     css.push(fc_animation(i, time, delay, 1, 'fabric_color_plate', 0, quantity, index_offset, true));
   }
-  document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('') + fc_animation(1, time, delay, 1, 'fabric_color_plate_close', 0, 1, 0, false);
+  css.push(fc_animation(6, time, delay, 1, 'fabric_color_plate_close', 0, quantity, 0, false));
+  document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
   document.querySelectorAll('.tools_button button')[0].addEventListener(
     'animationend',
     function () {
