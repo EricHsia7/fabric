@@ -29,7 +29,7 @@ function fc_s1(m, selector) {
 
 function fc_getHTML(colorObj) {
   var hex = colorToHex(colorObj);
-  return `<button id="${colorObj.id}" onclick="setPenColor('${colorObj.id}')"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
+  return `<button id="pl-${uuidv4()}" color-id="${colorObj.id}" onclick="setPenColor('${colorObj.id}')"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
 }
 
 function generateColorPlateSkeletonScreen() {
@@ -40,54 +40,57 @@ function generateColorPlateSkeletonScreen() {
   document.querySelector('.fabric_color_plate').innerHTML = html.join('');
 }
 
-function loadColorPlate() {
-  listFabricColors().then(function (list) {
+async function loadColorPlate() {
+  try {
+    var list = await listFabricColors();
     var html = [];
     list.forEach(function (item) {
       html.push(fc_getHTML(item));
     });
     document.querySelector('.fabric_color_plate').innerHTML = html.join('');
-  });
+    return '';
+  } catch (e) {
+    return e;
+  }
 }
 
 export function openColorPlate() {
   const quantity = 6;
   const time = 180;
   const delay = 45;
+  loadColorPlate().then(function () {
+    var css = [];
+    for (var i = quantity; i > 0; i--) {
+      css.push(fc_animation(i, time, delay, 1, 'tools_button', 0, quantity, ''));
+    }
+    document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
 
-  generateColorPlateSkeletonScreen();
+    var fcp = document.querySelector('.fabric_color_plate');
+    fcp.style.display = 'block';
 
-  var css = [];
-  for (var i = quantity; i > 0; i--) {
-    css.push(fc_animation(i, time, delay, 1, 'tools_button', 0, quantity, ''));
-  }
-  document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
+    css = [];
+    for (var i = quantity; i > 0; i--) {
+      css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate', (delay * quantity + time) / 2, quantity));
+    }
+    document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
+    css = [];
+    for (var i = quantity; i > 0; i--) {
+      css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate_close', 0, quantity, ''));
+    }
+    document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
+    var fcpc = document.querySelector('.fabric_color_plate_close');
+    fcpc.style.display = 'grid';
 
-  var fcp = document.querySelector('.fabric_color_plate');
-  fcp.style.display = 'block';
-
-  css = [];
-  for (var i = quantity; i > 0; i--) {
-    css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate', (delay * quantity + time) / 2, quantity));
-  }
-  document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
-  css = [];
-  for (var i = quantity; i > 0; i--) {
-    css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate_close', 0, quantity, ''));
-  }
-  document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
-  var fcpc = document.querySelector('.fabric_color_plate_close');
-  fcpc.style.display = 'grid';
-
-  document.querySelectorAll('.fabric_color_plate button')[0].addEventListener(
-    'animationend',
-    function () {
-      document.querySelector('#fabric-color-plate-animation').innerHTML = fc_s1(1, 'tools_button');
-      document.querySelector('#fabric-color-plate-animation').innerHTML += fc_s1(0, 'fabric_color_plate');
-      loadColorPlate();
-    },
-    { once: true }
-  );
+    document.querySelectorAll('.fabric_color_plate button')[0].addEventListener(
+      'animationend',
+      function () {
+        document.querySelector('#fabric-color-plate-animation').innerHTML = fc_s1(1, 'tools_button');
+        document.querySelector('#fabric-color-plate-animation').innerHTML += fc_s1(0, 'fabric_color_plate');
+        loadColorPlate();
+      },
+      { once: true }
+    );
+  });
 }
 
 export function closeColorPlate() {
