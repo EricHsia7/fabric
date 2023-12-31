@@ -61,9 +61,8 @@ export function openColorPlate() {
     for (var i = quantity; i > 0; i--) {
       css.push(fc_animation(i, time, delay, 1, 'tools_button', 0, quantity, 0));
       css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate', (delay * quantity + time) / 2, quantity, index_offset));
-      css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate_close', 0, quantity, 0));
     }
-    document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
+    document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('') + fc_animation(i, time, delay, 0, 'fabric_color_plate_close', 0, 1, 0);
     document.querySelectorAll('.fabric_color_plate button')[index_offset].addEventListener(
       'animationend',
       function () {
