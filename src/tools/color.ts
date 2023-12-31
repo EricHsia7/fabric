@@ -70,7 +70,7 @@ export function updateFabricColorStyleTag() {
         light.push(css.light);
         dark.push(css.dark);
       });
-    document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {${dark.join('')}}`;
+    document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {:root{${dark.join('')}}}`;
   });
 }
 
