@@ -85,12 +85,12 @@ export var lazyCSS = {
 };
 
 export function loadCSS(url: string, identity: string) {
-  if (!window.lazyCSS.loaded[identity]) {
+  if (!lazyCSS.loaded[identity]) {
     var link = document.createElement('link');
     link.setAttribute('href', url);
     link.setAttribute('rel', 'stylesheet');
     document.head.appendChild(link);
-    window.lazyCSS.loaded[identity] = true;
+    lazyCSS.loaded[identity] = true;
   }
 }
 
