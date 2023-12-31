@@ -1,6 +1,7 @@
 var ripple = require('@erichsia7/ripple');
 export var localforage = require('localforage');
 export var { v4: uuidv4 } = require('uuid');
+export var FontFaceObserver = require('fontfaceobserver');
 
 import { tools_variables, setToolMode, setPenColor } from './tools/index.ts';
 import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './tools/eraser.ts';
@@ -9,7 +10,7 @@ import { handleTouchStart_mover, handleTouchMove_mover, handleTouchEnd_mover } f
 import { supportsPassive, wheelOpt, wheelEvent, checkPassive, disableScroll, enableScroll } from './scroll/index.ts';
 import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricColors, updateFabricColorStyleTag, colorToHex, colorToCSS } from './tools/color.ts';
 import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
-import { canvas, resizeFabric, loadContent, saveContent } from './fabric/index.ts';
+import { canvas, resizeFabric, loadContent, saveContent, loadFont } from './fabric/index.ts';
 import { replayHistory } from './fabric/history.ts';
 
 import './fabric/index.css';
@@ -134,6 +135,9 @@ window.fabric_initialize = function () {
   document.querySelector('.fabric_color_plate_close button').addEventListener('click', function () {
     closeColorPlate();
   });
+
+  loadFont('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap', 'Noto Sans', 'googleFontsNotoSans');
+  loadFont('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200', 'Material Symbols Rounded', 'googleFontsMaterialSymbols');
 };
 
 window.setPenColor = setPenColor;

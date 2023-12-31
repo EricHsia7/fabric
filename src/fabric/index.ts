@@ -1,6 +1,6 @@
 import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph/path.ts';
 import { tools_variables } from '../tools/index.ts';
-import { localforage } from '../index.ts';
+import { localforage, FontFaceObserver } from '../index.ts';
 
 export let canvas = document.querySelector('#fabric');
 export let ctx = canvas.getContext('2d');
@@ -75,4 +75,31 @@ export function loadContent() {
     .catch(function (err) {
       // we got an error
     });
+}
+
+export var lazyCSS = {
+  loaded: {
+    googleFontsNotoSans: false,
+    googleFontsMaterialSymbols: false
+  }
+};
+
+export function loadCSS(url: string, identity: string) {
+  if (!window.lazyCSS.loaded[identity]) {
+    var link = document.createElement('link');
+    link.setAttribute('href', url);
+    link.setAttribute('rel', 'stylesheet');
+    document.head.appendChild(link);
+    window.lazyCSS.loaded[identity] = true;
+  }
+}
+
+export function loadFont(url: string, fontName: string, identity: string, loadedCallback: Function) {
+  loadCSS(url, identity);
+  if (typeof loadedCallback === 'function') {
+    var font = new FontFaceObserver(fontName);
+    font.load().then(function () {
+      loadedCallback();
+    });
+  }
 }
