@@ -66,8 +66,9 @@ export function updateFabricColorStyleTag() {
         return true;
       })
       .forEach((color) => {
-        light.push(colorToCSS(color, 'light'));
-        dark.push(colorToCSS(color, 'dark'));
+        var css = colorToCSS(color).declaration;
+        light.push(css.light);
+        dark.push(css.dark);
       });
     document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {${dark.join('')}}`;
   });
