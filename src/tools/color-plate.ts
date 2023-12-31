@@ -91,7 +91,7 @@ export function closeColorPlate() {
       fcp.style.display = 'none';
       var fcpc = document.querySelector('.fabric_color_plate_close');
       fcpc.style.display = 'none';
-      document.querySelector('#fabric-color-plate-animation').innerHTML = fc_s1(1, 'fabric_color_plate_close');
+      document.querySelector('#fabric-color-plate-animation').innerHTML = '';
     },
     { once: true }
   );
