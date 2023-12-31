@@ -1,7 +1,21 @@
+:root {
+  --k-fcfcfc: #fcfcfc;
+  --k-f5f5f5: #f5f5f5;
+  --k-000000: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --k-fcfcfc: #030303;
+    --k-f5f5f5: #0a0a0a;
+    --k-000000: #ffffff;
+  }
+}
+
 body {
   padding: 0px;
   margin: 0px;
-  background: #fcfcfc
+  background: var(--k-fcfcfc)
 }
 
 canvas#fabric,
@@ -37,42 +51,74 @@ input[type="file"] {
   left: 50%;
   transform: translateX(-50%);
   height: 50px;
-  width: 250px;
-  background: #333;
+  width: 300px;
+  background: var(--k-f5f5f5);
   border-radius: 15px;
   overflow: hidden;
   -webkit-mask-image: -webkit-radial-gradient(white, black);
   mask-image: -webkit-radial-gradient(white, black);
 }
 
-.tools_container .tools_button {
+.tools_container .tools_button,
+.tools_container .fabric_color_plate,
+.tools_container .fabric_color_plate_close {
   display: grid;
   grid-column-gap: 0px;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   position: absolute;
   bottom: 0px;
   left: 0px;
-  width: 250px;
+  width: 300px;
   height: 50px;
 }
 
-.tools_container .tools_button button {
+.tools_container .fabric_color_plate_close {
+  display: none;
+  width: 50px;
+  left: 250px;
+  grid-template-columns: repeat(1, 1fr);
+}
+
+.tools_container .fabric_color_plate {
+  display: none;
+  width: 250px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scroll-snap-type: x mandatory;
+}
+
+.tools_container .tools_button button,
+.tools_container .fabric_color_plate button,
+.tools_container .fabric_color_plate_close button {
   -webkit-appearance: none;
   appearance: none;
   background: rgba(0, 0, 0, 0);
   border: none;
   border-radius: 0px;
-  color: #fff;
+  color: var(--k-000000);
   user-select: none;
   -webkit-user-select: none;
   outline: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   padding: 0px;
   margin: 0px;
-  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.tools_container button span.material-symbols-rounded {
+.tools_container .fabric_color_plate button  {
+  transform: scale(0.66);
+  opacity: 0;
+  width: 50px;
+  height: 50px;
+  display: inline-flex;
+  scroll-snap-align: center;
+}
+
+.tools_container .tools_button button span.material-symbols-rounded,
+.tools_container .fabric_color_plate_close button span.material-symbols-rounded {
   font-variation-settings:
     'FILL' 0,
     'wght' 300,
@@ -80,10 +126,48 @@ input[type="file"] {
     'opsz' 24
 }
 
-.tools_container button span.material-symbols-rounded.filled {
+.tools_container .tools_button button span.material-symbols-rounded.filled {
   font-variation-settings:
     'FILL' 1,
     'wght' 300,
     'GRAD' 0,
     'opsz' 24
+}
+
+.fabric_color {
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fabric_color_c {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  height: 26px;
+  width: 26px;
+  border-radius: 15px;
+  border: solid 1px #888;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: var(--fc-light-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  .fabric_color_c {
+    background: var(--fc-dark-color);
+  }
+}
+
+@keyframes scale {
+  0% {
+    transform: scale(0.66);
+    opacity: 0
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1
+  }
 }

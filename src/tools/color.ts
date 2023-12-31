@@ -1,7 +1,5 @@
-import { pen_color_id } from './index.ts';
-
-var { v4: uuidv4 } = require('uuid');
-var localforage = require('localforage');
+import { localforage, uuidv4 } from '../index.ts';
+import { tools_variables } from './index.ts';
 
 export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number, time: number, id: string) {
   function c(n) {
@@ -15,7 +13,7 @@ export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g
     g2 = c(g2);
     b2 = c(b2);
     id = id || 'fc-' + uuidv4();
-    var time = time || new Date().getTime();
+    time = time || new Date().getTime();
     var colorObj = {
       id: id,
       light: { type: 'rgb', r: r1, g: g1, b: b1 },
@@ -33,7 +31,12 @@ export function deleteFabricColor(id: string) {
 }
 
 export function initializeFabricColors() {
-  setFabricColor(0, 0, 0, 255, 255, 255, 0, 'fc-default-black-white');
+  setFabricColor(17, 17, 17, 255, 255, 255, -6, 'fc-default-black-white');
+  setFabricColor(255, 54, 54, 255, 79, 79, -5, 'fc-default-red');
+  setFabricColor(255, 212, 18, 255, 220, 64, -4, 'fc-default-yellow');
+  setFabricColor(24, 163, 105, 47, 189, 130, -3, 'fc-default-green');
+  setFabricColor(26, 139, 237, 42, 150, 245, -2, 'fc-default-blue');
+  setFabricColor(99, 79, 232, 108, 91, 222, -1, 'fc-default-purple');
 }
 
 export async function listFabricColors(): Promise<any[]> {
@@ -41,11 +44,12 @@ export async function listFabricColors(): Promise<any[]> {
     var keys = await localforage.keys();
     var list: any[] = [];
     keys = keys.filter((k) => String(k).indexOf('fc-') > -1);
-    for (const key of keys) {
+    for (let key of keys) {
       var value = await localforage.getItem(key);
       list.push(JSON.parse(String(value)));
     }
     list.sort((a, b) => a.time - b.time);
+    tools_variables.fabric_colors_cache = list;
     return list;
   } catch (err) {
     console.log(err);
@@ -53,19 +57,21 @@ export async function listFabricColors(): Promise<any[]> {
   }
 }
 
-export function setPenColor(id) {
-  pen_color_id = `fc-${id}`;
-}
-
 export function updateFabricColorStyleTag() {
-  var list = listFabricColors();
-  var light = [];
-  var dark = [];
-  list.forEach((color) => {
-    light.push(colorToCSS(color, 'light'));
-    dark.push(colorToCSS(color, 'dark'));
+  listFabricColors().then(function (list) {
+    var light = [];
+    var dark = [];
+    list
+      .filter(function (i) {
+        return true;
+      })
+      .forEach((color) => {
+        var css = colorToCSS(color).declaration;
+        light.push(css.light);
+        dark.push(css.dark);
+      });
+    document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {:root{${dark.join('')}}}`;
   });
-  document.querySelector('head style#fabric_color').innerHTML = `:root {${light.join('')}}@media (prefers-color-scheme: dark) {${dark.join('')}}`;
 }
 
 export function colorToHex(color: any): string {
@@ -74,6 +80,7 @@ export function colorToHex(color: any): string {
     return String(hex.length == 1 ? '0' + hex : hex).toUpperCase();
   }
   return {
+    id: color.id,
     light: { type: 'hex', hex: `#${componentToHex(color.light.r)}${componentToHex(color.light.g)}${componentToHex(color.light.b)}` },
     dark: { type: 'hex', hex: `#${componentToHex(color.dark.r)}${componentToHex(color.dark.g)}${componentToHex(color.dark.b)}` }
   };
@@ -88,14 +95,4 @@ export function colorToCSS(color: any): string {
     },
     application: `var(--${color.id})`
   };
-}
-
-export function openColorPlate() {
-  listFabricColors().then(function (list) {
-    var html = [];
-    list.forEach((colorObj) => {
-      var hex = colorToHex(colorObj);
-      html.push(`<div class="fabric_color"><div class="fabric_color_light" style="--plate-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--plate-color:${hex.dark.hex}"></div></div>`);
-    });
-  });
 }

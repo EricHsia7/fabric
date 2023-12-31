@@ -3,51 +3,52 @@ import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph
 import { newGroupOnSVG, drawPathOnSVG, drawCircleOnSVG } from '../fabric/svg.ts';
 import { log_changes } from '../fabric/history.ts';
 import { registerElement, updatePenPath, canvas, ctx, scale } from '../fabric/index.ts';
-import { mode, mover, move_start_x, move_start_y, move_end_x, move_end_y, move_offset_x, move_offset_y, offsetX, offsetY, touchData, touchData_a, touchData_b, start_timestamp, touch_point_identifier, pen_width_base, force_weight, speed_weight, pen_color, tole, currentPath, eraser_selected_element, eraser_hidden_element, eraser_d, eraser_color, setToolMode } from './index.ts';
+import { tools_variables, setToolMode, getColorScheme } from './index.ts';
 import { drawPath } from '../fabric/canvas.ts';
+import { colorToHex, colorToCSS } from './color.ts';
 
 export function handleTouchStart_pen(event) {
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0]
+  tools_variables.pen_color = colorToHex(colorObj)[getColorScheme()].hex;
   var touch = event.touches[0];
-  touchData = []; // Clear previous touch data
-  touchData_a = [];
-  touchData_b = [];
-  touch_point_identifier = touch.identifier;
+  tools_variables.touchData_x.main = [];
+  tools_variables.touchData_x.a = [];
+  tools_variables.touchData_x.b = [];
+  tools_variables.touch_point_identifier = touch.identifier * 1;
 
   if (touch.force) {
-    force_weight = 0.5;
-    speed_weight = -0.2;
+    tools_variables.force_weight = 0.5;
+    tools_variables.speed_weight = -0.2;
   } else {
-    force_weight = 0.1;
-    speed_weight = 0.2;
+    tools_variables.force_weight = 0.1;
+    tools_variables.speed_weight = 0.2;
   }
   //ctx.clearRect(0, 0, window.innerWidth * scale, window.innerHeight * scale);
 
-  touchData.push({
-    x: touch.clientX - offsetX,
-    y: touch.clientY - offsetY,
+  tools_variables.touchData_x.main.push({
+    x: touch.clientX - tools_variables.offsetX,
+    y: touch.clientY - tools_variables.offsetY,
     force: touch.force || 0, // Get force (if available, otherwise default to 0)
     time_stamp: new Date().getTime(),
     angle: 0
     // Get timestamp
   });
 
-  touchData_a.push({
-    x: touch.clientX - offsetX,
-    y: touch.clientY - offsetY
+  tools_variables.touchData_x.a.push({
+    x: touch.clientX - tools_variables.offsetX,
+    y: touch.clientY - tools_variables.offsetY
   });
-  touchData_b.push({
-    x: touch.clientX - offsetX,
-    y: touch.clientY - offsetY
+  tools_variables.touchData_x.b.push({
+    x: touch.clientX - tools_variables.offsetX,
+    y: touch.clientY - tools_variables.offsetY
   });
-  var current = touchData[touchData.length - 1];
+  var current = tools_variables.touchData_x.main[tools_variables.touchData_x.main.length - 1];
   ctx.beginPath();
 
   // Draw a circle
-  ctx.arc(current.x * scale, current.y * scale, pen_width_base * 0.5 * scale, 0, 2 * Math.PI);
-  ctx.fillStyle = pen_color;
-  // Fill the circle with color
+  ctx.arc(current.x * scale, current.y * scale, tools_variables.pen_width_base * 0.5 * scale, 0, 2 * Math.PI);
+  ctx.fillStyle = tools_variables.pen_color;
   ctx.fill();
-  // Finish drawing
   ctx.closePath();
 }
 
@@ -60,16 +61,16 @@ export function handleTouchMove_pen(event) {
     }
   }
 
-  var touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
+  var touch = touches.filter((p) => p.identifier === tools_variables.touch_point_identifier)[0];
   if (touch) {
-    var current = touchData[touchData.length - 1] || {
-      x: touch.clientX - offsetX,
-      y: touch.clientY - offsetY,
+    var current = tools_variables.touchData_x.main[tools_variables.touchData_x.main.length - 1] || {
+      x: touch.clientX - tools_variables.offsetX,
+      y: touch.clientY - tools_variables.offsetY,
       force: touch.force || 0, // Get force (if available, otherwise default to 0)
       time_stamp: new Date().getTime(),
       angle: 0
     };
-    var prev = touchData[touchData.length - 2] || current;
+    var prev = tools_variables.touchData_x.main[tools_variables.touchData_x.main.length - 2] || current;
     var x1 = prev.x;
     var y1 = prev.y;
     var x2 = current.x;
@@ -91,38 +92,39 @@ export function handleTouchMove_pen(event) {
       angleRadians = Math.atan2(y2 - y1, x2 - x1);
     }
 
-    touchData.push({
-      x: touch.clientX - offsetX,
-      y: touch.clientY - offsetY,
+    tools_variables.touchData_x.main.push({
+      x: touch.clientX - tools_variables.offsetX,
+      y: touch.clientY - tools_variables.offsetY,
       force: touch.force || 0, // Get force (if available, otherwise default to 0)
       time_stamp: new Date().getTime(),
       angle: angleRadians
     });
 
     var speed = Math.sqrt(Math.pow(current.x - prev.x, 2) + Math.pow(current.y - prev.y, 2)) / (current.time_stamp - prev.time_stamp);
-    var radius = Math.min(Math.max(pen_width_base * Math.pow(current.force, 0.4) * (force_weight / (force_weight + speed_weight)) * 0.5 + pen_width_base * Math.max(0.3, Math.log(speed) / Math.log(1.8)) * (speed_weight / (force_weight + speed_weight)) * 0.5, 0), pen_width_base * 0.7) || 0;
-    var c1 = getCoordinateOnCircleBorder(touch.clientX - offsetX, touch.clientY - offsetY, radius, angleRadians - Math.PI / 2);
-    var c2 = getCoordinateOnCircleBorder(touch.clientX - offsetX, touch.clientY - offsetY, radius, angleRadians + Math.PI / 2);
+    var radius = Math.min(Math.max(tools_variables.pen_width_base * Math.pow(current.force, 0.4) * (tools_variables.force_weight / (tools_variables.force_weight + tools_variables.speed_weight)) * 0.5 + tools_variables.pen_width_base * Math.max(0.3, Math.log(speed) / Math.log(1.8)) * (tools_variables.speed_weight / (tools_variables.force_weight + tools_variables.speed_weight)) * 0.5, 0), tools_variables.pen_width_base * 0.7) || 0;
+    var c1 = getCoordinateOnCircleBorder(touch.clientX - tools_variables.offsetX, touch.clientY - tools_variables.offsetY, radius, angleRadians - Math.PI / 2);
+    var c2 = getCoordinateOnCircleBorder(touch.clientX - tools_variables.offsetX, touch.clientY - tools_variables.offsetY, radius, angleRadians + Math.PI / 2);
 
-    touchData_a.push({
+    tools_variables.touchData_x.a.push({
       x: c1.x,
       y: c1.y
     });
-    touchData_b.push({
+    tools_variables.touchData_x.b.push({
       x: c2.x,
       y: c2.y
     });
-    if (touchData.length >= 2) {
+    if (tools_variables.touchData_x.main.length >= 2) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
+      drawPath(ctx, segmentsToPath(tools_variables.touchData_x.main, scale), tools_variables.pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(tools_variables.touchData_x.a, tools_variables.tole), scale), tools_variables.pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(tools_variables.touchData_x.b, tools_variables.tole), scale), tools_variables.pen_color);
     }
     updatePenPath();
   }
 }
 
 export function handleTouchEnd_pen(event) {
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0]
   var touches = [];
   for (var t in event.changedTouches) {
     if (event.changedTouches.hasOwnProperty(t) && typeof event.changedTouches[t] === 'object') {
@@ -130,53 +132,55 @@ export function handleTouchEnd_pen(event) {
     }
   }
 
-  var touch = touches.filter((p) => p.identifier === touch_point_identifier)[0];
+  var touch = touches.filter((p) => p.identifier === tools_variables.touch_point_identifier)[0];
   if (touch) {
-    if (touchData.length >= 2) {
-      var prev = touchData[touchData.length - 1];
-      touchData.push({
-        x: touch.clientX - offsetX,
-        y: touch.clientY - offsetY,
+    if (tools_variables.touchData_x.main.length >= 2) {
+      var prev = tools_variables.touchData_x.main[tools_variables.touchData_x.main.length - 1];
+      tools_variables.touchData_x.main.push({
+        x: touch.clientX - tools_variables.offsetX,
+        y: touch.clientY - tools_variables.offsetY,
         force: touch.force || 0, // Get force (if available, otherwise default to 0)
         time_stamp: new Date().getTime(),
-        angle: touchData[touchData.length - 1].angle
+        angle: tools_variables.touchData_x.main[tools_variables.touchData_x.main.length - 1].angle
       });
 
-      touchData_a.push({
-        x: touch.clientX - offsetX,
-        y: touch.clientY - offsetY
-      });
-      touchData_b.push({
-        x: touch.clientX - offsetX,
-        y: touch.clientY - offsetY
+      tools_variables.touchData_x.a.push({
+        x: touch.clientX - tools_variables.offsetX,
+        y: touch.clientY - tools_variables.offsetY
       });
 
-      touchData = touchData.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
-      touchData_a = touchData_a.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
-      touchData_b = touchData_b.map((g) => Object.assign(g, { x: g.x - move_offset_x, y: g.y - move_offset_y }));
+      tools_variables.touchData_x.b.push({
+        x: touch.clientX - tools_variables.offsetX,
+        y: touch.clientY - tools_variables.offsetY
+      });
+
+      tools_variables.touchData_x.main = tools_variables.touchData_x.main.map((g) => Object.assign(g, { x: g.x - tools_variables.move_offset_x, y: g.y - tools_variables.move_offset_y }));
+      tools_variables.touchData_x.a = tools_variables.touchData_x.a.map((g) => Object.assign(g, { x: g.x - tools_variables.move_offset_x, y: g.y - tools_variables.move_offset_y }));
+      tools_variables.touchData_x.b = tools_variables.touchData_x.b.map((g) => Object.assign(g, { x: g.x - tools_variables.move_offset_x, y: g.y - tools_variables.move_offset_y }));
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPath(ctx, segmentsToPath(touchData, scale), pen_color);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_a, tole), scale), pen_color);
-      drawPath(ctx, segmentsToPath(simplifyPath(touchData_b, tole), scale), pen_color);
+      drawPath(ctx, segmentsToPath(tools_variables.touchData_x.main, scale), tools_variables.pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(tools_variables.touchData_x.a, tools_variables.tole), scale), tools_variables.pen_color);
+      drawPath(ctx, segmentsToPath(simplifyPath(tools_variables.touchData_x.b, tools_variables.tole), scale), tools_variables.pen_color);
 
       updatePenPath();
       var group = newGroupOnSVG();
 
-      drawPathOnSVG(currentPath.a, pen_color, group);
-      drawPathOnSVG(currentPath.b, pen_color, group);
-      drawPathOnSVG(currentPath.c, pen_color, group);
+      var application_css = colorToCSS(colorObj).application;
+      drawPathOnSVG(tools_variables.currentPath.a, application_css, group);
+      drawPathOnSVG(tools_variables.currentPath.b, application_css, group);
+      drawPathOnSVG(tools_variables.currentPath.c, application_css, group);
 
-      var ca = pathCommandToCoordinates(currentPath.a, 3);
-      var cb = pathCommandToCoordinates(currentPath.b, 3);
-      var cc = pathCommandToCoordinates(currentPath.c, 3);
+      var ca = pathCommandToCoordinates(tools_variables.currentPath.a, 3);
+      var cb = pathCommandToCoordinates(tools_variables.currentPath.b, 3);
+      var cc = pathCommandToCoordinates(tools_variables.currentPath.c, 3);
 
       registerElement(ca.concat(cb).concat(cc), group);
       log_changes([group], []);
     } else {
-      var point = touchData[touchData.length - 1];
+      var point = tools_variables.touchData_x.main[tools_variables.touchData_x.main.length - 1];
       var group = newGroupOnSVG();
-      drawCircleOnSVG(point.x, point.y, pen_width_base * 0.5, pen_color, group);
+      drawCircleOnSVG(point.x, point.y, tools_variables.pen_width_base * 0.5, tools_variables.pen_color, group);
       registerElement([point], group);
       log_changes([group], []);
     }

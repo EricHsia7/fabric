@@ -30,12 +30,24 @@
       <canvas id="fabric"></canvas>
     </div>
     <div class="tools_container">
+      <style id="fabric-color-plate-animation"></style>
       <div class="tools_button">
         <button m="undo" group="0"><span class="material-symbols-rounded"> undo </span></button>
         <button m="redo" group="0"><span class="material-symbols-rounded"> redo </span></button>
         <button m="0" group="1"><span class="material-symbols-rounded filled"> ink_pen </span></button>
         <button m="1" group="1"><span class="material-symbols-rounded"> ink_eraser </span></button>
         <button m="2" group="1"><span class="material-symbols-rounded"> pan_tool </span></button>
+        <button group="2">
+          <div class="fabric_color">
+            <div class="fabric_color_c" style="--fc-light-color:#111;--fc-dark-color:#fff;"></div>
+          </div>
+        </button>
+      </div>
+      <div class="fabric_color_plate" dir="ltr"></div>
+      <div class="fabric_color_plate_close">
+        <button>
+          <span class="material-symbols-rounded"> close </span>
+        </button>
       </div>
     </div>
 
