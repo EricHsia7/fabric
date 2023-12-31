@@ -109,7 +109,7 @@ input[type="file"] {
 }
 
 .tools_container .fabric_color_plate button,
-.tools_container .fabric_color_plate_close button  {
+.tools_container .fabric_color_plate_close button {
   transform: scale(0.66);
   opacity: 0;
   width: 50px;
