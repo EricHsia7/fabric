@@ -46,3 +46,8 @@ export function getColorScheme() {
     return 'light';
   }
 }
+
+export function setPenColor(id) {
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0];
+  tools_variables.pen_color_id = colorObj ? colorObj.id : 'fc-default-black-white';
+}
