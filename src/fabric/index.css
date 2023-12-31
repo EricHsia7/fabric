@@ -151,25 +151,12 @@ input[type="file"] {
   border: solid 1px #888;
   box-sizing: border-box;
   overflow: hidden;
-}
-
-.fabric_color_c .fabric_color_light,
-.fabric_color_c .fabric_color_dark {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 24px;
-  height: 24px;
-  background: var(--fc-color);
-}
-
-.fabric_color_c .fabric_color_dark {
-  opacity: 0;
+  background: var(--fc-light-color);
 }
 
 @media (prefers-color-scheme: dark) {
-  .fabric_color_c .fabric_color_dark {
-    opacity: 1;
+  .fabric_color_c {
+    background: var(--fc-dark-color);
   }
 }
 
