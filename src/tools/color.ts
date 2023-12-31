@@ -1,7 +1,7 @@
 import { localforage, uuidv4 } from '../index.ts';
 import { tools_variables } from './index.ts';
 
-export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number, time: number, id: string) {
+export async function setFabricColor(r1: number, g1: number, b1: number, r2: number, g2: number, b2: number, time: number, id: string) {
   function c(n) {
     return Math.max(Math.min(255, Math.floor(n)), 0);
   }
@@ -21,7 +21,7 @@ export function setFabricColor(r1: number, g1: number, b1: number, r2: number, g
       time: time,
       type: 'FabricColor'
     };
-    localforage.setItem(id, JSON.stringify(colorObj));
+    await localforage.setItem(id, JSON.stringify(colorObj));
     return colorObj;
   }
 }
@@ -30,13 +30,14 @@ export function deleteFabricColor(id: string) {
   localforage.removeItem(id);
 }
 
-export function initializeFabricColors() {
-  setFabricColor(17, 17, 17, 255, 255, 255, -6, 'fc-default-black-white');
-  setFabricColor(255, 54, 54, 255, 79, 79, -5, 'fc-default-red');
-  setFabricColor(255, 212, 18, 255, 220, 64, -4, 'fc-default-yellow');
-  setFabricColor(24, 163, 105, 47, 189, 130, -3, 'fc-default-green');
-  setFabricColor(26, 139, 237, 42, 150, 245, -2, 'fc-default-blue');
-  setFabricColor(99, 79, 232, 108, 91, 222, -1, 'fc-default-purple');
+export async function initializeFabricColors() {
+  await setFabricColor(17, 17, 17, 255, 255, 255, -6, 'fc-default-black-white');
+  await setFabricColor(255, 54, 54, 255, 79, 79, -5, 'fc-default-red');
+  await setFabricColor(255, 212, 18, 255, 220, 64, -4, 'fc-default-yellow');
+  await setFabricColor(24, 163, 105, 47, 189, 130, -3, 'fc-default-green');
+  await setFabricColor(26, 139, 237, 42, 150, 245, -2, 'fc-default-blue');
+  await setFabricColor(99, 79, 232, 108, 91, 222, -1, 'fc-default-purple');
+  return ''
 }
 
 export async function listFabricColors(): Promise<any[]> {
