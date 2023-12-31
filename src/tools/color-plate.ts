@@ -47,16 +47,15 @@ async function loadColorPlate() {
 }
 
 export function openColorPlate() {
-  const quantity = 6;
-  const time = 180;
-  const delay = 45;
-  const index_offset = Math.floor(document.querySelector('.fabric_color_plate').scrollLeft / 50) || 0;
-
   loadColorPlate().then(function () {
     var fcp = document.querySelector('.fabric_color_plate');
     fcp.style.display = 'block';
     var fcpc = document.querySelector('.fabric_color_plate_close');
     fcpc.style.display = 'grid';
+    const quantity = 6;
+    const time = 180;
+    const delay = 45;
+    const index_offset = Math.floor(document.querySelector('.fabric_color_plate').scrollLeft / 50) || 0;
     var css = [];
     for (var i = quantity; i > 0; i--) {
       css.push(fc_animation(i, time, delay, 1, 'tools_button', 0, quantity, 0));
