@@ -12,7 +12,7 @@ function fc_animation(index, time, delay, m, selector, initial, quantity, index_
     var fc_scale = 1;
     var fc_direction = 'reverse';
   }
-  return `.tools_container .${selector} button:nth-child(${quantity - index + index_offset + 1}){transform:scale(${fc_scale});opacity:${fc_opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${fc_direction};}`;
+  return `.tools_container .${selector} button:nth-child(${quantity - index + index_offset + 1}){transform:scale(${fc_scale}) translateX(calc(var(--index-offset) * 50px));opacity:${fc_opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${fc_direction};}`;
 }
 
 function fc_s1(m, selector) {
@@ -24,18 +24,18 @@ function fc_s1(m, selector) {
     var fc_opacity = 1;
     var fc_scale = 1;
   }
-  return `.tools_container .${selector} button {transform:scale(${fc_scale});opacity: ${fc_opacity};}`;
+  return `.tools_container .${selector} button {transform:scale(${fc_scale}) translateX(calc(var(--index-offset) * 50px));opacity: ${fc_opacity};}`;
 }
 
-function fc_getHTML(colorObj) {
+function fc_getHTML(colorObj,index_offset) {
   var hex = colorToHex(colorObj);
-  return `<button id="${colorObj.id}" onclick="setPenColor('${colorObj.id}')"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
+  return `<button id="${colorObj.id}" onclick="setPenColor('${colorObj.id}')" style="--index-offset:${index_offset};"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
 }
 
-function generateColorPlateSkeletonScreen() {
+function generateColorPlateSkeletonScreen(index_offset) {
   var html = [];
   for (var i = 0; i < 7; i++) {
-    html.push(fc_getHTML({ id: 'skeleton-screen-' + uuidv4(), light: { type: 'rgb', r: 242, g: 242, b: 242 }, dark: { type: 'rgb', r: 46, g: 46, b: 46 } }));
+    html.push(fc_getHTML({ id: 'skeleton-screen-' + uuidv4(), light: { type: 'rgb', r: 242, g: 242, b: 242 }, dark: { type: 'rgb', r: 46, g: 46, b: 46 } },index_offset));
   }
   document.querySelector('.fabric_color_plate').innerHTML = html.join('');
 }
@@ -44,7 +44,7 @@ function loadColorPlate() {
   listFabricColors().then(function (list) {
     var html = [];
     list.forEach(function (item) {
-      html.push(fc_getHTML(item));
+      html.push(fc_getHTML(item,0));
     });
     document.querySelector('.fabric_color_plate').innerHTML = html.join('');
   });
