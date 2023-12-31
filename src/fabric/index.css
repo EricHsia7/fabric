@@ -109,7 +109,7 @@ input[type="file"] {
 }
 
 .tools_container .fabric_color_plate button {
-  transform: scale(0.66) translateX(calc(var(--index-offset) * 50px));
+  transform: scale(0.66);
   opacity: 0;
   width: 50px;
   height: 50px;
@@ -175,12 +175,12 @@ input[type="file"] {
 
 @keyframes scale {
   0% {
-    transform: scale(0.66) translateX(calc(var(--index-offset) * 50px));
+    transform: scale(0.66);
     opacity: 0
   }
 
   100% {
-    transform: scale(1) translateX(calc(var(--index-offset) * 50px));
+    transform: scale(1);
     opacity: 1
   }
 }
