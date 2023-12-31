@@ -26,6 +26,8 @@ export var tools_variables = {
   fabric_colors_cache: []
 };
 
+import { colorToHex } from './color.ts';
+
 export function setToolMode(m) {
   tools_variables.mode = m * 1;
   function getSelector(m) {
@@ -50,4 +52,8 @@ export function getColorScheme() {
 export function setPenColor(id) {
   var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === id ? true : false))[0];
   tools_variables.pen_color_id = colorObj ? colorObj.id : 'fc-default-black-white';
+  var hex = colorToHex(colorObj);
+  var f = '.tools_container .tools_button button .fabric_color .fabric_color_';
+  document.querySelector(`${f}light`).style.setProperty('--fc-color', hex.light.hex);
+  document.querySelector(`${f}dark`).style.setProperty('--fc-color', hex.dark.hex);
 }
