@@ -29,7 +29,7 @@ function fc_s1(m, selector) {
 
 function fc_getHTML(colorObj) {
   var hex = colorToHex(colorObj);
-  return `<button id="pl-${uuidv4()}" color-id="${colorObj.id}" onclick="setPenColor('${colorObj.id}')"><div class="fabric_color"><div class="fabric_color_c"><div class="fabric_color_light" style="--fc-color:${hex.light.hex}"></div><div class="fabric_color_dark" style="--fc-color:${hex.dark.hex}"></div></div></div></button>`;
+  return `<button id="pl-${uuidv4()}" color-id="${colorObj.id}" onclick="setPenColor('${colorObj.id}')"><div class="fabric_color"><div class="fabric_color_c" style="--fc-light-color:${hex.light.hex};--fc-dark-color:${hex.dark.hex}"></div></div></button>`;
 }
 
 async function loadColorPlate() {
