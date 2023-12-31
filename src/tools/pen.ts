@@ -8,7 +8,7 @@ import { drawPath } from '../fabric/canvas.ts';
 import { colorToHex, colorToCSS } from './color.ts';
 
 export function handleTouchStart_pen(event) {
-  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0] || 'fc-default-black-white';
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0]
   tools_variables.pen_color = colorToHex(colorObj)[getColorScheme()].hex;
   var touch = event.touches[0];
   tools_variables.touchData_x.main = [];
@@ -124,7 +124,7 @@ export function handleTouchMove_pen(event) {
 }
 
 export function handleTouchEnd_pen(event) {
-  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0] || 'fc-default-black-white';
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0]
   var touches = [];
   for (var t in event.changedTouches) {
     if (event.changedTouches.hasOwnProperty(t) && typeof event.changedTouches[t] === 'object') {
