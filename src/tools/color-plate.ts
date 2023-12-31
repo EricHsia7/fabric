@@ -1,7 +1,7 @@
 import { listFabricColors, colorToHex } from './color.ts';
 import { uuidv4 } from '../index.ts';
 
-function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
+function fc_animation(index, time, delay, m, selector, initial, quantity, index_offset) {
   if (m === 0) {
     var fc_opacity = 0;
     var fc_scale = 0.66;
@@ -12,7 +12,7 @@ function fc_animation(index, time, delay, m, selector, initial, quantity, df) {
     var fc_scale = 1;
     var fc_direction = 'reverse';
   }
-  return `.tools_container .${selector} button:nth-child(${quantity - index + 1}){transform:scale(${fc_scale});opacity:${fc_opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${fc_direction};}`;
+  return `.tools_container .${selector} button:nth-child(${quantity - index + index_offset + 1}){transform:scale(${fc_scale});opacity:${fc_opacity};animation-duration: ${time}ms;animation-name: scale;animation-timing-function: ease-out;animation-fill-mode: forwards;animation-delay: ${initial + (index - 1) * delay}ms;animation-direction: ${fc_direction};}`;
 }
 
 function fc_s1(m, selector) {
@@ -54,31 +54,25 @@ export function openColorPlate() {
   const quantity = 6;
   const time = 180;
   const delay = 45;
-
+  const index_offset = Math.floor(document.querySelector('.fabric_color_plate').scrollLeft / 50) || 0;
   generateColorPlateSkeletonScreen();
-
-  var css = [];
-  for (var i = quantity; i > 0; i--) {
-    css.push(fc_animation(i, time, delay, 1, 'tools_button', 0, quantity, ''));
-  }
-  document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
 
   var fcp = document.querySelector('.fabric_color_plate');
   fcp.style.display = 'block';
-
-  css = [];
-  for (var i = quantity; i > 0; i--) {
-    css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate', (delay * quantity + time) / 2, quantity));
-  }
-  document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
-  css = [];
-  for (var i = quantity; i > 0; i--) {
-    css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate_close', 0, quantity, ''));
-  }
-  document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
   var fcpc = document.querySelector('.fabric_color_plate_close');
   fcpc.style.display = 'grid';
 
+  var css = [];
+  for (var i = quantity; i > 0; i--) {
+    css.push(fc_animation(i, time, delay, 1, 'tools_button', 0, quantity, 0));
+  }
+  for (var i = quantity; i > 0; i--) {
+    css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate', (delay * quantity + time) / 2, quantity, index_offset));
+  }
+  for (var i = quantity; i > 0; i--) {
+    css.push(fc_animation(i, time, delay, 0, 'fabric_color_plate_close', 0, quantity, 0));
+  }
+  document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
   document.querySelectorAll('.fabric_color_plate button')[0].addEventListener(
     'animationend',
     function () {
@@ -94,15 +88,16 @@ export function closeColorPlate() {
   const quantity = 6;
   const time = 180;
   const delay = 45;
+  const index_offset = Math.floor(document.querySelector('.fabric_color_plate').scrollLeft / 50) || 0;
 
   var css = [];
   for (var i = quantity; i > 0; i--) {
-    css.push(fc_animation(i, time, delay, 0, 'tools_button', (delay * quantity + time) / 2, quantity, ''));
+    css.push(fc_animation(i, time, delay, 0, 'tools_button', (delay * quantity + time) / 2, quantity, 0));
   }
   document.querySelector('#fabric-color-plate-animation').innerHTML = css.join('');
   css = [];
   for (var i = quantity; i > 0; i--) {
-    css.push(fc_animation(i, time, delay, 1, 'fabric_color_plate', 0, quantity, '.fabric_color'));
+    css.push(fc_animation(i, time, delay, 1, 'fabric_color_plate', 0, quantity, index_offset));
   }
   document.querySelector('#fabric-color-plate-animation').innerHTML += css.join('');
   document.querySelector('#fabric-color-plate-animation').innerHTML += fc_animation(1, time, delay, 1, 'fabric_color_plate_close', 0, 1, '');
