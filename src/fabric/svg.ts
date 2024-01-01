@@ -11,7 +11,7 @@ export function newGroupOnSVG() {
   return id;
 }
 
-export function drawPathOnSVG(pathData, color, container) {
+export function drawPathOnSVG(pathData, color, container, z_index) {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
   p.setAttributeNS(null, 'd', pathData);
   p.setAttributeNS(null, 'stroke-width', tools_variables.pen_width_base);
@@ -19,12 +19,12 @@ export function drawPathOnSVG(pathData, color, container) {
   p.setAttributeNS(null, 'fill', 'none');
   p.setAttributeNS(null, 'stroke-linecap', 'round');
   p.setAttributeNS(null, 'fill-rule', 'nonzero');
-  p.setAttributeNS(null, 'id', uuidv4());
+  p.setAttributeNS(null, 'z-index', z_index);
   container = document.querySelector('#' + container) || svg_canvas_pen_layer;
   container.appendChild(p);
 }
 
-export function drawCircleOnSVG(x, y, r, color, container) {
+export function drawCircleOnSVG(x, y, r, color, container, z_index) {
   var p = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
   p.setAttributeNS(null, 'cx', x);
   p.setAttributeNS(null, 'cy', y);
@@ -33,7 +33,7 @@ export function drawCircleOnSVG(x, y, r, color, container) {
   p.setAttributeNS(null, 'fill', color);
   p.setAttributeNS(null, 'stroke-linecap', 'round');
   p.setAttributeNS(null, 'fill-rule', 'nonzero');
-  p.setAttributeNS(null, 'id', uuidv4());
+  p.setAttributeNS(null, 'z-index', z_index);
   container = document.querySelector('#' + container) || svg_canvas_pen_layer;
   container.appendChild(p);
 }
