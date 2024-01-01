@@ -81,7 +81,7 @@ export function loadContent() {
             coordinates = coordinates.concat([{ x: child.getAttribute('cx'), y: child.getAttribute('cy') }]);
           }
         }
-        registerElement(coordinates, e.getAttribute('id'), parseInt(e.getAttribute('z-index')));
+        registerElement(coordinates, e.getAttribute('id'), parseInt(e.getAttribute('z-index')) || i);
       }
     })
     .catch(function (err) {
