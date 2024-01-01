@@ -25,8 +25,12 @@ export function replayHistory(m) {
     return '';
   }
   var prev = change_history[index] || { addition: [], deletion: [] };
-  var prev_addition = prev.addition;
-  var prev_deletion = prev.deletion;
+  var prev_addition = prev.addition.sort(function (a, b) {
+    return registration[a].z_index - registration[b].z_index;
+  });
+  var prev_deletion = prev.deletion.sort(function (a, b) {
+    return registration[a].z_index - registration[b].z_index;
+  });
   var prev_addition_len = prev_addition.length;
   var prev_deletion_len = prev_deletion.length;
   var hidden_element_identifier = [];
@@ -43,7 +47,6 @@ export function replayHistory(m) {
     var k = prev_deletion[i];
     var target = document.querySelector('svg#vector_fabric g#' + k);
     document.querySelector('svg#vector_fabric g#pen').appendChild(target);
-
     displayed_element_identifier.push(k);
     registration[k].hidden = false;
   }
