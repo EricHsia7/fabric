@@ -143,5 +143,6 @@ window.fabric_initialize = function () {
 };
 
 window.setPenColor = setPenColor;
+window.getSVGString = getSVGString;
 
 export default window.fabric_initialize;
