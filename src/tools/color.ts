@@ -81,7 +81,7 @@ export function colorToHex(color: any): string {
     return String(hex.length == 1 ? '0' + hex : hex).toUpperCase();
   }
   return {
-    id: color.id || '',
+    id: color.id,
     light: { type: 'hex', hex: `#${componentToHex(color.light.r)}${componentToHex(color.light.g)}${componentToHex(color.light.b)}` },
     dark: { type: 'hex', hex: `#${componentToHex(color.dark.r)}${componentToHex(color.dark.g)}${componentToHex(color.dark.b)}` }
   };
