@@ -2,13 +2,13 @@ import { getCoordinateOnCircleBorder } from '../graph/coordinate.ts';
 import { segmentsToPath, simplifyPath, pathCommandToCoordinates } from '../graph/path.ts';
 import { newGroupOnSVG, drawPathOnSVG, drawCircleOnSVG } from '../fabric/svg.ts';
 import { log_changes } from '../fabric/history.ts';
-import { registerElement, updatePenPath, canvas, ctx, scale } from '../fabric/index.ts';
+import { registerElement, getRegistrationQuantity, updatePenPath, canvas, ctx, scale } from '../fabric/index.ts';
 import { tools_variables, setToolMode, getColorScheme } from './index.ts';
 import { drawPath } from '../fabric/canvas.ts';
 import { colorToHex, colorToCSS } from './color.ts';
 
 export function handleTouchStart_pen(event) {
-  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0]
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0];
   tools_variables.pen_color = colorToHex(colorObj)[getColorScheme()].hex;
   var touch = event.touches[0];
   tools_variables.touchData_x.main = [];
@@ -124,7 +124,7 @@ export function handleTouchMove_pen(event) {
 }
 
 export function handleTouchEnd_pen(event) {
-  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0]
+  var colorObj = tools_variables.fabric_colors_cache.filter((j) => (j.id === tools_variables.pen_color_id ? true : false))[0];
   var touches = [];
   for (var t in event.changedTouches) {
     if (event.changedTouches.hasOwnProperty(t) && typeof event.changedTouches[t] === 'object') {
@@ -166,22 +166,24 @@ export function handleTouchEnd_pen(event) {
       updatePenPath();
       var group = newGroupOnSVG();
 
+      var z_index = getRegistrationQuantity() + 1;
       var application_css = colorToCSS(colorObj).application;
-      drawPathOnSVG(tools_variables.currentPath.a, application_css, group);
-      drawPathOnSVG(tools_variables.currentPath.b, application_css, group);
-      drawPathOnSVG(tools_variables.currentPath.c, application_css, group);
+      drawPathOnSVG(tools_variables.currentPath.a, application_css, group, z_index);
+      drawPathOnSVG(tools_variables.currentPath.b, application_css, group, z_index);
+      drawPathOnSVG(tools_variables.currentPath.c, application_css, group, z_index);
 
       var ca = pathCommandToCoordinates(tools_variables.currentPath.a, 3);
       var cb = pathCommandToCoordinates(tools_variables.currentPath.b, 3);
       var cc = pathCommandToCoordinates(tools_variables.currentPath.c, 3);
 
-      registerElement(ca.concat(cb).concat(cc), group);
+      registerElement(ca.concat(cb).concat(cc), group, z_index);
       log_changes([group], []);
     } else {
+      var z_index = getRegistrationQuantity() + 1;
       var point = tools_variables.touchData_x.main[tools_variables.touchData_x.main.length - 1];
       var group = newGroupOnSVG();
-      drawCircleOnSVG(point.x, point.y, tools_variables.pen_width_base * 0.5, tools_variables.pen_color, group);
-      registerElement([point], group);
+      drawCircleOnSVG(point.x, point.y, tools_variables.pen_width_base * 0.5, tools_variables.pen_color, group, z_index);
+      registerElement([point], group, z_index);
       log_changes([group], []);
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);

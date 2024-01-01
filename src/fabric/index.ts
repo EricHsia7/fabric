@@ -28,7 +28,7 @@ export function updatePenPath() {
   tools_variables.currentPath.b = segmentsToPath(simplifyPath(tools_variables.touchData_x.b, tools_variables.tole).concat(tools_variables.touchData_x.b[tools_variables.touchData_x.b.length - 1]), 1);
 }
 
-export function registerElement(coordinates, id) {
+export function registerElement(coordinates, id, z_index) {
   var x = coordinates.map((e) => e.x);
   var y = coordinates.map((e) => e.y);
   registration[id] = {
@@ -38,8 +38,20 @@ export function registerElement(coordinates, id) {
     y2: Math.max(...y),
     points: coordinates,
     id: id,
-    hidden: false
+    hidden: false,
+    z_index: z_index
   };
+  return registration[id];
+}
+
+export function getRegistrationQuantity() {
+  var quantity = 0;
+  for (var o in registration) {
+    if (registration.hasOwnProperty(o)) {
+      quantity += 1;
+    }
+  }
+  return quantity;
 }
 
 export function saveContent() {
@@ -69,7 +81,7 @@ export function loadContent() {
             coordinates = coordinates.concat([{ x: child.getAttribute('cx'), y: child.getAttribute('cy') }]);
           }
         }
-        registerElement(coordinates, e.getAttribute('id'));
+        registerElement(coordinates, e.getAttribute('id'), parseInt(e.getAttribute('z-index')));
       }
     })
     .catch(function (err) {
