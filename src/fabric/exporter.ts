@@ -16,31 +16,11 @@ export async function getSVGString(color_scheme: string) {
     color_list_obj[element.id] = element;
   });
 
-  const dom = new JSDOM(`
-  <!DOCTYPE html>
-  <meta charset="UTF-8" />
-  <svg id="vector_fabric" viewbox="${boundary.x1},${boundary.y1},${boundary.x2},${boundary.y2}">
-  ${String(document.querySelector('svg#vector_fabric g#pen').innerHTML)}
-  </svg>
-  `);
-  var path = dom.window.document.querySelectorAll('svg#vector_fabric path');
-  path.forEach((element) => {
-    var tagName = String(element.tagName).toLowerCase();
-    if (tagName === 'path') {
-      var stroke = String(element.getAttribute('stroke'));
-      if (!(stroke.match(color_hex_regex) === null)) {
-        continue;
-      }
-      if (!(stroke.match(color_id_regex) === null)) {
-        var m = color_id_regex.exec(stroke);
-        var this_color_id = m[2];
-        element.setAttribute('stroke', colorToHex(color_list_obj[this_color_id])[color_scheme].hex);
-        element.removeAttribute('id');
-        element.removeAttribute('z-index');
-      }
-    }
-    if (tagName === 'circle') {
-    }
+  var string = String(document.querySelector('svg#vector_fabric g#pen').innerHTML);
+  string = string.replaceAll(color_id_regex, function (match) {
+    var m = color_id_regex.exec(match);
+    var this_color_id = m[2];
+    return colorToHex(color_list_obj[this_color_id])[color_scheme].hex;
   });
-  return String(dom.window.document.querySelector('svg#vector_fabric').innerHTML);
+  return string;
 }

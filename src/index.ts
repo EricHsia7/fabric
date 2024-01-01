@@ -2,8 +2,6 @@ var ripple = require('@erichsia7/ripple');
 export var localforage = require('localforage');
 export var { v4: uuidv4 } = require('uuid');
 export var FontFaceObserver = require('fontfaceobserver');
-const jsdom = require('jsdom');
-export const { JSDOM } = jsdom;
 
 import { tools_variables, setToolMode, setPenColor } from './tools/index.ts';
 import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './tools/eraser.ts';
