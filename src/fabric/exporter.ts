@@ -19,7 +19,7 @@ export async function getSVGString(color_scheme: string) {
 
     var string = String(document.querySelector('svg#vector_fabric g#pen').innerHTML);
     string = string.replaceAll(color_id_regex, function (match) {
-      var this_color_id = String(match).substring(4, String(match).length - 1);
+      var this_color_id = String(match).substring(6, String(match).length - 1);
       console.log(this_color_id)
       return colorToHex(color_list_obj[this_color_id])[color_scheme].hex;
     });
