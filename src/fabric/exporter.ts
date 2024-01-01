@@ -46,13 +46,13 @@ function downloadBlob(blob: Blob, name) {
   }
 }
 
-export async function saveAsSvg() {
+export async function saveAsSvg(color_scheme: string) {
   /*
   var serializer = new XMLSerializer();
   var svgString = serializer.serializeToString(document.querySelector('svg#canvas'));
   */
   try {
-    var svgString = await getSVGString();
+    var svgString = await getSVGString(color_scheme);
     var blob = new Blob([svgString], { type: 'image/svg+xml' });
     downloadBlob(blob, +'fabric.svg');
     return 'successful';
