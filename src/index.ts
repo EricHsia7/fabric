@@ -2,6 +2,8 @@ var ripple = require('@erichsia7/ripple');
 export var localforage = require('localforage');
 export var { v4: uuidv4 } = require('uuid');
 export var FontFaceObserver = require('fontfaceobserver');
+const jsdom = require('jsdom');
+export const { JSDOM } = jsdom;
 
 import { tools_variables, setToolMode, setPenColor } from './tools/index.ts';
 import { handleTouchStart_eraser, handleTouchMove_eraser, handleTouchEnd_eraser } from './tools/eraser.ts';
@@ -12,6 +14,7 @@ import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricCo
 import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
 import { canvas, resizeFabric, loadContent, saveContent, loadFont } from './fabric/index.ts';
 import { replayHistory } from './fabric/history.ts';
+import { getSVGString } from './fabric/exporter.ts';
 
 import './fabric/index.css';
 
