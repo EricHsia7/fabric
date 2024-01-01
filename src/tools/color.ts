@@ -37,7 +37,7 @@ export async function initializeFabricColors() {
   await setFabricColor(24, 163, 105, 47, 189, 130, -3, 'fc-default-green');
   await setFabricColor(26, 139, 237, 42, 150, 245, -2, 'fc-default-blue');
   await setFabricColor(99, 79, 232, 108, 91, 222, -1, 'fc-default-purple');
-  return ''
+  return '';
 }
 
 export async function listFabricColors(): Promise<any[]> {
@@ -81,7 +81,7 @@ export function colorToHex(color: any): string {
     return String(hex.length == 1 ? '0' + hex : hex).toUpperCase();
   }
   return {
-    id: color.id,
+    id: color.id || '',
     light: { type: 'hex', hex: `#${componentToHex(color.light.r)}${componentToHex(color.light.g)}${componentToHex(color.light.b)}` },
     dark: { type: 'hex', hex: `#${componentToHex(color.dark.r)}${componentToHex(color.dark.g)}${componentToHex(color.dark.b)}` }
   };
