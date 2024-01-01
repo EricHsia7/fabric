@@ -14,6 +14,7 @@ export async function getSVGString(color_scheme: string) {
     var color_list_obj = {};
     var color_list = await listFabricColors();
     color_list.forEach((element) => {
+      console.log(element)
       color_list_obj[element.id] = element;
     });
 
