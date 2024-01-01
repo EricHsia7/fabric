@@ -54,6 +54,28 @@ export function getRegistrationQuantity() {
   return quantity;
 }
 
+export function getFabricBoundary() {
+  var x1 = [];
+  var y1 = [];
+  var x2 = [];
+  var y2 = [];
+  for (var o in registration) {
+    if (registration.hasOwnProperty(o)) {
+      var r = registration[o];
+      x1.push(r.x1);
+      y1.push(r.y1);
+      x2.push(r.x2);
+      y2.push(r.y2);
+    }
+  }
+  return {
+    x1: Math.min(...x1),
+    y1: Math.min(...y1),
+    x2: Math.max(...x2),
+    y2: Math.max(...y2)
+  };
+}
+
 export function saveContent() {
   localforage
     .setItem('fabric', String(document.querySelector('svg#vector_fabric g#pen').innerHTML))

@@ -181,7 +181,8 @@ export function handleTouchEnd_pen(event) {
       var z_index = getRegistrationQuantity() + 1;
       var point = tools_variables.touchData_x.main[tools_variables.touchData_x.main.length - 1];
       var group = newGroupOnSVG(z_index);
-      drawCircleOnSVG(point.x, point.y, tools_variables.pen_width_base * 0.5, tools_variables.pen_color, group);
+      var application_css = colorToCSS(colorObj).application;
+      drawCircleOnSVG(point.x, point.y, tools_variables.pen_width_base * 0.5, application_css, group);
       registerElement([point], group, z_index);
       log_changes([group], []);
     }
