@@ -2,7 +2,7 @@ import { JSDOM } from '../index.ts';
 import { width, height, registration, getFabricBoundary } from './index.ts';
 import { listFabricColors, colorToHex } from '../tools/color.ts';
 
-export async function getSVGString() {
+export async function getSVGString(color_scheme: string) {
   const color_hex_regex = /(#[A-Fa-f0-9]{6,6}|#[A-Fa-f0-9]{3,3})/gm;
   const color_id_regex = /var\(\-\-(fc\-default\-[a-z]{1,}\-[a-z]{1,}|fc\-[a-f0-9]{8,8}\-[a-f0-9]{4,4}\-[a-f0-9]{4,4}\-[a-f0-9]{4,4}\-[a-f0-9]{12,12})\)/gm;
 
@@ -34,7 +34,7 @@ export async function getSVGString() {
       if (!(stroke.match(color_id_regex) === null)) {
         var m = color_id_regex.exec(stroke);
         var this_color_id = m[2];
-        element.setAttribute('stroke', colorToHex(color_list_obj[this_color_id]));
+        element.setAttribute('stroke', colorToHex(color_list_obj[this_color_id])[color_scheme].hex);
         element.removeAttribute('id');
         element.removeAttribute('z-index');
       }
