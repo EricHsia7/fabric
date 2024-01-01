@@ -12,7 +12,7 @@ import { setFabricColor, deleteFabricColor, initializeFabricColors, listFabricCo
 import { openColorPlate, closeColorPlate } from './tools/color-plate.ts';
 import { canvas, resizeFabric, loadContent, saveContent, loadFont } from './fabric/index.ts';
 import { replayHistory } from './fabric/history.ts';
-import { getSVGString } from './fabric/exporter.ts';
+import { getSVGString,saveAsSvg } from './fabric/exporter.ts';
 
 import './fabric/index.css';
 
@@ -143,6 +143,6 @@ window.fabric_initialize = function () {
 };
 
 window.setPenColor = setPenColor;
-window.getSVGString = getSVGString;
+window.saveAsSvg = saveAsSvg;
 
 export default window.fabric_initialize;
