@@ -14,8 +14,7 @@ export async function getSVGString(color_scheme: string) {
     var color_list_obj = {};
     var color_list = await listFabricColors();
     color_list.forEach((element) => {
-      console.log(element)
-      color_list_obj[element.id] = element;
+      color_list_obj[element.id || 'u'] = element;
     });
 
     var string = String(document.querySelector('svg#vector_fabric g#pen').innerHTML);
