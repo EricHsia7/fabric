@@ -8,8 +8,8 @@ export async function getSVGString(color_scheme: string) {
     const color_id_regex = /var\(\-\-(fc\-[a-f0-9]{8,8}\-[a-f0-9]{4,4}\-[a-f0-9]{4,4}\-[a-f0-9]{4,4}\-[a-f0-9]{12,12}|fc\-default\-[a-z\-]{1,})\)/gm;
 
     var boundary = getFabricBoundary();
-    var exportWidth = Math.abs(boundary.x2 - boundary.x1);
-    var exportHeight = Math.abs(boundary.y2 - boundary.y1);
+    var exportWidth = Math.abs(boundary.x2 - boundary.x1) + 100;
+    var exportHeight = Math.abs(boundary.y2 - boundary.y1) + 100;
 
     var color_list_obj = {};
     var color_list = await listFabricColors();
@@ -23,7 +23,7 @@ export async function getSVGString(color_scheme: string) {
       console.log(this_color_id);
       return colorToHex(color_list_obj[this_color_id])[color_scheme].hex;
     });
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewbox="${boundary.x1},${boundary.y1},${boundary.x2},${boundary.y2}" width="${exportWidth}" height="${exportHeight}">${string}</svg>`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewbox="${boundary.x1 - 50},${boundary.y1 - 50},${boundary.x2 + 50},${boundary.y2 + 50}" width="${exportWidth}" height="${exportHeight}">${string}</svg>`;
   } catch (e) {
     return e;
   }
@@ -54,7 +54,7 @@ export async function saveAsSvg(color_scheme: string) {
   try {
     var svgString = await getSVGString(color_scheme);
     var blob = new Blob([svgString], { type: 'image/svg+xml' });
-    downloadBlob(blob, +'fabric.svg');
+    downloadBlob(blob, 'fabric.svg');
     return 'successful';
   } catch (e) {
     return e;
