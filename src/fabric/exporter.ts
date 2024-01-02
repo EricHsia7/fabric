@@ -23,7 +23,12 @@ export async function getSVGString(color_scheme: string) {
       console.log(this_color_id);
       return colorToHex(color_list_obj[this_color_id])[color_scheme].hex;
     });
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewbox="${boundary.x1 - 50},${boundary.y1 - 50},${boundary.x2 + 50},${boundary.y2 + 50}" width="${exportWidth}" height="${exportHeight}">${string}</svg>`;
+var background_color = "#FFFFFF"
+if(color_scheme === "dark"){
+background_color = "#111111"
+}
+
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewbox="${boundary.x1 - 50},${boundary.y1 - 50},${boundary.x2 + 50},${boundary.y2 + 50}" width="${exportWidth}" height="${exportHeight}"><rect width="${exportWidth}" height="${exportHeight}" fill="${background_color}"/>${string}</svg>`;
   } catch (e) {
     return e;
   }
