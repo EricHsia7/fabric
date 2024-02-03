@@ -125,10 +125,6 @@ window.fabric_initialize = function () {
   resizeFabric();
   loadContent();
   checkPassive();
-  initializeFabricColors().then(function () {
-    listFabricColors();
-    updateFabricColorStyleTag();
-  });
 
   document.querySelector('.tools_container button[group="2"]').addEventListener('click', function () {
     openColorPlate();
@@ -141,6 +137,11 @@ window.fabric_initialize = function () {
   loadFont('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&display=swap', 'Noto Sans', 'googleFontsNotoSans');
   loadFont('https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200', 'Material Symbols Rounded', 'googleFontsMaterialSymbols', function () {
     document.querySelector('.tools_container .tools_button').setAttribute('status', '0');
+  });
+
+  initializeFabricColors().then(function () {
+    listFabricColors();
+    updateFabricColorStyleTag();
   });
 };
 
