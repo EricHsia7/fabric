@@ -2,6 +2,7 @@
   --k-fcfcfc: #fcfcfc;
   --k-f5f5f5: #f5f5f5;
   --k-000000: #000000;
+  --k-ededed: #ededed;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -9,6 +10,7 @@
     --k-fcfcfc: #030303;
     --k-f5f5f5: #0a0a0a;
     --k-000000: #ffffff;
+    --k-ededed: #121212;
   }
 }
 
@@ -108,7 +110,12 @@ input[type="file"] {
   align-items: center;
 }
 
-.tools_container .fabric_color_plate button  {
+.tools_container .tools_button[status="1"] button {
+  background: var(--k-ededed);
+  overflow: hidden;
+  border-radius: 50%;
+}
+.tools_container .fabric_color_plate button {
   transform: scale(0.66);
   opacity: 0;
   width: 50px;
