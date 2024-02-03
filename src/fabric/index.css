@@ -115,8 +115,8 @@ input[type="file"] {
   overflow: hidden;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0);
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
 }
 
 .tools_container .fabric_color_plate button {
