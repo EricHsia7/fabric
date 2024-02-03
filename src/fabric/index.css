@@ -110,11 +110,13 @@ input[type="file"] {
   align-items: center;
 }
 
-.tools_container .tools_button[status="1"] button {
+.tools_container .tools_button[status="1"] button span {
   background: var(--k-ededed);
   overflow: hidden;
   border-radius: 50%;
   color: rgba(0, 0, 0, 0);
+  width: 30px;
+  height: 30px;
 }
 
 .tools_container .fabric_color_plate button {
